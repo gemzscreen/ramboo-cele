@@ -1,0 +1,16 @@
+{
+  "name": "ramboo-cele",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Ramboo CELE App — original board-style CELE practice. The app itself has no build step; this file only serves the test harness.",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run.js",
+    "test:syntax": "node tests/run.js 1",
+    "test:dom": "node tests/run.js 2",
+    "test:models": "node tests/run.js 3"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  }
+}

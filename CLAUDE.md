@@ -1,4 +1,4 @@
-# CLAUDE.md — Ramboo CELE App (`rambo-cele`)
+# CLAUDE.md — Ramboo CELE App (`ramboo-cele`)
 
 ## Read first, every session
 1. Read `ROADMAP.md` in full before doing anything. It is the single source of truth: current phase, decisions, Status Board (§9), and what to do next.

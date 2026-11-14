@@ -1,0 +1,15 @@
+# Dependencies (dev-only: test harness)
+node_modules/
+
+# Private sources — must never enter this public repo (ROADMAP §3, §7)
+ramboo-private/
+past-boards/
+legacy-4.9.1/
+*.pdf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
