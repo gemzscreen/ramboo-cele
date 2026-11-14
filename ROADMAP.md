@@ -1,9 +1,9 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.3 · created 2026-11-14 · updated 2026-11-14 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.4 · created 2026-11-14 · updated 2026-11-14 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
-**Repo:** `rambo-cele` on GitHub (created 2026-11-14)
-**App version:** v0.0.0 (fresh start) · legacy personal build = `legacy-4.9.1` (frozen, private)
+**Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
+**App version:** v0.0.1 (scaffold; tag pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
 **Current phase:** PHASE 0 — Foundation & Decisions (in progress)
 **Workflow:** GitHub repo + Claude Code (from Phase 0 onward)
 **Source of truth:** `ROADMAP.md` in the repo. The claude.ai Project copy (`claude/CELE_REVAMP_ROADMAP.md`) is a mirror, refreshed only when Gemz works in claude.ai again.
@@ -98,7 +98,7 @@ Copyright protects **expression** (wording, figures, worked solutions, layout), 
 
 ### PHASE 0 — Foundation & Decisions (v0.0.x)
 Goal: lock every decision that is expensive to change later, and stand up the repo.
-- [x] D1 Brand: **Ramboo CELE App**, Darkwiz Lab family (renamed from WREN on 2026-11-14). Repo created as `rambo-cele` → Pages URL `https://<github-user>.github.io/rambo-cele/`. ⚠ Spelling check: app is "Ramboo" (double o), repo is "rambo" (single o) — confirm intended or rename repo in GitHub Settings before Pages goes live
+- [x] D1 Brand: **Ramboo CELE App**, Darkwiz Lab family (renamed from WREN on 2026-11-14). Repo is `gemzscreen/ramboo-cele` → Pages URL `https://gemzscreen.github.io/ramboo-cele/`. Spelling check closed 2026-11-14: the repo on GitHub is spelled "ramboo" (double o), matching the app name
 - [x] D2 Stack & workflow: **GitHub repo + Claude Code**; plain HTML/CSS/JS ES modules, no build step to start
 - [x] D3 Hosting: **GitHub Pages** (static front end) + **Supabase** back end on a new, separate account (new email; QS CRM stays on its own account). Account can be created now; first tables needed in Phase 3
 - [ ] D4 Topic taxonomy: build from `CELE Coverage 2026 1.pdf` + frequency table from the 12 past-board sittings → `content/taxonomy.json` (subject → topic → subtopic → archetype IDs). Source PDFs read from the private folder (§7), never committed
@@ -108,7 +108,7 @@ Goal: lock every decision that is expensive to change later, and stand up the re
 - [x] D8 Donations: **GCash/Maya QR + Ko-fi**
 - [ ] D9 Analytics & privacy: privacy-respecting analytics choice; privacy notice draft (RA 10173 Data Privacy Act)
 - [x] D10 Timeline: Gemz is in the Philippines and available for about 1 month from 2026-11-14 (before the Brunei move). Target: finish Phase 0 in week 1, Phase 1 in weeks 2–4 (stretch goal: v1.0.0 before departure)
-- [ ] Repo scaffold (§7), `CLAUDE.md`, `ROADMAP.md`, `CHANGELOG.md`, `.gitignore`, harness stages 1–3 wired, GitHub Pages on → tag **v0.0.1**
+- [ ] Repo scaffold (§7), `CLAUDE.md`, `ROADMAP.md`, `CHANGELOG.md`, `.gitignore`, harness stages 1–3 wired, GitHub Pages on → tag **v0.0.1** — scaffold, docs and harness done 2026-11-14; still open: merge to `main` (Pages is already on and deploys from it), tag, add the hero PNG (see §9)
 
 **Exit criteria:** D4, D5, D6, D9 closed; repo live on GitHub Pages showing a placeholder shell.
 
@@ -231,7 +231,7 @@ Harness runs locally in Claude Code and (stages 1–3) in GitHub Actions on ever
 
 ## 7. Repo structure (approved direction, finalize at scaffold)
 ```
-rambo-cele/                      (PUBLIC — GitHub Pages)
+ramboo-cele/                     (PUBLIC — GitHub Pages)
   index.html            app shell
   css/                  design system
   js/  engine/          generator, timer, scoring, storage
@@ -244,11 +244,14 @@ rambo-cele/                      (PUBLIC — GitHub Pages)
     templates/psad/*.js  mste/*.js  hge/*.js
     terms/*.json
     concepts/*.md
-  tests/                harness stages 1-4
+  tests/                harness stages 1-4 (run.js + one file per stage; `npm test` = stages 1-3)
   docs/                 design-system.md, content-policy.md, reference/live-figure-hero.png
   CLAUDE.md             tells Claude Code to read ROADMAP.md first + session protocol
   ROADMAP.md            this file (source of truth)
   CHANGELOG.md
+  package.json          dev-only: jsdom for the harness (the app itself has no build step)
+  .github/workflows/    harness.yml — stages 1-3 on every push / PR
+  .nojekyll             serve files as-is on GitHub Pages
   .gitignore
 
 ramboo-private/                  (NOT in any public repo — sibling folder on Gemz's PC)
@@ -263,7 +266,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 |---|---|---|---|
 | — | 2026-11-14 | Revamp approved; legacy 4.9.1 frozen private | Gemz |
 | — | 2026-11-14 | Content is original parametric problems only; JDCELearn used as topic/frequency index only | See §3 |
-| D1 | 2026-11-14 | Name: **Ramboo CELE App** (Darkwiz Lab family); repo `rambo-cele` | Replaces "WREN"; repo spelling to confirm |
+| D1 | 2026-11-14 | Name: **Ramboo CELE App** (Darkwiz Lab family); repo `ramboo-cele` | Replaces "WREN"; repo spelling confirmed (double o) |
 | D2 | 2026-11-14 | GitHub repo + Claude Code workflow | Replaces single-file chat uploads |
 | D3 | 2026-11-14 | GitHub Pages + Supabase (new separate account) | QS CRM keeps its own Supabase |
 | D7 | 2026-11-14 | Phase 1 mirrors legacy app structure, original content | Full mock per subject: 75 / 75 / 50 |
@@ -276,20 +279,22 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 9. Status Board
-- **Phase:** 0 — Foundation & Decisions · **App:** v0.0.0
-- **Done:** roadmap R1.3; reference site studied; D1, D2, D3, D7, D8, D10 decided; repo `rambo-cele` created; Live Figure hero reference received and specified (§4A)
+- **Phase:** 0 — Foundation & Decisions · **App:** v0.0.1 (tag pending)
+- **Done:** roadmap R1.4; reference site studied; D1, D2, D3, D7, D8, D10 decided; repo `ramboo-cele` created (spelling confirmed); Live Figure hero reference specified (§4A); §7 scaffold, placeholder shell, `.gitignore`, `CHANGELOG.md`, `docs/content-policy.md`, harness stages 1–3 (`npm test`) and the GitHub Actions workflow — all on branch `claude/trusting-noether-l070u1`
 - **Next (in order):**
-  1. First Claude Code session: commit `ROADMAP.md`, `CLAUDE.md`, `docs/reference/live-figure-hero.png`; scaffold §7; add `.gitignore`, `CHANGELOG.md`; wire harness stages 1–3; enable GitHub Pages with a placeholder shell → tag **v0.0.1**
-  2. Build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency (D4), reading PDFs from `ramboo-private/`
+  1. Finish item 1 (needs Gemz, on GitHub): (a) merge branch `claude/trusting-noether-l070u1` into `main`; (b) Pages is already on for `main` (a Pages deployment ran on 2026-11-14), so the shell goes live on merge — check `https://gemzscreen.github.io/ramboo-cele/`; (c) tag the merge commit **v0.0.1**; (d) add `docs/reference/live-figure-hero.png` (the screenshot never reached the repo)
+  2. Build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency (D4), reading PDFs from `ramboo-private/` — must be done in a local Claude Code session on Gemz's PC; cloud sessions cannot see `ramboo-private/`
   3. `docs/design-system.md` (D6), starting from §4A visual spec + Darkwiz Lab site CSS
-  4. Approve template schema v1 (D5); build the first model: simply supported beam with point load, as the template engine and Live Figure proof of concept (reference values in §4A)
+  4. Approve template schema v1 (D5); build the first model: simply supported beam with point load, as the template engine and Live Figure proof of concept (reference values in §4A). Replace the fail-closed `tests/stage3-models.js` with the real per-template checks in the same change
   5. D9 analytics/privacy choice
-- **Blockers:** none (confirm repo spelling)
+- **Blockers:** none for the code. Items 1(a)–(d) above wait on Gemz
+- **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
 - **Carry-over from legacy 4.9.1 (private archive, low priority):** PSAD Mar 2026 solutions PDF still pending; ~8 flagged items; 40 held-out MSTE items
 
 ---
 
 ## 10. Changelog
+- **R1.4 — 2026-11-14:** First Claude Code session (app v0.0.1). Scaffolded §7; added placeholder shell, `.gitignore`, `CHANGELOG.md`, `docs/content-policy.md`, harness stages 1–3 and CI workflow. Repo name corrected throughout to `ramboo-cele` (the name on GitHub; D1 spelling check closed). §7 updated with `package.json`, `.github/workflows/`, `.nojekyll`. Stage 3 fails closed until schema v1 (D5). Pages found already enabled on `main`. Open from item 1: merge, tag v0.0.1, hero PNG.
 - **R1.3 — 2026-11-14:** Repo `rambo-cele` created. Repo `ROADMAP.md` becomes the source of truth (Project doc = mirror). Added public/private split (`ramboo-private/` sibling folder) and session rule 5. Live Figure hero screenshot received: reference values verified and visual spec recorded in §4A; D6 seeded from it.
 - **R1.2 — 2026-11-14:** Renamed product WREN → **Ramboo CELE App**. D3 updated (Supabase account can be created now). D7 filled with legacy mock sizes and pacing (PSAD 75/6 h, MSTE 75/5 h, HGE 50/4 h) and legacy drill sizes (5 / 10 / mock). Added `CLAUDE.md` to repo plan. Legacy bank kept outside the public repo.
 - **R1.1 — 2026-11-14:** Versioning restarted at v0.0.0 (v1.0.0 = public launch). Decisions D2, D3, D7, D8, D10 recorded. Added §4A Live Figures and `model`/`live` fields in the schema. Repo structure updated (models/, live/). Timeline set for the 1-month PH window.
