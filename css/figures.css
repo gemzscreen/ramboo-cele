@@ -33,3 +33,7 @@
   .fig-dim-text { font-size: 20px; }
   .fig-letter, .fig-load text { font-size: 25px; }
 }
+
+.fig-udl line { stroke-width: 1.5; }
+.fig-udl text { font-size: 17px; }
+@media (max-width: 520px) { .fig-udl text { font-size: 23px; } }

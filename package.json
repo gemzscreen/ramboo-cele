@@ -1,6 +1,6 @@
 {
   "name": "ramboo-cele",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "description": "Ramboo CELE App — original board-style CELE practice. The app itself has no build step; this file only serves the test harness.",
   "type": "module",

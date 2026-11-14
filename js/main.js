@@ -1,7 +1,7 @@
 import { APP_VERSION } from './version.js';
 import { mountBeamLive } from './live/beamSimplePointLive.js';
 import { mountSampleProblem } from './ui/sampleProblem.js';
-import beamTemplate from '../content/templates/psad/PSAD-BEAM-SS-001.js';
+import { TEMPLATES } from './engine/bank.js';
 
 // Wires the shell to a document. Takes the document as an argument so the
 // harness (tests/stage2-dom.js) can boot the app against jsdom.
@@ -16,7 +16,7 @@ export function boot(doc) {
   if (live) mountBeamLive(live);
 
   const sample = doc.getElementById('sample-problem');
-  if (sample) mountSampleProblem(sample, beamTemplate);
+  if (sample) mountSampleProblem(sample, TEMPLATES);
 
   doc.documentElement.dataset.ready = 'true';
 }
