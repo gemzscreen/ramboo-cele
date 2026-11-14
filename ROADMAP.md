@@ -1,9 +1,9 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.7 · created 2026-11-14 · updated 2026-11-14 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.8 · created 2026-11-14 · updated 2026-11-14 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
 **Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
-**App version:** v0.0.3 (first model + template engine; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
+**App version:** v0.0.4 (three models, three draft templates; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
 **Current phase:** PHASE 0 — Foundation & Decisions (in progress)
 **Workflow:** GitHub repo + Claude Code (from Phase 0 onward)
 **Source of truth:** `ROADMAP.md` in the repo. The claude.ai Project copy (`claude/CELE_REVAMP_ROADMAP.md`) is a mirror, refreshed only when Gemz works in claude.ai again.
@@ -222,6 +222,8 @@ Working example: `content/templates/psad/PSAD-BEAM-SS-001.js`. Templates are ES 
 2. **Constraints are `{rule, test}` pairs** — `rule` is the readable text (`"a <= L - 1"`), `test` is the function the generator and harness run. No expression parser needed.
 3. **Each distractor is `{name, value}`** — the named mistake plus its formula. List more than three: the generator takes them in order and skips any that lands on, or within 2% of, a choice already chosen, so two choices can never differ by a rounding slip. Stage 3 fails the template if any instance ends with fewer than four distinct choices.
 
+4. **Engine rules added with the second and third templates (v0.0.4):** an item may declare `valid(value, vars, result)` to reject impossible choices; a value set is never used when a keyed answer sits on a rounding boundary at the item's `sig` (next digit a bare 5); rounding is decimal half-up; if named mistakes run out, a labelled `arithmeticSlip` fallback fills the gap, and Stage 3 fails an item that needs it in more than 10% of value sets. Every template must be listed in `js/engine/bank.js`.
+
 Also: items carry `unit`; `reference_instance` is `{vars, answers}` with answers as the displayed strings; `board_frequency` and `bank_version` are `null` until D4 and the first bank release. Solution text must be written from the given values, never from rounded intermediates, so the working shown reproduces the key.
 
 ---
@@ -229,7 +231,7 @@ Also: items carry `unit`; `reference_instance` is `{vars, answers}` with answers
 ## 6. Quality harness (carried from legacy, extended)
 1. **Stage 1 — Syntax:** `node --check` on every script/module
 2. **Stage 2 — DOM:** jsdom run of the full app; counts, IDs unique, references resolve, no console errors
-3. **Stage 3 — Models and templates:** per template, run ≥500 random instances → answers finite and physically valid, all choices distinct, correct choice present, constraints respected, **reference instance matches hand-solved values**; Live Figure models checked against closed-form formulas
+3. **Stage 3 — Models and templates:** per template, run every allowed value combination (≥1000 random instances when the grid is too large) → answers finite and physically valid, all choices distinct, correct choice present, constraints respected, **reference instance matches hand-solved values**; Live Figure models checked against closed-form formulas
 4. **Stage 4 — Originality check:** scan stems against the private legacy bank for long verbatim overlaps (fail if any ≥8-word run matches). Runs locally only (needs the private folder); skipped in CI
 5. Accuracy principles stay: flag, don't silently fix; numeric re-derivation before any key change.
 
@@ -242,7 +244,7 @@ Harness runs locally in Claude Code and (stages 1–3) in GitHub Actions on ever
 ramboo-cele/                     (PUBLIC — GitHub Pages)
   index.html            app shell
   css/                  design system: tokens.css (all tokens) + base.css
-  js/  engine/          generator, rng, format (built); timer, scoring, storage (Phase 1)
+  js/  engine/          generator, rng, format, bank (built); timer, scoring, storage (Phase 1)
        models/          pure solvers (shared by items, Live Figures, calculators)
        figures/         SVG generators
        live/            Live Figure interaction layer
@@ -288,28 +290,29 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 9. Status Board
-- **Phase:** 0 — Foundation & Decisions · **App:** v0.0.3 (on branch `claude/trusting-noether-l070u1`, PR #2 — open, not yet merged)
-- **Done:** roadmap R1.7; D1, D2, D3, D7, D8, D10 decided; scaffold, shell, harness and CI on `main` (PR #1), hero PNG committed, Pages on. On PR #2: D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation — beam solver, template engine, first template `PSAD-BEAM-SS-001`, SVG figure, Live Figure, sample problem on the page, real Stage 3; D9 paper (`docs/privacy-and-analytics.md`) and privacy notice draft (`docs/privacy-notice.md`)
+- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz) · **App:** v0.0.4 on branch `claude/trusting-noether-l070u1` (not yet in a PR); `main` is at v0.0.3 (PR #2, merged 2026-11-14 as `f497357`)
+- **Done:** roadmap R1.8; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (beam solver, template engine, `PSAD-BEAM-SS-001`, Live Figure, real Stage 3); D9 paper and privacy notice draft. On the branch (v0.0.4): `PSAD-BEAM-SS-002` (uniform + point load), `MSTE-SURV-CURVE-001` (first `single` item), bank registry, problem-type picker, engine hardening, Stage 3 over every value combination
 - **Waiting on Gemz:**
-  - Merge PR #2 — reported merged twice on 2026-11-14 but still open on GitHub each time (checks green, no conflicts); `main` is at `4a00702`
-  - Tags: **v0.0.1** on `main` commit `4a00702`; **v0.0.3** on the PR #2 merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags. v0.0.2 was never on `main` by itself, so it gets no tag
-  - D5: approve the schema as implemented (§5), and review the first template's wording, items and distractors as the pattern for all later templates
+  - Merge the v0.0.4 branch (ask Claude to open the PR)
+  - Tags: **v0.0.1** on `main` commit `4a00702`; **v0.0.3** on `f497357`; **v0.0.4** on the next merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
+  - D5: approve the schema as implemented (§5, now four points), and review the three draft templates — wording, items, distractors — as the pattern for all later templates
   - D6: approve `docs/design-system.md`; give the Darkwiz Lab site URL so fonts and brand colours can be confirmed; review the drafted Night palette
   - D9: approve "no analytics until v1.0.0, then one cookieless counter"; pick the tool (suggested GoatCounter) or defer to launch week; give a public contact email for the notice; confirm the notice wording
   - D4 sources: see item 1 below
 - **Next (in order):**
   1. D4 — build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the coverage PDF and the 12 sittings in one Google Drive folder and name it to Claude
   2. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
-  3. Phase 0 exit check — every remaining Phase 0 item (D4, D5, D6, D9) now waits on Gemz; nothing further can be closed from a cloud session until one of them moves
-  4. Phase 1: second and third models to prove the engine beyond one archetype (UDL beam; an MSTE `single`-format item), then the exam screens
-- **Blockers:** D4 needs the private sources (above)
-- **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. `PSAD-BEAM-SS-001` is status `draft` and shown only as a labelled preview
+  3. Phase 0 exit check — needs D4, D5, D6, D9 closed
+  4. Phase 1 groundwork that does not depend on the open decisions: an HGE template (e.g. hydrostatic force on a gate, or soil phase relations) so all three subjects are represented; then the exam engine (set assembly from the bank, timer, scoring, local storage) and the first exam screen
+- **Blockers:** D4 needs the private sources (above). Without the taxonomy, new templates are chosen from general knowledge of the syllabus, not from board frequency, and carry `board_frequency: null`
+- **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. All three templates are status `draft` and shown only in a labelled preview. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
 - **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
 - **Carry-over from legacy 4.9.1 (private archive, low priority):** PSAD Mar 2026 solutions PDF still pending; ~8 flagged items; 40 held-out MSTE items
 
 ---
 
 ## 10. Changelog
+- **R1.8 — 2026-11-14:** PR #2 merged (`f497357`). With every Phase 0 decision waiting on Gemz, work moved to Phase 1 groundwork at his go-ahead (app v0.0.4): second and third models and templates, bank registry, engine rules (exact rounding, no boundary answers, `valid`, labelled fallback), Stage 3 now exhaustive over each template's value grid. §5 gains point 4; §6 Stage 3 wording updated. Status Board rewritten.
 - **R1.7 — 2026-11-14:** D9 drafted: `docs/privacy-and-analytics.md` (recommendation: no analytics before v1.0.0, then one cookieless aggregate counter; RA 10173 obligations by phase) and `docs/privacy-notice.md` (notice draft, unpublished). No app change. PR #2 still open. All four open Phase 0 decisions now wait on Gemz.
 - **R1.6 — 2026-11-14:** D5 implemented (app v0.0.3): beam solver, template engine, first template, SVG figure, Live Figure proof of concept, sample problem; Stage 3 replaced with real model and template checks. §5 gains "Schema v1 as implemented" (three changes from the draft, for approval). §7 updated. PR #2 found still open; work continued on the same branch. D4 still blocked in cloud sessions.
 - **R1.5 — 2026-11-14:** Item 1 merged to `main` (PR #1) with the hero PNG; scaffold line ticked (tag v0.0.1 still for Gemz — cloud sessions cannot push tags). D4 found blocked in cloud sessions (no `ramboo-private/`), so work moved to D6: `docs/design-system.md` draft v0.1 and `css/tokens.css` (Day sampled from the hero PNG, Night drafted), shell restyled; app v0.0.2. Status Board reordered with a "Waiting on Gemz" list.
