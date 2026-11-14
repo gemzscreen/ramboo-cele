@@ -1,0 +1,106 @@
+/* Design tokens — the single source for colour, type, spacing and shape.
+   Documented in docs/design-system.md (ROADMAP D6). Day values are sampled
+   from docs/reference/live-figure-hero.png; Night values are a draft. */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --page: #e6e9e4;          /* behind everything */
+  --paper: #f5f6f2;         /* panels, cards, figure canvas */
+  --grid-minor: #e9edee;    /* engineering-paper fine grid */
+  --grid-major: #d3dce7;    /* every 5th line */
+  --line: #a9adad;          /* borders, dividers, slider track */
+
+  /* Ink */
+  --ink: #17202a;           /* text, beam outline, reaction arrows */
+  --ink-soft: #56606a;      /* captions, dimensions, secondary text */
+
+  /* Engineering colours — each has one meaning, in figures and in UI */
+  --shear: #1f4fa8;         /* shear / V; also links, focus, primary action */
+  --moment: #b8372a;        /* moment / M; also wrong-answer and error */
+  --load: #c98a12;          /* applied loads, drag handles (graphics, large labels) */
+  --load-text: #8a5d06;     /* amber for body-size text (passes 4.5:1) */
+  --ok: #1e7a4c;            /* correct answer, success */
+
+  /* Fills under diagrams and behind tinted UI */
+  --shear-fill: rgba(31, 79, 168, 0.14);
+  --moment-fill: rgba(184, 55, 42, 0.12);
+  --load-fill: rgba(201, 138, 18, 0.14);
+  --ok-fill: rgba(30, 122, 76, 0.12);
+
+  /* Type */
+  --font-ui: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Barlow Condensed", "Barlow", "Arial Narrow", system-ui, sans-serif;
+  --text-xs: 0.8125rem;     /* 13 — captions */
+  --text-sm: 0.9375rem;     /* 15 — secondary */
+  --text-md: 1.0625rem;     /* 17 — body, problem stems */
+  --text-lg: 1.375rem;      /* 22 — section titles */
+  --text-xl: 1.75rem;       /* 28 — stat values */
+  --text-2xl: clamp(2.25rem, 9vw, 3.5rem); /* screen titles */
+
+  /* Space (4 px base) */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 3rem;
+
+  /* Shape */
+  --radius: 2px;            /* panels and tiles are nearly square, like a drawing sheet */
+  --radius-pill: 999px;
+  --border: 1px solid var(--line);
+  --shadow-panel: 0 10px 24px rgba(23, 32, 42, 0.10);
+  --stroke: 2px;            /* figure line weight (beam, diagrams) */
+  --grid-step: 16px;
+  --touch: 44px;            /* minimum tap target */
+  --measure: 40rem;         /* reading width */
+}
+
+/* Night — applied by the OS setting unless the user forces Day. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="day"]) {
+    color-scheme: dark;
+    --page: #0f1318;
+    --paper: #161b22;
+    --grid-minor: #1c232c;
+    --grid-major: #283340;
+    --line: #4a535d;
+    --ink: #e8ebe6;
+    --ink-soft: #9aa4ae;
+    --shear: #7fa6ee;
+    --moment: #ee8377;
+    --load: #e3a93a;
+    --load-text: #e3a93a;
+    --ok: #5fc48f;
+    --shear-fill: rgba(127, 166, 238, 0.18);
+    --moment-fill: rgba(238, 131, 119, 0.16);
+    --load-fill: rgba(227, 169, 58, 0.16);
+    --ok-fill: rgba(95, 196, 143, 0.16);
+    --shadow-panel: 0 10px 24px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Night — forced by the user. Keep in step with the block above. */
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --page: #0f1318;
+  --paper: #161b22;
+  --grid-minor: #1c232c;
+  --grid-major: #283340;
+  --line: #4a535d;
+  --ink: #e8ebe6;
+  --ink-soft: #9aa4ae;
+  --shear: #7fa6ee;
+  --moment: #ee8377;
+  --load: #e3a93a;
+  --load-text: #e3a93a;
+  --ok: #5fc48f;
+  --shear-fill: rgba(127, 166, 238, 0.18);
+  --moment-fill: rgba(238, 131, 119, 0.16);
+  --load-fill: rgba(227, 169, 58, 0.16);
+  --ok-fill: rgba(95, 196, 143, 0.16);
+  --shadow-panel: 0 10px 24px rgba(0, 0, 0, 0.45);
+}

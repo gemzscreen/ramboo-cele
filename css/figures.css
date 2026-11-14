@@ -1,0 +1,35 @@
+/* SVG figure styles (docs/design-system.md § Figures). Classes are emitted by
+   the generators in js/figures/. */
+.fig { display: block; width: 100%; height: auto; font-family: var(--font-ui); }
+
+.fig-member { fill: var(--paper); stroke: var(--ink); stroke-width: var(--stroke); stroke-linejoin: round; }
+.fig-ink { stroke: var(--ink); stroke-width: var(--stroke); }
+.fig-ink-fill { fill: var(--ink); }
+.fig-thin { stroke: var(--ink); stroke-width: 1; }
+
+.fig-text { fill: var(--ink); font-size: 15px; }
+.fig-letter { fill: var(--ink); font-family: var(--font-display); font-size: 19px; font-weight: 700; }
+
+.fig-dim { stroke: var(--ink-soft); stroke-width: 1; }
+.fig-dim-text { fill: var(--ink-soft); font-size: 14px; }
+.fig-guide { stroke: var(--ink-soft); stroke-width: 1; stroke-dasharray: 2 4; }
+
+.fig-load line { stroke: var(--load); stroke-width: 3; }
+.fig-load polygon { fill: var(--load); }
+.fig-load text { fill: var(--load); font-family: var(--font-display); font-size: 19px; font-weight: 600; }
+.fig-handle { fill: var(--paper); stroke: var(--load); stroke-width: 3; }
+.fig-load[data-drag] { cursor: grab; }
+.is-dragging .fig-load[data-drag] { cursor: grabbing; }
+
+.fig-shear { fill: var(--shear-fill); stroke: var(--shear); stroke-width: var(--stroke); stroke-linejoin: round; }
+.fig-moment { fill: var(--moment-fill); stroke: var(--moment); stroke-width: var(--stroke); stroke-linejoin: round; }
+.fig-shear-text { fill: var(--shear); }
+.fig-moment-text { fill: var(--moment); }
+
+/* On phones the 640-unit drawing is scaled to about half size, so the labels
+   are set larger in drawing units to stay readable. */
+@media (max-width: 520px) {
+  .fig-text { font-size: 21px; }
+  .fig-dim-text { font-size: 20px; }
+  .fig-letter, .fig-load text { font-size: 25px; }
+}
