@@ -10,6 +10,8 @@
   <meta name="theme-color" content="#0f1318" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/figures.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
   <main id="app" class="shell paper panel">
@@ -28,6 +30,18 @@
       <li>TERMS</li>
     </ul>
   </main>
+
+  <section class="section" aria-labelledby="live-title">
+    <h2 id="live-title" class="section-title">Live Figure preview</h2>
+    <p class="section-note">Drag the load or move the sliders. Reactions, shear and moment redraw from the same solver that keys the exam items.</p>
+    <div id="live-beam" class="card"></div>
+  </section>
+
+  <section class="section" aria-labelledby="sample-title">
+    <h2 id="sample-title" class="section-title">Board-style sample</h2>
+    <p class="section-note">One generated situation, patterned after a recurring board topic. New values give a new problem with a recomputed key.</p>
+    <div id="sample-problem" class="card"></div>
+  </section>
 
   <footer class="foot">
     <p id="disclaimer">

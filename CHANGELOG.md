@@ -4,6 +4,29 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.3 — 2026-11-14
+
+First model, template engine and Live Figure proof of concept (ROADMAP D5).
+
+- `js/models/beamSimplePoint.js`: pure solver for a simply supported beam with
+  one point load; returns reactions, V(x), M(x), maxima and diagram points.
+- `js/engine/`: seeded generator (`generator.js`, `rng.js`, `format.js`) —
+  samples variables under constraints, fills the stem, keys each item from the
+  model and builds choices from named common mistakes.
+- `content/templates/psad/PSAD-BEAM-SS-001.js`: first template (status
+  `draft`), original wording, three items, hand-solved reference instance.
+- `js/figures/beamSimplePoint.js`: SVG figure drawn from the variables, themed
+  by `css/figures.css`.
+- `js/live/beamSimplePointLive.js`: Live Figure — drag the load or use the
+  sliders; reactions, shear and moment diagrams and stat tiles redraw.
+- Page now shows a Live Figure preview and one generated board-style sample
+  with "New values" and "Show answers".
+- Harness Stage 3 is real: closed-form and equilibrium checks per model
+  (`tests/models/*.check.js`, required for every model), and per template a
+  schema check, 1000 random instances, distinct choices, one correct choice
+  matching the model, even answer positions, determinism and the reference
+  instance. Stage 2 also checks IDs after the app boots.
+
 ## v0.0.2 — 2026-11-14
 
 Design system draft (ROADMAP D6).

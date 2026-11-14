@@ -77,6 +77,14 @@ export async function run(root) {
     } else {
       main.boot(doc);
       if (doc.documentElement.dataset.ready !== 'true') failures.push('boot() did not mark the document ready');
+      // Mounted components add markup; IDs must still be unique and labels resolve.
+      const after = new Map();
+      for (const el of doc.querySelectorAll('[id]')) after.set(el.id, (after.get(el.id) || 0) + 1);
+      for (const [id, n] of after) { checked++; if (n > 1) failures.push(`after boot: duplicate id "${id}" (${n} elements)`); }
+      for (const el of doc.querySelectorAll('label[for], output[for]')) {
+        checked++;
+        if (!after.has(el.getAttribute('for'))) failures.push(`after boot: for="${el.getAttribute('for')}" points at a missing id`);
+      }
       const { APP_VERSION } = await import(pathToFileURL(path.join(root, 'js/version.js')).href);
       const shown = doc.getElementById('app-version')?.textContent;
       checked++;
