@@ -4,6 +4,19 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.2 — 2026-11-14
+
+Design system draft (ROADMAP D6).
+
+- `docs/design-system.md`: colour (one meaning per colour), type, spacing,
+  surfaces, components, figure drawing rules, motion and accessibility.
+- `css/tokens.css`: all design tokens. Day palette sampled from
+  `docs/reference/live-figure-hero.png`; Night palette drafted.
+- Placeholder shell restyled from the tokens: engineering-paper panel, and
+  Night theme following the OS setting.
+- Fonts not loaded yet (Barlow to be confirmed and self-hosted); the shell
+  uses the system font meanwhile.
+
 ## v0.0.1 — 2026-11-14
 
 Foundation scaffold. No exam content yet.

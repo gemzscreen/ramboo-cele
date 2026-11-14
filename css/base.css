@@ -1,16 +1,5 @@
-/* Placeholder shell styles. The real tokens arrive with docs/design-system.md
-   (ROADMAP D6); the colours here are provisional cues from the §4A visual spec. */
-:root {
-  --paper: #f7f6f1;
-  --grid-minor: rgba(96, 125, 160, 0.10);
-  --grid-major: rgba(96, 125, 160, 0.20);
-  --ink: #1b1f24;
-  --ink-soft: #5b6470;
-  --shear: #2563c9;
-  --amber: #c98a12;
-  --line: #d5d8dc;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
+/* Base styles and the placeholder shell. All values come from css/tokens.css;
+   see docs/design-system.md. */
 
 * { box-sizing: border-box; }
 
@@ -22,63 +11,86 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  line-height: 1.55;
   color: var(--ink);
+  background: var(--page);
+}
+
+:focus-visible {
+  outline: 2px solid var(--shear);
+  outline-offset: 2px;
+}
+
+/* Engineering-paper surface: fine grid with a heavier line every 5th. */
+.paper {
   background-color: var(--paper);
   background-image:
     linear-gradient(var(--grid-major) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
     linear-gradient(var(--grid-minor) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px);
-  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  background-size:
+    calc(var(--grid-step) * 5) calc(var(--grid-step) * 5),
+    calc(var(--grid-step) * 5) calc(var(--grid-step) * 5),
+    var(--grid-step) var(--grid-step),
+    var(--grid-step) var(--grid-step);
 }
+
+.panel {
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+}
+
+/* ---- Placeholder shell ---- */
 
 .shell {
   flex: 1;
-  width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 4rem 1.5rem 2rem;
+  width: calc(100% - 2 * var(--s4));
+  max-width: var(--measure);
+  margin: var(--s4) auto 0;
+  padding: var(--s7) var(--s5) var(--s6);
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .eyebrow {
-  margin: 0 0 0.5rem;
-  font-size: 0.8rem;
+  margin: 0 0 var(--s2);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--load-text);
 }
 
 h1 {
   margin: 0;
-  font-size: clamp(2.2rem, 9vw, 3.5rem);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
   line-height: 1.05;
-  letter-spacing: -0.02em;
 }
 
 .lede {
-  margin: 1rem 0 0;
-  font-size: 1.1rem;
-  line-height: 1.55;
+  margin: var(--s4) 0 0;
   color: var(--ink-soft);
 }
 
 .status {
-  margin: 1.75rem 0 0;
+  margin: var(--s5) 0 0;
   font-weight: 600;
 }
 
 .version {
-  margin-left: 0.4rem;
-  padding: 0.15rem 0.5rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
-  font-size: 0.85rem;
+  margin-left: var(--s2);
+  padding: 0.1rem var(--s2);
+  border: var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
   color: var(--shear);
 }
@@ -86,31 +98,31 @@ h1 {
 .subjects {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 1.5rem 0 0;
+  gap: var(--s2);
+  margin: var(--s5) 0 0;
   padding: 0;
   list-style: none;
 }
 
 .subjects li {
-  padding: 0.4rem 0.9rem;
+  padding: var(--s1) var(--s3);
   border: 1px solid var(--ink);
-  border-radius: 4px;
-  background: #fff;
-  font-size: 0.9rem;
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
   font-weight: 600;
   letter-spacing: 0.04em;
 }
 
 .foot {
   width: 100%;
-  max-width: 40rem;
+  max-width: var(--measure);
   margin: 0 auto;
-  padding: 1.5rem;
-  border-top: 1px solid var(--line);
-  font-size: 0.8rem;
+  padding: var(--s5);
+  font-size: var(--text-xs);
   line-height: 1.5;
   color: var(--ink-soft);
 }
 
-.foot p { margin: 0 0 0.5rem; }
+.foot p { margin: 0 0 var(--s2); }
