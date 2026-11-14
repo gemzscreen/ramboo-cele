@@ -1,6 +1,6 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.6 · created 2026-11-14 · updated 2026-11-14 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.7 · created 2026-11-14 · updated 2026-11-14 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
 **Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
 **App version:** v0.0.3 (first model + template engine; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
@@ -106,7 +106,7 @@ Goal: lock every decision that is expensive to change later, and stand up the re
 - [ ] D6 Design system: Darkwiz Lab look → `docs/design-system.md` (draft v0.1 written 2026-11-14 with `css/tokens.css`; awaiting Gemz's approval + font/site-CSS confirmation). Starting cues captured from the Live Figure hero (§4A "Visual spec"); confirm fonts/colors against the Darkwiz Lab site CSS
 - [x] D7 Phase 1 content and structure: **mirror the legacy CELE Training App setup** (see Phase 1), rebuilt with original templates. Minimum: enough templates to fill one full board-paced mock per subject without repeating an archetype — PSAD 75 items (25 situations), MSTE 75 items, HGE 50 items (~17 situations)
 - [x] D8 Donations: **GCash/Maya QR + Ko-fi**
-- [ ] D9 Analytics & privacy: privacy-respecting analytics choice; privacy notice draft (RA 10173 Data Privacy Act)
+- [ ] D9 Analytics & privacy: privacy-respecting analytics choice; privacy notice draft (RA 10173 Data Privacy Act) — recommendation in `docs/privacy-and-analytics.md` and notice draft in `docs/privacy-notice.md` written 2026-11-14; awaiting Gemz's choice and a public contact email
 - [x] D10 Timeline: Gemz is in the Philippines and available for about 1 month from 2026-11-14 (before the Brunei move). Target: finish Phase 0 in week 1, Phase 1 in weeks 2–4 (stretch goal: v1.0.0 before departure)
 - [x] Repo scaffold (§7), `CLAUDE.md`, `ROADMAP.md`, `CHANGELOG.md`, `.gitignore`, harness stages 1–3 wired, GitHub Pages on — merged to `main` 2026-11-14 (PR #1), hero PNG added. Tag **v0.0.1** still to be created by Gemz (see §9)
 
@@ -254,7 +254,7 @@ ramboo-cele/                     (PUBLIC — GitHub Pages)
     concepts/*.md
   tests/                harness stages 1-4 (run.js + one file per stage; `npm test` = stages 1-3)
     models/             <model>.check.js — closed-form checks, one per file in js/models/ (required)
-  docs/                 design-system.md, content-policy.md, reference/live-figure-hero.png
+  docs/                 design-system.md, content-policy.md, privacy-and-analytics.md, privacy-notice.md, reference/live-figure-hero.png
   CLAUDE.md             tells Claude Code to read ROADMAP.md first + session protocol
   ROADMAP.md            this file (source of truth)
   CHANGELOG.md
@@ -289,18 +289,19 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 
 ## 9. Status Board
 - **Phase:** 0 — Foundation & Decisions · **App:** v0.0.3 (on branch `claude/trusting-noether-l070u1`, PR #2 — open, not yet merged)
-- **Done:** roadmap R1.6; D1, D2, D3, D7, D8, D10 decided; scaffold, shell, harness and CI on `main` (PR #1), hero PNG committed, Pages on. On PR #2: D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation — beam solver, template engine, first template `PSAD-BEAM-SS-001`, SVG figure, Live Figure, sample problem on the page, real Stage 3
+- **Done:** roadmap R1.7; D1, D2, D3, D7, D8, D10 decided; scaffold, shell, harness and CI on `main` (PR #1), hero PNG committed, Pages on. On PR #2: D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation — beam solver, template engine, first template `PSAD-BEAM-SS-001`, SVG figure, Live Figure, sample problem on the page, real Stage 3; D9 paper (`docs/privacy-and-analytics.md`) and privacy notice draft (`docs/privacy-notice.md`)
 - **Waiting on Gemz:**
-  - Merge PR #2 (it was reported merged on 2026-11-14 but was still open on GitHub; `main` is at `4a00702`)
+  - Merge PR #2 — reported merged twice on 2026-11-14 but still open on GitHub each time (checks green, no conflicts); `main` is at `4a00702`
   - Tags: **v0.0.1** on `main` commit `4a00702`; **v0.0.3** on the PR #2 merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags. v0.0.2 was never on `main` by itself, so it gets no tag
   - D5: approve the schema as implemented (§5), and review the first template's wording, items and distractors as the pattern for all later templates
   - D6: approve `docs/design-system.md`; give the Darkwiz Lab site URL so fonts and brand colours can be confirmed; review the drafted Night palette
+  - D9: approve "no analytics until v1.0.0, then one cookieless counter"; pick the tool (suggested GoatCounter) or defer to launch week; give a public contact email for the notice; confirm the notice wording
   - D4 sources: see item 1 below
 - **Next (in order):**
   1. D4 — build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the coverage PDF and the 12 sittings in one Google Drive folder and name it to Claude
-  2. D9 analytics/privacy choice (privacy notice draft, RA 10173)
-  3. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
-  4. Phase 0 exit check, then Phase 1: second and third models to prove the engine beyond one archetype (UDL beam; an MSTE `single`-format item), then the exam screens
+  2. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
+  3. Phase 0 exit check — every remaining Phase 0 item (D4, D5, D6, D9) now waits on Gemz; nothing further can be closed from a cloud session until one of them moves
+  4. Phase 1: second and third models to prove the engine beyond one archetype (UDL beam; an MSTE `single`-format item), then the exam screens
 - **Blockers:** D4 needs the private sources (above)
 - **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. `PSAD-BEAM-SS-001` is status `draft` and shown only as a labelled preview
 - **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
@@ -309,6 +310,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 10. Changelog
+- **R1.7 — 2026-11-14:** D9 drafted: `docs/privacy-and-analytics.md` (recommendation: no analytics before v1.0.0, then one cookieless aggregate counter; RA 10173 obligations by phase) and `docs/privacy-notice.md` (notice draft, unpublished). No app change. PR #2 still open. All four open Phase 0 decisions now wait on Gemz.
 - **R1.6 — 2026-11-14:** D5 implemented (app v0.0.3): beam solver, template engine, first template, SVG figure, Live Figure proof of concept, sample problem; Stage 3 replaced with real model and template checks. §5 gains "Schema v1 as implemented" (three changes from the draft, for approval). §7 updated. PR #2 found still open; work continued on the same branch. D4 still blocked in cloud sessions.
 - **R1.5 — 2026-11-14:** Item 1 merged to `main` (PR #1) with the hero PNG; scaffold line ticked (tag v0.0.1 still for Gemz — cloud sessions cannot push tags). D4 found blocked in cloud sessions (no `ramboo-private/`), so work moved to D6: `docs/design-system.md` draft v0.1 and `css/tokens.css` (Day sampled from the hero PNG, Night drafted), shell restyled; app v0.0.2. Status Board reordered with a "Waiting on Gemz" list.
 - **R1.4 — 2026-11-14:** First Claude Code session (app v0.0.1). Scaffolded §7; added placeholder shell, `.gitignore`, `CHANGELOG.md`, `docs/content-policy.md`, harness stages 1–3 and CI workflow. Repo name corrected throughout to `ramboo-cele` (the name on GitHub; D1 spelling check closed). §7 updated with `package.json`, `.github/workflows/`, `.nojekyll`. Stage 3 fails closed until schema v1 (D5). Pages found already enabled on `main`. Open from item 1: merge, tag v0.0.1, hero PNG.
