@@ -108,7 +108,7 @@ Goal: lock every decision that is expensive to change later, and stand up the re
 - [x] D8 Donations: **GCash/Maya QR + Ko-fi**
 - [ ] D9 Analytics & privacy: privacy-respecting analytics choice; privacy notice draft (RA 10173 Data Privacy Act)
 - [x] D10 Timeline: Gemz is in the Philippines and available for about 1 month from 2026-11-14 (before the Brunei move). Target: finish Phase 0 in week 1, Phase 1 in weeks 2–4 (stretch goal: v1.0.0 before departure)
-- [ ] Repo scaffold (§7), `CLAUDE.md`, `ROADMAP.md`, `CHANGELOG.md`, `.gitignore`, harness stages 1–3 wired, GitHub Pages on → tag **v0.0.1** — scaffold, docs and harness done 2026-11-14; still open: merge to `main`, turn Pages on, tag, add the hero PNG (see §9)
+- [ ] Repo scaffold (§7), `CLAUDE.md`, `ROADMAP.md`, `CHANGELOG.md`, `.gitignore`, harness stages 1–3 wired, GitHub Pages on → tag **v0.0.1** — scaffold, docs and harness done 2026-11-14; still open: merge to `main` (Pages is already on and deploys from it), tag, add the hero PNG (see §9)
 
 **Exit criteria:** D4, D5, D6, D9 closed; repo live on GitHub Pages showing a placeholder shell.
 
@@ -282,7 +282,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 - **Phase:** 0 — Foundation & Decisions · **App:** v0.0.1 (tag pending)
 - **Done:** roadmap R1.4; reference site studied; D1, D2, D3, D7, D8, D10 decided; repo `ramboo-cele` created (spelling confirmed); Live Figure hero reference specified (§4A); §7 scaffold, placeholder shell, `.gitignore`, `CHANGELOG.md`, `docs/content-policy.md`, harness stages 1–3 (`npm test`) and the GitHub Actions workflow — all on branch `claude/trusting-noether-l070u1`
 - **Next (in order):**
-  1. Finish item 1 (needs Gemz, on GitHub): (a) merge branch `claude/trusting-noether-l070u1` into `main`; (b) Settings → Pages → Deploy from a branch → `main` / root, then check `https://gemzscreen.github.io/ramboo-cele/`; (c) tag the merge commit **v0.0.1**; (d) add `docs/reference/live-figure-hero.png` (the screenshot never reached the repo)
+  1. Finish item 1 (needs Gemz, on GitHub): (a) merge branch `claude/trusting-noether-l070u1` into `main`; (b) Pages is already on for `main` (a Pages deployment ran on 2026-11-14), so the shell goes live on merge — check `https://gemzscreen.github.io/ramboo-cele/`; (c) tag the merge commit **v0.0.1**; (d) add `docs/reference/live-figure-hero.png` (the screenshot never reached the repo)
   2. Build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency (D4), reading PDFs from `ramboo-private/` — must be done in a local Claude Code session on Gemz's PC; cloud sessions cannot see `ramboo-private/`
   3. `docs/design-system.md` (D6), starting from §4A visual spec + Darkwiz Lab site CSS
   4. Approve template schema v1 (D5); build the first model: simply supported beam with point load, as the template engine and Live Figure proof of concept (reference values in §4A). Replace the fail-closed `tests/stage3-models.js` with the real per-template checks in the same change
@@ -294,7 +294,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 10. Changelog
-- **R1.4 — 2026-11-14:** First Claude Code session (app v0.0.1). Scaffolded §7; added placeholder shell, `.gitignore`, `CHANGELOG.md`, `docs/content-policy.md`, harness stages 1–3 and CI workflow. Repo name corrected throughout to `ramboo-cele` (the name on GitHub; D1 spelling check closed). §7 updated with `package.json`, `.github/workflows/`, `.nojekyll`. Stage 3 fails closed until schema v1 (D5). Open from item 1: merge, Pages on, tag v0.0.1, hero PNG.
+- **R1.4 — 2026-11-14:** First Claude Code session (app v0.0.1). Scaffolded §7; added placeholder shell, `.gitignore`, `CHANGELOG.md`, `docs/content-policy.md`, harness stages 1–3 and CI workflow. Repo name corrected throughout to `ramboo-cele` (the name on GitHub; D1 spelling check closed). §7 updated with `package.json`, `.github/workflows/`, `.nojekyll`. Stage 3 fails closed until schema v1 (D5). Pages found already enabled on `main`. Open from item 1: merge, tag v0.0.1, hero PNG.
 - **R1.3 — 2026-11-14:** Repo `rambo-cele` created. Repo `ROADMAP.md` becomes the source of truth (Project doc = mirror). Added public/private split (`ramboo-private/` sibling folder) and session rule 5. Live Figure hero screenshot received: reference values verified and visual spec recorded in §4A; D6 seeded from it.
 - **R1.2 — 2026-11-14:** Renamed product WREN → **Ramboo CELE App**. D3 updated (Supabase account can be created now). D7 filled with legacy mock sizes and pacing (PSAD 75/6 h, MSTE 75/5 h, HGE 50/4 h) and legacy drill sizes (5 / 10 / mock). Added `CLAUDE.md` to repo plan. Legacy bank kept outside the public repo.
 - **R1.1 — 2026-11-14:** Versioning restarted at v0.0.0 (v1.0.0 = public launch). Decisions D2, D3, D7, D8, D10 recorded. Added §4A Live Figures and `model`/`live` fields in the schema. Repo structure updated (models/, live/). Timeline set for the 1-month PH window.
