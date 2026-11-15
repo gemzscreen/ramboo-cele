@@ -14,10 +14,11 @@ export function boot(doc) {
   const year = doc.getElementById('copyright-year');
   if (year) year.textContent = String(new Date().getFullYear());
 
+  const handles = {};
   const practice = doc.getElementById('practice');
   if (practice) {
     const win = doc.defaultView;
-    mountPractice(practice, { templates: TEMPLATES, store: createStore(browserStorage(win)), win });
+    handles.practice = mountPractice(practice, { templates: TEMPLATES, store: createStore(browserStorage(win)), win });
   }
 
   const live = doc.getElementById('live-beam');
@@ -27,6 +28,7 @@ export function boot(doc) {
   if (sample) mountSampleProblem(sample, TEMPLATES);
 
   doc.documentElement.dataset.ready = 'true';
+  return handles;
 }
 
 if (typeof document !== 'undefined') boot(document);

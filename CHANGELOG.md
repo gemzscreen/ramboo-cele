@@ -4,6 +4,24 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.8 — 2026-11-15
+
+Practice my mistakes, and avoid-repeat. Early Phase 1 groundwork.
+
+- Mistake bank: a mistake is one item of one problem type. It is stored once,
+  and answering that item correctly in any later set clears it. Results say
+  how many items were added and cleared, and how many are left in the subject.
+- Setup screen gains a Problems choice: All, or My mistakes (shown with the
+  number of items to fix; disabled when there are none). Counts are per
+  subject.
+- A mistakes set draws only the problem types you missed, most-missed first,
+  with new values — so it tests the method, not a remembered answer.
+- Avoid-repeat: the last 400 problems shown (type plus values) are remembered
+  on the device, and new sets steer away from them.
+- Harness: engine checks for the mistake lifecycle, per-subject counting and
+  avoid-repeat; Stage 2 plays a mistakes set through the real UI with the
+  keyed answers and confirms the mistakes clear.
+
 ## v0.0.7 — 2026-11-15
 
 Exam mode. Early Phase 1 groundwork.

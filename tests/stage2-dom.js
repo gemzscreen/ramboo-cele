@@ -16,7 +16,7 @@ const REF_ATTRS = [
 
 // Plays practice sets through the real UI: every subject to the end, plus the
 // pause and end-early paths.
-function practiceFlow(doc) {
+function practiceFlow(doc, handle) {
   const problems = [];
   const root = doc.getElementById('practice');
   if (!root) return ['#practice is missing'];
@@ -106,6 +106,38 @@ function practiceFlow(doc) {
     click('[data-role="end"]');
     click('[data-role="discard"]');
     if (!$('[data-role="start"]') || !new RegExp(`${setsBefore + 1} sets done`).test(root.textContent)) problems.push('discard should return to setup without saving');
+
+    // ---- My mistakes: draws only missed problem types; correct answers clear them ----
+    if (!handle) throw new Error('boot() did not return the practice handle');
+    const source = (v) => $(`input[name="practice-source"][value="${v}"]`);
+    const toFix = () => Number(($('input[name="practice-source"][value="mistakes"] + span small').textContent.match(/\d+/) || [0])[0]);
+    const before = toFix();
+    if (before === 0 || source('mistakes').disabled) problems.push('mistakes: PSAD should have items to fix after the blank exam');
+    const missedTypes = new Set(handle.store.getMistakes().map((m) => m.templateId));
+    click('input[name="practice-drill"][value="full"]');
+    source('mistakes').click();
+    click('[data-role="start"]');
+    const live = handle.getState().set;
+    if (live.units.some((u) => !missedTypes.has(u.templateId))) problems.push('mistakes: the set drew a problem type that was not missed');
+    // Answer every item with the keyed choice, then submit.
+    live.questions.forEach(({ unit, item }, i) => {
+      if (i > 0) click('[data-role="next"]');
+      root.querySelectorAll('input[name="practice-choice"]')[live.units[unit].instance.items[item].answerIndex].click();
+    });
+    click('[data-role="end"]');
+    click('[data-role="end-yes"]');
+    if (!/^9 \/ 9$/.test($('.stat dd').textContent)) problems.push(`mistakes: keyed answers scored ${$('.stat dd').textContent}, expected 9 / 9`);
+    if (!/cleared from your mistakes/.test($('[data-role="mistake-note"]').textContent)) problems.push('mistakes: results should say items were cleared');
+    click('[data-role="again"]');
+    const psadTypes = new Set(live.units.map((u) => u.templateId));
+    const stillPsad = handle.store.getMistakes().filter((m) => psadTypes.has(m.templateId)).length;
+    if (stillPsad !== 0) problems.push(`mistakes: ${stillPsad} PSAD items remain after answering every one correctly`);
+    if (toFix() !== 0 || !source('mistakes').disabled || !source('all').checked) problems.push('mistakes: with nothing left to fix, the option should be disabled and "All" selected');
+
+    // Avoid-repeat: every problem shown so far was recorded as seen.
+    if (handle.store.getSeen().size < 8) problems.push(`avoid-repeat: only ${handle.store.getSeen().size} problems recorded as seen`);
+
+    click('input[name="practice-drill"][value="quick"]');
     click('input[name="practice-mode"][value="practice"]');
   } catch (err) {
     problems.push(`practice flow broke: ${err.message}`);
@@ -174,7 +206,7 @@ export async function run(root) {
     if (typeof main.boot !== 'function') {
       failures.push('js/main.js must export boot(document)');
     } else {
-      main.boot(doc);
+      const handles = main.boot(doc);
       if (doc.documentElement.dataset.ready !== 'true') failures.push('boot() did not mark the document ready');
       // Mounted components add markup; IDs must still be unique and labels resolve.
       const after = new Map();
@@ -184,7 +216,7 @@ export async function run(root) {
         checked++;
         if (!after.has(el.getAttribute('for'))) failures.push(`after boot: for="${el.getAttribute('for')}" points at a missing id`);
       }
-      failures.push(...practiceFlow(doc));
+      failures.push(...practiceFlow(doc, handles && handles.practice));
       checked++;
 
       const { APP_VERSION } = await import(pathToFileURL(path.join(root, 'js/version.js')).href);

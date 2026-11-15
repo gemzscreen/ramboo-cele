@@ -1,5 +1,5 @@
 // Stage 3 checks for the exam engine: set assembly, grading, timer, storage.
-import { assembleSet, gradeSet, poolFor, secondsPerItem, PACING, DRILLS, SUBJECTS, UNIT_FORMAT } from '../../js/engine/exam.js';
+import { assembleSet, gradeSet, poolFor, mistakeTemplates, outstandingMistakes, unitKey, secondsPerItem, PACING, DRILLS, SUBJECTS, UNIT_FORMAT } from '../../js/engine/exam.js';
 import { createTimer, formatClock } from '../../js/engine/timer.js';
 import { createStore } from '../../js/engine/storage.js';
 import { TEMPLATES } from '../../js/engine/bank.js';
@@ -94,6 +94,7 @@ export function check(rng, runs) {
   const reopened = createStore(backend);
   if (reopened.getHistory().length !== 2) fail('storage: history did not survive a reload');
   if (reopened.getMistakes().length !== 2) fail('storage: the same missed item must be stored once');
+  if (reopened.getMistakes().some((m) => m.at !== 2 && m.item === 0)) fail('storage: a repeated miss should keep the latest date');
   for (let i = 0; i < 260; i++) reopened.saveResult(summary(10 + i));
   if (reopened.getHistory().length !== 200 || reopened.getHistory().at(-1).at !== 269) fail('storage: history should keep the latest 200 sets');
   reopened.clear();
@@ -106,10 +107,60 @@ export function check(rng, runs) {
 
   const full = { getItem: () => null, setItem: () => { throw new Error('quota'); } };
   const fullStore = createStore(full);
-  if (fullStore.saveResult(summary(1)) !== false || fullStore.getHistory().length !== 1 || fullStore.persistent) fail('storage: a refused write should fall back to memory for the visit');
+  if (fullStore.saveResult(summary(1)).saved !== false || fullStore.getHistory().length !== 1 || fullStore.persistent) fail('storage: a refused write should fall back to memory for the visit');
   const none = createStore(null);
   none.saveResult(summary(1));
   if (none.getHistory().length !== 1) fail('storage: must work with no backend at all');
+
+
+  // ---- Mistake bank: one entry per (problem type, item); cleared by a later correct answer ----
+  const mb = createStore(mem());
+  const m = (templateId, item, seed = 1) => ({ templateId, item, seed });
+  let out = mb.saveResult(summary(1), [m('A', 0), m('A', 2), m('B', 1)]);
+  if (out.added !== 3 || out.cleared !== 0 || !out.saved) fail(`mistakes: first save reported ${JSON.stringify(out)}`);
+  out = mb.saveResult(summary(2), [m('A', 0, 99)], [m('A', 2, 7), m('C', 0)]);
+  if (out.added !== 0 || out.cleared !== 1) fail(`mistakes: second save reported ${JSON.stringify(out)}, expected 0 added / 1 cleared`);
+  const left = mb.getMistakes().map((x) => `${x.templateId}${x.item}`).sort().join(',');
+  if (left !== 'A0,B1') fail(`mistakes: outstanding should be A0,B1 — got ${left}`);
+  if (mb.getMistakes().find((x) => x.templateId === 'A').seed !== 99) fail('mistakes: a repeated miss should keep the latest instance');
+  out = mb.saveResult(summary(3), [m('A', 0)], [m('A', 0)]); // wrong wins if both are reported
+  if (mb.getMistakes().filter((x) => x.templateId === 'A').length !== 1) fail('mistakes: an item reported both right and wrong must stay outstanding');
+  if (out.cleared !== 0 || out.added !== 0) fail(`mistakes: right-and-wrong on an outstanding item should report nothing added or cleared, got ${JSON.stringify(out)}`);
+
+  // Ordering and counting by subject.
+  const psad = poolFor('PSAD', TEMPLATES);
+  if (psad.length >= 2) {
+    const ms = [m(psad[1].id, 0), m(psad[1].id, 1), m(psad[0].id, 2), m('MSTE-NOT-PSAD-001', 0)];
+    const order = mistakeTemplates('PSAD', TEMPLATES, ms).map((t) => t.id).join(',');
+    if (order !== `${psad[1].id},${psad[0].id}`) fail(`mistakes: templates should come most-missed first, got ${order}`);
+    if (outstandingMistakes('PSAD', TEMPLATES, ms) !== 3) fail('mistakes: count must only include the subject\'s own templates');
+    if (mistakeTemplates('HGE', TEMPLATES, ms).length !== 0) fail('mistakes: another subject must not see PSAD mistakes');
+    const onlyMissed = assembleSet({ subject: 'PSAD', drill: 'full', seed: 5, templates: mistakeTemplates('PSAD', TEMPLATES, [m(psad[0].id, 1)]) });
+    if (onlyMissed.units.some((u) => u.templateId !== psad[0].id)) fail('mistakes: a mistakes set drew a problem type that was not missed');
+  }
+
+  // ---- Avoid-repeat ----
+  const seenStore = createStore(mem());
+  seenStore.addSeen(['a', 'b']); seenStore.addSeen(['b', 'c']);
+  if ([...seenStore.getSeen()].join(',') !== 'a,b,c') fail('seen: keys should be stored once, in order');
+  seenStore.addSeen(Array.from({ length: 450 }, (_, i) => `k${i}`));
+  if (seenStore.getSeen().size !== 400 || seenStore.getSeen().has('a') || !seenStore.getSeen().has('k449')) fail('seen: should keep the latest 400 keys');
+  const legacy = mem(); legacy.setItem('ramboo-cele.v1', JSON.stringify({ version: 1, history: [summary(1)], mistakes: [] }));
+  if (createStore(legacy).getSeen().size !== 0 || createStore(legacy).getHistory().length !== 1) fail('seen: data saved before avoid-repeat must still load');
+
+  for (const subject of SUBJECTS) {
+    const avoid = new Set();
+    let repeats = 0;
+    let total = 0;
+    for (let i = 0; i < 40; i++) {
+      const set = assembleSet({ subject, drill: 'full', seed: 1000 + i, templates: TEMPLATES, avoid });
+      for (const u of set.units) { total++; if (avoid.has(unitKey(u))) repeats++; avoid.add(unitKey(u)); }
+    }
+    if (repeats > 0) fail(`avoid-repeat: ${subject} showed ${repeats} of ${total} problems a second time across 40 sets`);
+  }
+  // With everything already seen the assembler must still return a full set.
+  const all = { has: () => true };
+  if (assembleSet({ subject: 'HGE', drill: 'full', seed: 3, templates: TEMPLATES, avoid: all }).units.length !== 3) fail('avoid-repeat: must still build a set when every problem has been seen');
 
   return failures;
 }
