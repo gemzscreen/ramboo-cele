@@ -9,7 +9,9 @@ const rad = (deg) => (deg * Math.PI) / 180;
 export default {
   id: 'MSTE-SURV-CURVE-001',
   subject: 'MSTE',
-  topic: 'Surveying > Route Surveying > Simple Curves',
+  topic: 'Construction Surveying and Layout', // label of topic_id, kept in step by Stage 3
+  topic_id: 'mste.construction-surveying-and-layout',
+  subtopic_id: 'mste.construction-surveying-and-layout.horizontal-curves',
   archetype: 'Simple curve: an element from radius and intersection angle',
   format: 'single',
   board_frequency: null, // filled from the taxonomy (D4)
@@ -61,6 +63,6 @@ export default {
     answers: ['19.3'],
   },
 
-  status: 'draft',
+  status: 'verified',
   bank_version: null,
 };

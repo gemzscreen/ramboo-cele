@@ -145,6 +145,163 @@ function practiceFlow(doc, handle) {
   return problems;
 }
 
+// Progress: the dashboard agrees with the stored history; Reset KPIs and
+// backup restore need confirmation and keep both screens in step.
+function progressFlow(doc, handles) {
+  const problems = [];
+  const root = doc.getElementById('progress');
+  if (!root) return ['#progress is missing'];
+  const practice = doc.getElementById('practice');
+  const { store } = handles.practice;
+  const $ = (sel) => root.querySelector(sel);
+  const click = (sel) => { const el = $(sel); if (!el) throw new Error(`nothing matches ${sel}`); el.click(); };
+  const stat = (n) => root.querySelectorAll('.stat dd')[n]?.textContent;
+  try {
+    const history = store.getHistory();
+    const correct = history.reduce((a, h) => a + h.correct, 0);
+    const total = history.reduce((a, h) => a + h.total, 0);
+    if (history.length < 5) problems.push(`progress: expected the practice run to leave at least 5 sets, found ${history.length}`);
+    if (stat(0) !== String(history.length)) problems.push(`progress: shows ${stat(0)} sets, history has ${history.length} (dashboard did not refresh after a set)`);
+    if (stat(1) !== `${correct} / ${total}`) problems.push(`progress: shows "${stat(1)}" correct, history says ${correct} / ${total}`);
+    if (/NaN|undefined|Infinity/.test(root.textContent)) problems.push('progress: dashboard did not render cleanly');
+    if (root.querySelectorAll('[data-role="subject-table"] tbody tr').length !== 3) problems.push('progress: subject table should have 3 rows');
+    const topicRows = [...root.querySelectorAll('[data-role="topic-table"] tbody tr')];
+    const topicSum = topicRows.reduce((a, tr) => a + Number(tr.lastElementChild.textContent.match(/\/ (\d+)/)[1]), 0);
+    if (topicRows.length !== 3 || topicSum !== total) problems.push(`progress: topic table has ${topicRows.length} rows covering ${topicSum} items, expected 3 rows and ${total} items`);
+    if (!$('[data-role="advice"] li')) problems.push('progress: no study recommendations after sets with wrong answers');
+
+    const backup = handles.progress.backupText();
+
+    // A file that is not a backup is refused, with a reason, and changes nothing.
+    for (const text of ['{not json', '{"app":"other"}']) {
+      if (handles.progress.offerRestore(text) || $('.practice-confirm')) problems.push('progress: a bad backup file was offered for restore');
+      if (!$('[data-role="backup-message"]').textContent.trim()) problems.push('progress: no reason shown for a refused backup file');
+    }
+    if (store.getHistory().length !== history.length) problems.push('progress: a refused backup changed the history');
+
+    // Reset KPIs asks first; cancel keeps everything.
+    const mistakesBefore = store.getMistakes().length;
+    click('[data-role="reset"]');
+    if (!$('.practice-confirm') || store.getHistory().length !== history.length) problems.push('progress: Reset KPIs must ask for confirmation first');
+    click('[data-role="confirm-no"]');
+    if ($('.practice-confirm') || store.getHistory().length !== history.length) problems.push('progress: Cancel should leave the history alone');
+    click('[data-role="reset"]');
+    click('[data-role="reset-yes"]');
+    if (store.getHistory().length !== 0 || !$('.progress-empty')) problems.push('progress: Reset KPIs did not clear the dashboard');
+    if (store.getMistakes().length !== mistakesBefore) problems.push('progress: Reset KPIs must keep the mistakes list');
+    if (!$('[data-role="reset"]').disabled) problems.push('progress: Reset KPIs should be disabled with no sets');
+    if (/sets? done/.test(practice.textContent)) problems.push('progress: the practice screen still shows the old history after a reset');
+
+    // Restore asks first, then brings everything back on both screens.
+    if (!handles.progress.offerRestore(backup) || !$('.practice-confirm')) problems.push('progress: a sound backup should ask before replacing');
+    if (store.getHistory().length !== 0) problems.push('progress: restore must not write before it is confirmed');
+    click('[data-role="restore-yes"]');
+    if (JSON.stringify(store.getHistory()) !== JSON.stringify(history)) problems.push('progress: restored history differs from the backup');
+    if (stat(0) !== String(history.length) || stat(1) !== `${correct} / ${total}`) problems.push('progress: dashboard does not match the restored backup');
+    if (!new RegExp(`${history.length} sets done`).test(practice.textContent)) problems.push('progress: the practice screen did not pick up the restored history');
+  } catch (err) {
+    problems.push(`progress flow broke: ${err.message}`);
+  }
+  return problems;
+}
+
+// App shell: one view at a time, the theme switch, the manifest, the About page.
+function shellFlow(doc, handles, root) {
+  const problems = [];
+  const win = doc.defaultView;
+  try {
+    const views = [...doc.querySelectorAll('[data-view]')];
+    const shown = () => views.filter((v) => !v.hidden).map((v) => v.dataset.view).join(',');
+    const link = (name) => doc.querySelector(`[data-view-link="${name}"]`);
+    if (views.length !== 4) problems.push(`shell: ${views.length} views, expected 4`);
+    if (shown() !== 'practice' || link('practice').getAttribute('aria-current') !== 'page') problems.push(`shell: should open on Practice, shows "${shown()}"`);
+    for (const v of views) {
+      const a = link(v.dataset.view);
+      if (!a) { problems.push(`shell: no tab for the ${v.dataset.view} view`); continue; }
+      if (a.getAttribute('href') !== `#${v.id}`) problems.push(`shell: the ${v.dataset.view} tab does not link to its view`);
+      a.click();
+      if (shown() !== v.dataset.view) problems.push(`shell: the ${v.dataset.view} tab shows "${shown()}"`);
+      if (doc.querySelectorAll('.tabs [aria-current="page"]').length !== 1 || a.getAttribute('aria-current') !== 'page') problems.push(`shell: exactly the ${v.dataset.view} tab should be marked current`);
+      if (!v.querySelector('h1')) problems.push(`shell: the ${v.dataset.view} view has no h1`);
+    }
+    handles.views.show('nonsense');
+    if (shown() !== 'practice') problems.push('shell: an unknown view name should fall back to Practice');
+
+    // Theme: Auto has no attribute; Day and Night set it, are remembered, and move the browser colour.
+    const html = doc.documentElement;
+    const radio = (v) => doc.querySelector(`input[name="theme"][value="${v}"]`);
+    const colours = () => [...doc.querySelectorAll('meta[name="theme-color"]')].map((m) => m.getAttribute('content')).join(',');
+    if (html.dataset.theme || !radio('auto').checked) problems.push('theme: should start on Auto');
+    const auto = colours();
+    radio('night').click();
+    if (html.dataset.theme !== 'night' || win.localStorage.getItem('ramboo-cele.theme') !== 'night' || colours() !== '#0f1318,#0f1318') problems.push('theme: Night was not applied, saved, or sent to the browser colour');
+    radio('day').click();
+    if (html.dataset.theme !== 'day' || colours() !== '#e6e9e4,#e6e9e4') problems.push('theme: Day was not applied');
+    radio('auto').click();
+    if (html.dataset.theme || colours() !== auto || win.localStorage.getItem('ramboo-cele.theme') !== 'auto') problems.push('theme: Auto should remove the forced theme');
+    const init = fs.readFileSync(path.join(root, 'js/theme-init.js'), 'utf8');
+    if (!init.includes("'ramboo-cele.theme'")) problems.push('theme: js/theme-init.js must read the same storage key as js/ui/theme.js');
+    const tokens = fs.readFileSync(path.join(root, 'css/tokens.css'), 'utf8');
+    const vars = (block) => [...block.matchAll(/(--[a-z-]+):\s*([^;]+);/g)].map((m) => `${m[1]}=${m[2].trim()}`).sort().join('|');
+    const media = tokens.match(/:root:not\(\[data-theme="day"\]\) \{([^}]*)\}/);
+    const forced = tokens.match(/:root\[data-theme="night"\] \{([^}]*)\}/);
+    if (!media || !forced || vars(media[1]) !== vars(forced[1])) problems.push('theme: the two Night blocks in css/tokens.css differ');
+
+    // A backup holds progress only; the theme is a per-device setting.
+    if (/theme/.test(handles.progress.backupText())) problems.push('theme: the backup should hold progress only');
+
+    // About: same disclaimer as the footer; version shown.
+    const text = (id) => doc.getElementById(id)?.textContent.replace(/\s+/g, ' ').trim();
+    if (!text('disclaimer') || text('about-disclaimer') !== text('disclaimer')) problems.push('about: the disclaimer must match the footer disclaimer word for word');
+    if (text('about-version') !== text('app-version')) problems.push('about: version differs from the app bar');
+    if (/actual board question|official prc key/i.test(doc.body.textContent.replace(/not an official PRC key|not past board questions/gi, ''))) problems.push('about: must not claim actual board questions or an official key');
+
+    // Fonts: every face points at a file in the repo, and every weight the CSS asks for has a face.
+    const fontCss = fs.readFileSync(path.join(root, 'css/fonts.css'), 'utf8');
+    const faces = [...fontCss.matchAll(/@font-face \{([^}]*)\}/g)].map((m) => ({
+      family: (m[1].match(/font-family:\s*"([^"]+)"/) || [])[1],
+      weight: (m[1].match(/font-weight:\s*(\d+)/) || [])[1],
+      url: (m[1].match(/url\("([^"]+)"\)/) || [])[1],
+    }));
+    if (faces.length === 0) problems.push('fonts: css/fonts.css declares no faces');
+    for (const face of faces) {
+      if (!face.url || /^([a-z]+:)?\/\//i.test(face.url) || !fs.existsSync(path.join(root, 'css', face.url))) problems.push(`fonts: ${face.family} ${face.weight} points at "${face.url}", which is not a file in the repo`);
+    }
+    if (!fs.existsSync(path.join(root, 'fonts/OFL.txt'))) problems.push('fonts: the licence file fonts/OFL.txt is missing');
+    const have = (family, weight) => faces.some((x) => x.family === family && x.weight === weight);
+    for (const w of ['400', '600', '700']) if (!have('Barlow', w)) problems.push(`fonts: no Barlow ${w} face`);
+    for (const w of ['600', '700']) if (!have('Barlow Condensed', w)) problems.push(`fonts: no Barlow Condensed ${w} face`);
+    const used = new Set();
+    for (const file of ['base.css', 'components.css', 'figures.css']) for (const m of fs.readFileSync(path.join(root, 'css', file), 'utf8').matchAll(/font-weight:\s*(\d+)/g)) used.add(m[1]);
+    for (const w of used) if (!['400', '600', '700'].includes(w)) problems.push(`fonts: the CSS uses weight ${w}, which has no self-hosted face`);
+
+    // TERMS is listed but cannot be picked yet.
+    const terms = doc.querySelector('#practice input[name="practice-subject"][value="TERMS"]');
+    if (!terms || !terms.disabled) problems.push('shell: TERMS should be listed in Practice and disabled');
+
+    // Manifest: relative start and scope (GitHub Pages sub-path), icons exist at their stated size.
+    const href = doc.querySelector('link[rel="manifest"]')?.getAttribute('href');
+    const manifest = JSON.parse(fs.readFileSync(path.join(root, href), 'utf8'));
+    if (manifest.start_url !== './' || manifest.scope !== './') problems.push('manifest: start_url and scope must be "./"');
+    if (manifest.display !== 'standalone' || !manifest.name || !manifest.short_name || manifest.short_name.length > 12) problems.push('manifest: needs name, a short_name of at most 12 characters, and display standalone');
+    const sizes = new Set();
+    for (const icon of manifest.icons || []) {
+      const file = path.join(root, icon.src);
+      if (!fs.existsSync(file)) { problems.push(`manifest: icon ${icon.src} does not exist`); continue; }
+      if (icon.type === 'image/png') {
+        const png = fs.readFileSync(file);
+        const size = `${png.readUInt32BE(16)}x${png.readUInt32BE(20)}`;
+        if (size !== icon.sizes) problems.push(`manifest: ${icon.src} is ${size}, stated ${icon.sizes}`);
+        sizes.add(`${icon.sizes}/${icon.purpose}`);
+      }
+    }
+    for (const need of ['192x192/any', '512x512/any', '512x512/maskable']) if (!sizes.has(need)) problems.push(`manifest: no ${need} PNG icon`);
+  } catch (err) {
+    problems.push(`shell flow broke: ${err.message}`);
+  }
+  return problems;
+}
+
 export async function run(root) {
   const failures = [];
   let checked = 0;
@@ -217,6 +374,10 @@ export async function run(root) {
         if (!after.has(el.getAttribute('for'))) failures.push(`after boot: for="${el.getAttribute('for')}" points at a missing id`);
       }
       failures.push(...practiceFlow(doc, handles && handles.practice));
+      checked++;
+      failures.push(...progressFlow(doc, handles));
+      checked++;
+      failures.push(...shellFlow(doc, handles, root));
       checked++;
 
       const { APP_VERSION } = await import(pathToFileURL(path.join(root, 'js/version.js')).href);

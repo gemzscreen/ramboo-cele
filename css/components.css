@@ -334,3 +334,34 @@ input[type="range"]::-moz-range-thumb {
 
 .segmented .is-disabled span { opacity: 0.45; }
 .segmented .is-disabled input { cursor: not-allowed; }
+
+/* ---- Progress ---- */
+
+.progress > .stat-row:first-child { border-top: 0; }
+.progress .topic-table th + th, .progress .topic-table td { padding-left: var(--s3); text-align: right; }
+.progress-empty { padding: var(--s4) var(--s5); }
+.progress-advice { padding: var(--s4) var(--s5); font-size: var(--text-sm); }
+.progress-advice h3 { margin: 0 0 var(--s1); font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; }
+.progress-advice ul { margin: 0; padding-left: 1.25em; }
+.progress-advice li + li { margin-top: var(--s1); }
+.progress-advice p { margin: 0; color: var(--ink-soft); }
+.progress [data-role="backup-message"]:empty { display: none; }
+.progress [data-role="backup-message"] { padding-bottom: var(--s3); }
+
+@media (max-width: 520px) {
+  .progress-advice { padding-left: var(--s4); padding-right: var(--s4); }
+  .progress .topic-table th + th, .progress .topic-table td { padding-left: var(--s2); }
+  .progress .topic-table { font-size: var(--text-xs); }
+}
+
+/* ---- About ---- */
+
+.prose { padding: var(--s4) var(--s5) var(--s5); font-size: var(--text-sm); }
+.prose p { margin: 0 0 var(--s3); }
+.prose h2 { margin: var(--s5) 0 var(--s1); font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; }
+.about-version { margin-top: var(--s5); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.prose > :last-child { margin-bottom: 0; }
+
+@media (max-width: 520px) {
+  .prose { padding-left: var(--s4); padding-right: var(--s4); }
+}

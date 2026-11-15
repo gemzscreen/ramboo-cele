@@ -1,0 +1,1133 @@
+{
+  "taxonomy_revision": 2,
+  "coverage": "CELE 2026 (examination of September 26-27, 2026)",
+  "notes": [
+    "Subject names, weights, topic names and topic order follow the PRC program of the examination. Origin \"prc\" marks them.",
+    "The program lists no subtopics. Origin \"ramboo\" marks subtopics written by Ramboo from the standard CE syllabus and approved by Gemz on 2026-11-15. A new subtopic enters as \"draft\" until approved.",
+    "IDs are permanent once a bank is released: rename a label freely, never an id. Templates reference ids (topic_id, subtopic_id)."
+  ],
+  "subjects": [
+    {
+      "id": "PSAD",
+      "name": "Principles of Structural Analysis and Design",
+      "weight_percent": 35,
+      "origin": "prc",
+      "topics": [
+        {
+          "id": "psad.engineering-mechanics",
+          "name": "Engineering Mechanics",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.engineering-mechanics.force-systems-equilibrium",
+              "name": "Force systems, resultants and equilibrium",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.engineering-mechanics.centroids-inertia",
+              "name": "Centroids and moments of inertia",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.engineering-mechanics.friction",
+              "name": "Friction",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.engineering-mechanics.kinematics",
+              "name": "Kinematics of particles and rigid bodies",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.engineering-mechanics.kinetics",
+              "name": "Kinetics: force, work-energy and impulse-momentum",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.strength-of-materials",
+          "name": "Strength of Materials",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.strength-of-materials.axial-stress-strain",
+              "name": "Axial stress, strain and thermal effects",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.strength-of-materials.torsion",
+              "name": "Torsion of circular shafts",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.strength-of-materials.beam-stresses",
+              "name": "Flexural and shear stresses in beams",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.strength-of-materials.combined-stress",
+              "name": "Combined stresses and Mohr's circle",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.strength-of-materials.pressure-vessels",
+              "name": "Thin-walled pressure vessels",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.strength-of-materials.beam-deflection",
+              "name": "Deflection of beams",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.strength-of-materials.column-buckling",
+              "name": "Column buckling",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.theory-of-structures",
+          "name": "Theory of Structures",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.theory-of-structures.determinate-beams",
+              "name": "Statically determinate beams: reactions, shear and moment",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.theory-of-structures.trusses",
+              "name": "Trusses",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.theory-of-structures.frames-arches-cables",
+              "name": "Frames, arches and cables",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.theory-of-structures.influence-lines",
+              "name": "Influence lines and moving loads",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.theory-of-structures.energy-deflections",
+              "name": "Deflections by virtual work and energy methods",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.theory-of-structures.indeterminate-structures",
+              "name": "Statically indeterminate structures",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.reinforced-concrete-beams-and-columns",
+          "name": "Reinforced Concrete Beams and Columns",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.beam-flexure",
+              "name": "Flexure of rectangular beams (single and double reinforcement)",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.t-beams",
+              "name": "T-beams",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.beam-shear",
+              "name": "Shear and web reinforcement",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.development-splices",
+              "name": "Development length, hooks and splices",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.serviceability",
+              "name": "Deflection and serviceability",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.short-columns",
+              "name": "Short columns: axial load and eccentricity",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.reinforced-concrete-beams-and-columns.slender-columns",
+              "name": "Slender columns",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.prestressed-concrete-beams",
+          "name": "Prestressed Concrete Beams",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.prestressed-concrete-beams.service-stresses",
+              "name": "Stresses at transfer and service",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.prestressed-concrete-beams.prestress-losses",
+              "name": "Loss of prestress",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.prestressed-concrete-beams.tendon-profiles",
+              "name": "Tendon profiles and equivalent loads",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.prestressed-concrete-beams.flexural-strength",
+              "name": "Flexural strength",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.steel-beams-columns-and-connections",
+          "name": "Steel Beams, Columns and Connections",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.steel-beams-columns-and-connections.tension-members",
+              "name": "Tension members",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.steel-beams-columns-and-connections.compression-members",
+              "name": "Compression members",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.steel-beams-columns-and-connections.steel-beams",
+              "name": "Beams: flexure, shear and lateral-torsional buckling",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.steel-beams-columns-and-connections.beam-columns",
+              "name": "Members under combined forces",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.steel-beams-columns-and-connections.bolted-connections",
+              "name": "Bolted connections",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.steel-beams-columns-and-connections.welded-connections",
+              "name": "Welded connections",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.footings",
+          "name": "Footings",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.footings.isolated-footings",
+              "name": "Isolated footings: bearing and design",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.footings.wall-footings",
+              "name": "Wall footings",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.footings.combined-footings",
+              "name": "Combined and strap footings",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.footings.eccentric-loading",
+              "name": "Eccentric loading and overturning",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.construction-materials-testing",
+          "name": "Construction Materials Testing",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.construction-materials-testing.concrete-testing",
+              "name": "Concrete: mix proportioning and strength tests",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.construction-materials-testing.aggregate-cement-testing",
+              "name": "Aggregate and cement tests",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.construction-materials-testing.steel-testing",
+              "name": "Steel reinforcement and structural steel tests",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.construction-materials-testing.masonry-testing",
+              "name": "Masonry units and assemblies",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.construction-materials-testing.timber-testing",
+              "name": "Timber",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "psad.application-of-governing-codes",
+          "name": "Application of the Governing Codes of Practice",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "psad.application-of-governing-codes.design-loads",
+              "name": "Dead, live and other design loads",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.application-of-governing-codes.load-combinations",
+              "name": "Load combinations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.application-of-governing-codes.wind-loads",
+              "name": "Wind loads",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.application-of-governing-codes.seismic-loads",
+              "name": "Seismic loads",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.application-of-governing-codes.concrete-steel-provisions",
+              "name": "Concrete and steel code provisions",
+              "origin": "ramboo"
+            },
+            {
+              "id": "psad.application-of-governing-codes.masonry-timber-provisions",
+              "name": "Masonry and timber code provisions",
+              "origin": "ramboo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MSTE",
+      "name": "Applied Mathematics, Surveying, Principles of Transportation and Highway Engineering, Construction Management and Methods",
+      "weight_percent": 35,
+      "origin": "prc",
+      "topics": [
+        {
+          "id": "mste.calculus",
+          "name": "Calculus",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.calculus.limits-derivatives",
+              "name": "Limits and differentiation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.calculus.differentiation-applications",
+              "name": "Applications of differentiation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.calculus.integration",
+              "name": "Integration techniques",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.calculus.integration-applications",
+              "name": "Applications of integration",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.calculus.multivariable",
+              "name": "Partial derivatives and multiple integrals",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.differential-equations",
+          "name": "Differential Equations",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.differential-equations.first-order",
+              "name": "First-order equations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.differential-equations.second-order-linear",
+              "name": "Second-order linear equations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.differential-equations.laplace",
+              "name": "Laplace transforms",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.differential-equations.de-applications",
+              "name": "Applications: growth, cooling, mixing and vibration",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.engineering-data-analysis",
+          "name": "Engineering Data Analysis",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.engineering-data-analysis.descriptive-statistics",
+              "name": "Descriptive statistics",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.engineering-data-analysis.probability",
+              "name": "Probability and counting",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.engineering-data-analysis.distributions",
+              "name": "Random variables and distributions",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.engineering-data-analysis.estimation-testing",
+              "name": "Confidence intervals and hypothesis tests",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.engineering-data-analysis.regression",
+              "name": "Regression and correlation",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.numerical-methods",
+          "name": "Numerical Methods",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.numerical-methods.root-finding",
+              "name": "Root finding",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.numerical-methods.linear-systems",
+              "name": "Systems of linear equations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.numerical-methods.interpolation",
+              "name": "Interpolation and curve fitting",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.numerical-methods.numerical-calculus",
+              "name": "Numerical differentiation and integration",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.numerical-methods.numerical-ode",
+              "name": "Numerical solution of differential equations",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.physics-for-engineers",
+          "name": "Physics for Engineers",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.physics-for-engineers.mechanics",
+              "name": "Mechanics: motion, force and energy",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.physics-for-engineers.rotation",
+              "name": "Rotational motion",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.physics-for-engineers.heat",
+              "name": "Heat and thermal expansion",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.physics-for-engineers.waves",
+              "name": "Waves and sound",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.physics-for-engineers.electricity",
+              "name": "Basic electricity",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.economics",
+          "name": "Economics",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.economics.time-value",
+              "name": "Interest and time value of money",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.economics.annuities-gradients",
+              "name": "Annuities and gradients",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.economics.depreciation",
+              "name": "Depreciation and depletion",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.economics.alternatives",
+              "name": "Comparison of alternatives",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.economics.breakeven",
+              "name": "Break-even and cost analysis",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.construction-surveying-and-layout",
+          "name": "Construction Surveying and Layout",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.construction-surveying-and-layout.measurements-errors",
+              "name": "Measurements and errors",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-surveying-and-layout.leveling",
+              "name": "Leveling",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-surveying-and-layout.angles-traverse",
+              "name": "Angles, directions and traverse computations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-surveying-and-layout.horizontal-curves",
+              "name": "Horizontal curves",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-surveying-and-layout.vertical-curves",
+              "name": "Vertical curves",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-surveying-and-layout.stadia",
+              "name": "Stadia and tacheometry",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-surveying-and-layout.construction-layout",
+              "name": "Building and construction layout",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.materials-for-construction",
+          "name": "Materials for Construction",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.materials-for-construction.cement-concrete",
+              "name": "Cement and concrete",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.materials-for-construction.aggregates",
+              "name": "Aggregates",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.materials-for-construction.steel-metals",
+              "name": "Steel and metals",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.materials-for-construction.masonry-timber",
+              "name": "Masonry and timber",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.materials-for-construction.bituminous",
+              "name": "Asphalt and bituminous materials",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.highway-engineering",
+          "name": "Highway Engineering",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.highway-engineering.geometric-design",
+              "name": "Geometric design: alignment, sight distance and superelevation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.highway-engineering.pavement-design",
+              "name": "Pavement design",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.highway-engineering.pavement-materials",
+              "name": "Pavement materials and construction",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.highway-engineering.highway-drainage",
+              "name": "Highway drainage",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.construction-occupational-safety-and-health",
+          "name": "Construction Occupational Safety and Health",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.construction-occupational-safety-and-health.osh-law",
+              "name": "Occupational safety and health law and standards",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-occupational-safety-and-health.hazards-ppe",
+              "name": "Hazard identification and protective equipment",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-occupational-safety-and-health.work-at-height-excavation",
+              "name": "Work at height, scaffolding and excavation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-occupational-safety-and-health.safety-statistics",
+              "name": "Accident rates and safety programs",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.transportation-engineering",
+          "name": "Transportation Engineering",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.transportation-engineering.traffic-flow",
+              "name": "Traffic flow: speed, flow and density",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.transportation-engineering.capacity-los",
+              "name": "Capacity and level of service",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.transportation-engineering.intersections-signals",
+              "name": "Intersections and signal timing",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.transportation-engineering.transport-planning",
+              "name": "Transportation planning",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.transportation-engineering.traffic-studies-safety",
+              "name": "Traffic studies and safety",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.quantity-surveying",
+          "name": "Quantity Surveying",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.quantity-surveying.concrete-rebar-formwork",
+              "name": "Concrete, reinforcement and formwork take-off",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.quantity-surveying.masonry-finishes",
+              "name": "Masonry and finishes take-off",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.quantity-surveying.earthwork",
+              "name": "Earthwork quantities",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.quantity-surveying.cost-estimating",
+              "name": "Cost estimating and bills of quantities",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "mste.construction-management-principles-and-methods",
+          "name": "Construction Management Principles and Methods",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "mste.construction-management-principles-and-methods.network-scheduling",
+              "name": "Project scheduling: CPM and PERT",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-management-principles-and-methods.time-cost",
+              "name": "Time-cost trade-off and project control",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-management-principles-and-methods.equipment-productivity",
+              "name": "Construction equipment and productivity",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-management-principles-and-methods.contracts-procurement",
+              "name": "Contracts and procurement",
+              "origin": "ramboo"
+            },
+            {
+              "id": "mste.construction-management-principles-and-methods.construction-methods",
+              "name": "Construction methods",
+              "origin": "ramboo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "HGE",
+      "name": "Hydraulics and Principles of Geotechnical Engineering",
+      "weight_percent": 30,
+      "origin": "prc",
+      "topics": [
+        {
+          "id": "hge.fluid-properties",
+          "name": "Fluid Properties",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.fluid-properties.density-weight",
+              "name": "Density, specific weight and specific gravity",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-properties.viscosity",
+              "name": "Viscosity",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-properties.surface-tension",
+              "name": "Surface tension and capillarity",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-properties.compressibility",
+              "name": "Compressibility and bulk modulus",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.hydrostatics",
+          "name": "Hydrostatics",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.hydrostatics.pressure-manometry",
+              "name": "Pressure and its measurement",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.hydrostatics.plane-surface-forces",
+              "name": "Forces on plane surfaces",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.hydrostatics.curved-surface-forces",
+              "name": "Forces on curved surfaces",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.hydrostatics.dams-walls",
+              "name": "Dams and walls under water pressure",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.fluid-flow",
+          "name": "Fluid Flow",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.fluid-flow.continuity-energy",
+              "name": "Continuity and the energy equation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-flow.pipe-friction",
+              "name": "Pipe flow and head losses",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-flow.pipe-systems",
+              "name": "Pipe systems and networks",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-flow.orifices-weirs",
+              "name": "Orifices, tubes and weirs",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-flow.open-channel",
+              "name": "Open-channel flow",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.buoyancy-and-flotation",
+          "name": "Buoyancy and Flotation",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.buoyancy-and-flotation.buoyant-force",
+              "name": "Buoyant force and floating bodies",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.buoyancy-and-flotation.stability-floating",
+              "name": "Stability of floating bodies",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.relative-equilibrium-of-liquids",
+          "name": "Relative Equilibrium of Liquids",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.relative-equilibrium-of-liquids.linear-acceleration",
+              "name": "Containers under linear acceleration",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.relative-equilibrium-of-liquids.rotation-vessels",
+              "name": "Containers rotating about an axis",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.hydrodynamics",
+          "name": "Hydrodynamics",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.hydrodynamics.momentum-jets",
+              "name": "Momentum principle: jets, vanes and bends",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.hydrodynamics.pumps-turbines",
+              "name": "Pumps and turbines",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.hydrodynamics.similitude",
+              "name": "Dimensional analysis and similitude",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.water-supply",
+          "name": "Water Supply",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.water-supply.demand-forecast",
+              "name": "Population forecast and water demand",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.water-supply.sources-yield",
+              "name": "Sources and yield",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.water-supply.distribution",
+              "name": "Transmission and distribution",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.water-supply.storage-fire-flow",
+              "name": "Storage and fire flow",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.soil-properties",
+          "name": "Soil Properties",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.soil-properties.phase-relations",
+              "name": "Phase relations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.soil-properties.index-properties",
+              "name": "Index properties and Atterberg limits",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.soil-properties.grain-size",
+              "name": "Grain-size analysis",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.soil-properties.relative-density",
+              "name": "Relative density",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.soils-classification",
+          "name": "Soils Classification",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.soils-classification.uscs",
+              "name": "Unified Soil Classification System",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.soils-classification.aashto",
+              "name": "AASHTO classification",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.fluid-flow-through-soil-mass",
+          "name": "Fluid Flow through Soil Mass",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.fluid-flow-through-soil-mass.permeability",
+              "name": "Darcy's law and permeability",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-flow-through-soil-mass.flow-nets",
+              "name": "Flow nets and seepage",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.fluid-flow-through-soil-mass.seepage-stress",
+              "name": "Seepage effects on effective stress",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.stresses-in-soil-mass",
+          "name": "Stresses in Soil Mass",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.stresses-in-soil-mass.geostatic-stress",
+              "name": "Geostatic and effective stress",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.stresses-in-soil-mass.stress-increase",
+              "name": "Stress increase from surface loads",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.soil-strength-and-tests",
+          "name": "Soil Strength and Tests",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.soil-strength-and-tests.mohr-coulomb",
+              "name": "Mohr-Coulomb failure criterion",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.soil-strength-and-tests.lab-shear-tests",
+              "name": "Laboratory shear tests",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.soil-strength-and-tests.field-tests",
+              "name": "Field tests",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.bearing-capacity",
+          "name": "Bearing Capacity",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.bearing-capacity.shallow-foundations",
+              "name": "Shallow foundations",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.bearing-capacity.groundwater-eccentricity",
+              "name": "Groundwater and eccentricity effects",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.bearing-capacity.piles",
+              "name": "Pile capacity",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.compaction",
+          "name": "Compaction",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.compaction.proctor",
+              "name": "Proctor tests and compaction curves",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.compaction.field-compaction",
+              "name": "Field compaction and control",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.consolidation-and-settlement",
+          "name": "Consolidation and Settlement",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.consolidation-and-settlement.primary-consolidation",
+              "name": "Primary consolidation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.consolidation-and-settlement.consolidation-rate",
+              "name": "Rate of consolidation",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.consolidation-and-settlement.immediate-secondary",
+              "name": "Immediate and secondary settlement",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.lateral-earth-pressures",
+          "name": "Lateral Earth Pressures",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.lateral-earth-pressures.rankine",
+              "name": "Rankine active, passive and at-rest pressure",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.lateral-earth-pressures.coulomb",
+              "name": "Coulomb's theory",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.lateral-earth-pressures.retaining-walls",
+              "name": "Retaining wall stability",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.lateral-earth-pressures.braced-cuts",
+              "name": "Braced cuts and sheet piles",
+              "origin": "ramboo"
+            }
+          ]
+        },
+        {
+          "id": "hge.slope-stability",
+          "name": "Slope Stability",
+          "origin": "prc",
+          "subtopics": [
+            {
+              "id": "hge.slope-stability.infinite-slopes",
+              "name": "Infinite slopes",
+              "origin": "ramboo"
+            },
+            {
+              "id": "hge.slope-stability.finite-slopes",
+              "name": "Finite slopes and method of slices",
+              "origin": "ramboo"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

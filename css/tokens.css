@@ -80,7 +80,6 @@
     --moment-fill: rgba(238, 131, 119, 0.16);
     --load-fill: rgba(227, 169, 58, 0.16);
     --ok-fill: rgba(95, 196, 143, 0.16);
-  --water-fill: rgba(110, 170, 230, 0.16);
     --water-fill: rgba(110, 170, 230, 0.16);
     --shadow-panel: 0 10px 24px rgba(0, 0, 0, 0.45);
   }
@@ -105,5 +104,6 @@
   --moment-fill: rgba(238, 131, 119, 0.16);
   --load-fill: rgba(227, 169, 58, 0.16);
   --ok-fill: rgba(95, 196, 143, 0.16);
+  --water-fill: rgba(110, 170, 230, 0.16);
   --shadow-panel: 0 10px 24px rgba(0, 0, 0, 0.45);
 }

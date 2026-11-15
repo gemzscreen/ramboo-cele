@@ -4,6 +4,79 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.12 — 2026-11-15
+
+Self-hosted fonts; templates verified.
+
+- Barlow (400, 600, 700) and Barlow Condensed (600, 700) are served from the
+  repo (`fonts/`, Latin subset, about 22 kB each, SIL Open Font License in
+  `fonts/OFL.txt`). The app no longer falls back to the system font.
+- The four templates move from `draft` to `verified` (approved by Gemz).
+- Harness Stage 2 checks that every font face points at a file in the repo
+  and that the CSS uses no weight without a face.
+
+## v0.0.11 — 2026-11-15
+
+App shell. Early Phase 1 groundwork.
+
+- A fixed app bar with four tabs: Practice, Progress, Explore (Live Figure
+  and template preview) and About. One view shows at a time; the address,
+  Back button and a reload keep your place.
+- Theme switch: Auto (follows the device), Day, Night. The choice is kept on
+  the device and applied before the page paints.
+- About page: what the app is, how the problems are made, the disclaimer,
+  what is stored and where, how to install.
+- Installable: web app manifest and an app icon (beam, load and moment
+  diagram). No offline mode yet — the app still needs a connection to load.
+- TERMS is listed in the subject choice, disabled until its bank exists.
+- Taxonomy: the 165 subtopics are approved (origin `ramboo`, revision 2).
+- Fix: the forced Night theme lacked the water colour used in HGE figures.
+- Harness Stage 2 checks the tabs, the theme switch, that the two Night
+  token blocks match, the manifest and icon sizes, and that the About
+  disclaimer matches the footer word for word.
+
+## v0.0.10 — 2026-11-15
+
+Progress: KPI dashboard, Reset KPIs and backup. Early Phase 1 groundwork.
+
+- New Progress card: sets done, items correct, average and time spent; a
+  table per subject (score, minutes per item against the board pace, items
+  left to fix); a table per CELE topic, weakest first.
+- "What to study next": a topic is judged after 3 answered items — under 50%
+  says review, under 75% says keep practising; a subject slower than board
+  pace is flagged; subjects not yet tried are listed.
+- Each finished set now saves its per-topic results under the taxonomy topic
+  id. Sets saved earlier count in the totals but not in the topic table.
+- Reset KPIs forgets the finished sets after a confirmation; the mistakes
+  list is kept.
+- Export backup downloads everything the app stores on the device as one
+  JSON file. Restore backup checks the file, asks, then replaces what is
+  stored; a file that is not a sound backup is refused with a reason and
+  changes nothing.
+- Harness: KPI figures against a hand-computed history; per-topic grading
+  adds up; backup round trip; 14 kinds of damaged backup refused; Stage 2
+  plays reset and restore through the real UI.
+
+## v0.0.9 — 2026-11-15
+
+Topic taxonomy (decision D4, first cut). Phase 0 content groundwork.
+
+- `content/taxonomy.json`: subject → topic → subtopic for CELE 2026. The 3
+  subjects, their weights (35 / 35 / 30) and 39 topics follow the PRC
+  program of the examination, in its order. The program lists no subtopics,
+  so the 165 subtopics are drafts from the standard CE syllabus, marked
+  `"origin": "draft"` for review. IDs read `subject.topic.subtopic` and are
+  permanent once a bank is released.
+- Templates carry `topic_id` and `subtopic_id`. Their `topic` label is now the
+  PRC topic name, so the results table groups by CELE topic ("Theory of
+  Structures", "Hydrostatics", "Construction Surveying and Layout") instead
+  of the earlier free-text paths.
+- Harness Stage 3 checks the taxonomy (structure, unique ids, id pattern,
+  weights add up to 100) and every template's tags (ids exist, under the
+  template's own subject, label equals the taxonomy name).
+- Not in this release: past-board frequency per topic, and archetype IDs per
+  subtopic. Both wait on the private sittings (`board_frequency` stays null).
+
 ## v0.0.8 — 2026-11-15
 
 Practice my mistakes, and avoid-repeat. Early Phase 1 groundwork.
