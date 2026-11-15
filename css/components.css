@@ -124,6 +124,29 @@ input[type="range"]::-moz-range-thumb {
 
 /* ---- Sample problem ---- */
 
+.sample-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s1) var(--s3);
+  padding: var(--s3) var(--s5);
+  border-bottom: var(--border);
+}
+.sample-picker label { font-size: var(--text-sm); color: var(--ink-soft); }
+.sample-picker select {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--touch);
+  padding: 0 var(--s2);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+.items-single { list-style: none; padding-left: var(--s5); }
+.items-single .choices { margin-left: 0; }
+
 .stem { margin: 0; padding: var(--s5) var(--s5) var(--s3); }
 .sample-figure { margin: 0 var(--s5); padding: var(--s2); border: var(--border); }
 
@@ -166,9 +189,10 @@ input[type="range"]::-moz-range-thumb {
   .live-controls { padding: var(--s3) var(--s4); }
   .control { grid-template-columns: 1fr auto; }
   .control input { grid-column: 1 / -1; grid-row: 2; }
-  .live-actions, .stem { padding-left: var(--s4); padding-right: var(--s4); }
+  .live-actions, .stem, .sample-picker { padding-left: var(--s4); padding-right: var(--s4); }
   .sample-figure { margin: 0 var(--s4); }
   .items { padding-right: var(--s4); padding-left: calc(var(--s4) + 1.25em); }
+  .items-single { padding-left: var(--s4); }
   .solution { padding-left: var(--s4); padding-right: var(--s4); }
 }
 

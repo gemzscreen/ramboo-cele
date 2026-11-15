@@ -172,6 +172,9 @@ variables, so a figure follows the theme without being redrawn.
 - Shear diagram: `--shear` outline, `--shear-fill`; end values labelled with
   sign. Moment diagram: `--moment` outline, `--moment-fill`; peak labelled;
   positive moment drawn upward.
+- Liquids: `--water-fill` tint with an ink free-surface line and the ∇ surface mark. It is a material tint, not
+  one of the meaning colours, and is never used for interface states.
+- Walls and ground: `--grid-major` fill with an ink outline; ground lines are hatched.
 - Every figure carries a text alternative stating the given values, so the
   problem is answerable without seeing the drawing.
 
