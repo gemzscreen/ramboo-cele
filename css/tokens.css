@@ -28,6 +28,7 @@
   --moment-fill: rgba(184, 55, 42, 0.12);
   --load-fill: rgba(201, 138, 18, 0.14);
   --ok-fill: rgba(30, 122, 76, 0.12);
+  --water-fill: rgba(60, 130, 190, 0.16); /* liquid in a figure — not a meaning colour */
 
   /* Type */
   --font-ui: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -79,6 +80,8 @@
     --moment-fill: rgba(238, 131, 119, 0.16);
     --load-fill: rgba(227, 169, 58, 0.16);
     --ok-fill: rgba(95, 196, 143, 0.16);
+  --water-fill: rgba(110, 170, 230, 0.16);
+    --water-fill: rgba(110, 170, 230, 0.16);
     --shadow-panel: 0 10px 24px rgba(0, 0, 0, 0.45);
   }
 }

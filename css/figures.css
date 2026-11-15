@@ -37,3 +37,6 @@
 .fig-udl line { stroke-width: 1.5; }
 .fig-udl text { font-size: 17px; }
 @media (max-width: 520px) { .fig-udl text { font-size: 23px; } }
+
+.fig-water { fill: var(--water-fill); }
+.fig-wall { fill: var(--grid-major); stroke: var(--ink); stroke-width: var(--stroke); }

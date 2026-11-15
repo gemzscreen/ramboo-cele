@@ -4,6 +4,21 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.5 — 2026-11-15
+
+First HGE template; every subject now has one. Early Phase 1 groundwork.
+
+- `js/models/hydroGateVertical.js`: hydrostatic force on a submerged vertical
+  rectangular gate — resultant, centre of pressure, stop and hinge forces.
+  Checked against direct integration of the pressure and the pressure-prism
+  split, independent of the centroid formulas the solver uses.
+- `HGE-HYDRO-GATE-001` (draft): total force, depth of the centre of pressure,
+  force on the stop. Passes Stage 3 on all 357 value sets with no fallback
+  choices.
+- `js/figures/hydroGateVertical.js`: side elevation with water, wall, hinge,
+  stop and dimensions. New `--water-fill` token and wall/water figure styles,
+  documented in `docs/design-system.md`.
+
 ## v0.0.4 — 2026-11-14
 
 Second and third models; engine hardened. Early Phase 1 groundwork.
