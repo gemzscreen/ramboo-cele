@@ -4,6 +4,24 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.15 — 2026-11-15
+
+Bank grows from 14 to 24 problem types. The ten new ones are `draft`.
+
+- PSAD (situations): crate on a rough ramp (`PSAD-EM-FRICTION-001`); square
+  footing, factored pressure with one-way and two-way shear, NSCP 2015
+  Sections 203.3.1, 422.5 and 422.6.4 (`PSAD-FTG-SHEAR-001`); rectangular
+  prestressed beam, midspan fibre stresses (`PSAD-PSC-STRESS-001`).
+- MSTE (single items): PERT expected duration (`MSTE-CM-PERT-001`); capacity
+  from a linear speed-density relation (`MSTE-TRANS-GREEN-001`); binomial
+  probability (`MSTE-EDA-BINOM-001`); stopping sight distance on a downgrade
+  (`MSTE-HWY-SSD-001`).
+- HGE (situations): total, pore and effective stress in sand over clay
+  (`HGE-SOIL-STRESS-001`); box barge draft and cargo (`HGE-BUOY-BARGE-001`);
+  settlement of normally consolidated clay (`HGE-CONSOL-NC-001`).
+- As before: one pure solver each, an independent check, a hand-solved
+  reference, text-only stems.
+
 ## v0.0.14 — 2026-11-15
 
 Bank grows from 4 to 14 problem types, picked from the top of the frequency
