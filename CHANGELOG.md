@@ -4,6 +4,32 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.6 — 2026-11-15
+
+Exam engine and the first exam screen: Practice mode. Early Phase 1 groundwork.
+
+- `js/engine/exam.js`: assembles a set from the bank — whole situations for
+  PSAD and HGE, single items for MSTE — and grades it. Quick drill is 1
+  situation or 5 items; Full set is 3 situations or 10 items. Every template
+  is used once before any repeats, and a repeat always has different values.
+- `js/engine/timer.js`: countdown at board pace (PSAD and HGE 4.8 min per
+  item, MSTE 4.0), with pause.
+- `js/engine/storage.js`: set history and the mistake bank, kept in the
+  browser only. Works for the visit when storage is unavailable or full.
+- Practice screen: pick subject and size; answer one item at a time; each
+  answer is checked on the spot; the worked solution appears after the last
+  item of a situation; pause hides the problem; ending early asks first and
+  counts unanswered items as wrong; results show score, time, a per-topic
+  breakdown and an item-by-item review.
+- The earlier sample section stays as "Template preview" for reviewing each
+  problem type.
+- Harness: Stage 3 runs engine checks (`tests/engine/`); Stage 2 plays a
+  practice set through the real UI for every subject, plus the pause and
+  end-early paths.
+
+Not yet built: Exam mode, mock sets, "exam from my mistakes" (misses are
+recorded but there is no screen for them), the KPI dashboard, export/import.
+
 ## v0.0.5 — 2026-11-15
 
 First HGE template; every subject now has one. Early Phase 1 groundwork.

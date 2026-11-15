@@ -14,6 +14,65 @@ const REF_ATTRS = [
   ['a[href]', 'href'],
 ];
 
+// Plays practice sets through the real UI: every subject to the end, plus the
+// pause and end-early paths.
+function practiceFlow(doc) {
+  const problems = [];
+  const root = doc.getElementById('practice');
+  if (!root) return ['#practice is missing'];
+  const $ = (sel) => root.querySelector(sel);
+  const click = (sel) => { const el = $(sel); if (!el) throw new Error(`nothing matches ${sel}`); el.click(); };
+  const expectItems = { PSAD: 3, MSTE: 5, HGE: 3 };
+
+  try {
+    for (const subject of Object.keys(expectItems)) {
+      click(`input[name="practice-subject"][value="${subject}"]`);
+      click('[data-role="start"]');
+      let answered = 0;
+      while ($('[data-role="check"]')) {
+        if (!$('[data-role="check"]').disabled) problems.push(`${subject}: Check is enabled before a choice is made`);
+        if (!$('.stem') || /NaN|undefined/.test(root.textContent)) problems.push(`${subject}: question did not render cleanly`);
+        const options = root.querySelectorAll('input[name="practice-choice"]');
+        if (options.length !== 4) problems.push(`${subject}: ${options.length} choices shown`);
+        options[answered % 4].click();
+        click('[data-role="check"]');
+        if (root.querySelectorAll('.choice.is-correct').length !== 1) problems.push(`${subject}: checked item does not mark exactly one correct choice`);
+        if (!$('.practice-feedback').textContent.trim()) problems.push(`${subject}: no feedback after checking`);
+        if ([...root.querySelectorAll('input[name="practice-choice"]')].some((i) => !i.disabled)) problems.push(`${subject}: choices stay editable after checking`);
+        answered++;
+        if (answered > 50) throw new Error('set never ended');
+        click('[data-role="next"]');
+      }
+      if (answered !== expectItems[subject]) problems.push(`${subject}: quick drill had ${answered} items, expected ${expectItems[subject]}`);
+      if (!$('.practice-results')) { problems.push(`${subject}: no results screen`); continue; }
+      const score = $('.stat dd').textContent;
+      const right = root.querySelectorAll('.review li.is-correct').length;
+      if (score !== `${right} / ${answered}`) problems.push(`${subject}: score "${score}" disagrees with the review list (${right} of ${answered})`);
+      click('[data-role="again"]');
+    }
+    if (!/3 sets done/.test(root.textContent)) problems.push('history line does not show the 3 saved sets');
+
+    // Pause hides the problem; ending early needs confirmation and scores blanks as wrong.
+    click('[data-role="start"]');
+    click('[data-role="pause"]');
+    if ($('.stem')) problems.push('the problem stays visible while paused');
+    click('[data-role="pause"]');
+    if (!$('.stem')) problems.push('resume did not bring the problem back');
+    root.querySelector('input[name="practice-choice"]').click(); // selected but never checked
+    click('[data-role="end"]');
+    if (!$('.practice-confirm') || $('.practice-results')) problems.push('End set must ask for confirmation first');
+    click('[data-role="end-no"]');
+    if ($('.practice-confirm')) problems.push('"Keep going" did not dismiss the confirmation');
+    click('[data-role="end"]');
+    click('[data-role="end-yes"]');
+    if (!$('.practice-results') || !/^0 \/ /.test($('.stat dd').textContent)) problems.push('ending early should score unchecked items as wrong');
+    click('[data-role="again"]');
+  } catch (err) {
+    problems.push(`practice flow broke: ${err.message}`);
+  }
+  return problems;
+}
+
 export async function run(root) {
   const failures = [];
   let checked = 0;
@@ -85,6 +144,9 @@ export async function run(root) {
         checked++;
         if (!after.has(el.getAttribute('for'))) failures.push(`after boot: for="${el.getAttribute('for')}" points at a missing id`);
       }
+      failures.push(...practiceFlow(doc));
+      checked++;
+
       const { APP_VERSION } = await import(pathToFileURL(path.join(root, 'js/version.js')).href);
       const shown = doc.getElementById('app-version')?.textContent;
       checked++;

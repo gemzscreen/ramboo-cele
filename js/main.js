@@ -1,7 +1,9 @@
 import { APP_VERSION } from './version.js';
 import { mountBeamLive } from './live/beamSimplePointLive.js';
 import { mountSampleProblem } from './ui/sampleProblem.js';
+import { mountPractice } from './ui/practice.js';
 import { TEMPLATES } from './engine/bank.js';
+import { createStore, browserStorage } from './engine/storage.js';
 
 // Wires the shell to a document. Takes the document as an argument so the
 // harness (tests/stage2-dom.js) can boot the app against jsdom.
@@ -11,6 +13,12 @@ export function boot(doc) {
 
   const year = doc.getElementById('copyright-year');
   if (year) year.textContent = String(new Date().getFullYear());
+
+  const practice = doc.getElementById('practice');
+  if (practice) {
+    const win = doc.defaultView;
+    mountPractice(practice, { templates: TEMPLATES, store: createStore(browserStorage(win)), win });
+  }
 
   const live = doc.getElementById('live-beam');
   if (live) mountBeamLive(live);

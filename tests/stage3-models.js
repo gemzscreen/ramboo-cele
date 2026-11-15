@@ -83,6 +83,15 @@ export async function run(root) {
     for (const f of check(createRng(SEED), RUNS)) failures.push(`${file}: ${f}`);
   }
 
+  // ---- Engine (tests/engine/*.check.js) ----
+  for (const file of walk(root, 'tests/engine', /\.check\.js$/)) {
+    checked++;
+    try {
+      const { check } = await load(root, file);
+      for (const f of check(createRng(SEED), RUNS)) failures.push(`${file}: ${f}`);
+    } catch (err) { failures.push(`${file}: crashed: ${err.stack || err}`); }
+  }
+
   // ---- Templates ----
   const ids = new Set();
   for (const file of walk(root, 'content/templates', /\.js$/)) {
