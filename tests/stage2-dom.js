@@ -67,6 +67,46 @@ function practiceFlow(doc) {
     click('[data-role="end-yes"]');
     if (!$('.practice-results') || !/^0 \/ /.test($('.stat dd').textContent)) problems.push('ending early should score unchecked items as wrong');
     click('[data-role="again"]');
+
+    // ---- Exam mode: free navigation, nothing revealed before submitting ----
+    const setsBefore = Number((root.textContent.match(/(\d+) sets? done/) || [])[1]);
+    click('input[name="practice-subject"][value="PSAD"]');
+    click('input[name="practice-mode"][value="exam"]');
+    click('[data-role="start"]');
+    if (doc.activeElement?.name !== 'practice-choice') problems.push('after Start, keyboard focus should be on the first choice');
+    const revealed = () => $('.choice.is-correct') || $('.choice.is-wrong') || $('.solution') || $('.practice-feedback');
+    if ($('[data-role="check"]')) problems.push('exam: there must be no Check button');
+    if (root.querySelectorAll('[data-goto]').length !== 3) problems.push('exam: item navigator should list 3 items');
+    root.querySelectorAll('input[name="practice-choice"]')[2].click();
+    if (revealed()) problems.push('exam: answering revealed the key');
+    click('[data-role="next"]');
+    click('[data-role="prev"]');
+    if (!root.querySelectorAll('input[name="practice-choice"]')[2].checked) problems.push('exam: the answer was lost when moving between items');
+    root.querySelectorAll('input[name="practice-choice"]')[1].click(); // change the answer
+    click('[data-goto="2"]');
+    if (!/Item 3 of 3/.test($('.practice-progress').textContent)) problems.push('exam: the navigator did not jump to item 3');
+    if (root.querySelectorAll('.item-nav-btn.is-answered').length !== 1) problems.push('exam: navigator should show exactly 1 answered item');
+    click('[data-role="end"]');
+    if (!/2 items are not answered/.test($('.practice-confirm').textContent)) problems.push('exam: submit confirmation should say 2 items are not answered');
+    if (revealed()) problems.push('exam: the key is visible before submitting');
+    click('[data-role="end-yes"]');
+    if (!$('.practice-results')) problems.push('exam: no results after submitting');
+    else {
+      if (!/ \/ 3$/.test($('.stat dd').textContent)) problems.push('exam: score should be out of 3');
+      if (root.querySelectorAll('.review li').length !== 3) problems.push('exam: review should list 3 items');
+      if (root.querySelectorAll('.solution-fold .solution li').length === 0) problems.push('exam: results should include the worked solution');
+      if (!/not answered/.test($('.review').textContent)) problems.push('exam: unanswered items should be labelled in the review');
+    }
+    click('[data-role="again"]');
+    if (!new RegExp(`${setsBefore + 1} sets done`).test(root.textContent)) problems.push('exam: the submitted set was not saved to history');
+
+    // Discarding saves nothing.
+    click('[data-role="start"]');
+    root.querySelector('input[name="practice-choice"]').click();
+    click('[data-role="end"]');
+    click('[data-role="discard"]');
+    if (!$('[data-role="start"]') || !new RegExp(`${setsBefore + 1} sets done`).test(root.textContent)) problems.push('discard should return to setup without saving');
+    click('input[name="practice-mode"][value="practice"]');
   } catch (err) {
     problems.push(`practice flow broke: ${err.message}`);
   }

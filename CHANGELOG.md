@@ -4,6 +4,24 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.7 — 2026-11-15
+
+Exam mode. Early Phase 1 groundwork.
+
+- Setup screen gains a Mode choice: Practice (check each answer) or Exam
+  (answers at the end).
+- Exam mode: an item navigator shows which items are answered; Previous and
+  Next move freely; answers can be changed; no key, feedback or solution is
+  shown until the set is submitted. Submitting asks first and says how many
+  items are unanswered. Time running out submits automatically.
+- Results (both modes) now include each unit's problem and worked solution in
+  a fold, and name the mode.
+- "Discard without saving" in the end/submit confirmation, for both modes.
+- Starting a set moves keyboard focus to the first choice.
+- Saved history records the mode.
+- Harness Stage 2 plays an exam through the real UI: navigation, changed
+  answers, nothing revealed early, the submit confirmation, results, discard.
+
 ## v0.0.6 — 2026-11-15
 
 Exam engine and the first exam screen: Practice mode. Early Phase 1 groundwork.

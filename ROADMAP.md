@@ -1,9 +1,9 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.10 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.11 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
 **Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
-**App version:** v0.0.6 (four draft templates, exam engine, Practice mode; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
+**App version:** v0.0.7 (four draft templates, Practice and Exam modes; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
 **Current phase:** PHASE 0 — Foundation & Decisions (in progress)
 **Workflow:** GitHub repo + Claude Code (from Phase 0 onward)
 **Source of truth:** `ROADMAP.md` in the repo. The claude.ai Project copy (`claude/CELE_REVAMP_ROADMAP.md`) is a mirror, refreshed only when Gemz works in claude.ai again.
@@ -291,12 +291,13 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 9. Status Board
-- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz); Phase 1 groundwork under way at Gemz's go-ahead · **App:** v0.0.6 on branch `claude/trusting-noether-l070u1` (not yet in a PR); `main` is at v0.0.5 (PR #3, merged 2026-11-15 as `6f7e0d2`)
-- **Done:** roadmap R1.10; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`. On the branch (v0.0.6): exam engine (set assembly, board-pace timer, grading, local storage) and Practice mode
-- **Phase 1 checklist (§4) so far:** Practice mode ✔ (quick drill and full set) · board pacing ✔ · local progress ✔ (history + mistake bank recorded) · results with per-topic breakdown ✔. Not yet: Exam mode, Random Mock Set, exam-from-mistakes screen, avoid-repeat history, KPI dashboard and study recommendations, Exam Generator topic filter, Board-Trend Sets, export/import backup, theme switch (Auto only so far), PWA, TERMS, lectures stub, About/donations
+- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz); Phase 1 groundwork under way at Gemz's go-ahead · **App:** v0.0.7 on branch `claude/trusting-noether-l070u1` (not yet in a PR); `main` is at v0.0.6 (PR #4, merged 2026-11-15 as `b6c4ff5`)
+- **Done:** roadmap R1.11; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine (set assembly, board-pace timer, grading, local storage) and Practice mode. On the branch (v0.0.7): Exam mode, discard-without-saving, solutions in the results
+- **Phase 1 checklist (§4) so far:** Practice mode ✔ and Exam mode ✔ (quick drill and full set) · pause and cancel ✔ · board pacing ✔ · local progress ✔ (history + mistake bank recorded) · results with per-topic breakdown ✔. Not yet: Random Mock Set, exam-from-mistakes screen, avoid-repeat history, KPI dashboard and study recommendations, Exam Generator topic filter, Board-Trend Sets, export/import backup, theme switch (Auto only so far), PWA, TERMS, lectures stub, About/donations
 - **Waiting on Gemz:**
-  - Merge the v0.0.6 branch (ask Claude to open the PR)
-  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on the next merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
+  - Merge the v0.0.7 branch (ask Claude to open the PR)
+  - Solution timing in Practice mode: this roadmap says "solution after each answer"; for a situation the app holds the worked solution until its last item is checked, so it cannot give away the later items. Confirm or change
+  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on the next merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
   - D5: approve the schema as implemented (§5, four points), and review the four draft templates — wording, items, distractors — as the pattern for all later templates
   - D6: approve `docs/design-system.md`; give the Darkwiz Lab site URL so fonts and brand colours can be confirmed; review the drafted Night palette
   - D9: approve "no analytics until v1.0.0, then one cookieless counter"; pick the tool (suggested GoatCounter) or defer to launch week; give a public contact email for the notice; confirm the notice wording
@@ -305,7 +306,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
   1. D4 — build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the coverage PDF and the 12 sittings in one Google Drive folder and name it to Claude
   2. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
   3. Phase 0 exit check — needs D4, D5, D6, D9 closed
-  4. Phase 1 groundwork that does not depend on the open decisions, in this order: (a) Exam mode (answers and solutions held to the end) on the same engine; (b) "practice my mistakes" from the recorded mistake bank, with avoid-repeat; (c) KPI dashboard from the stored history, Reset, export/import backup; (d) app shell — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest. Mock sets and Board-Trend Sets need a far larger bank and the taxonomy, so they wait for D4
+  4. Phase 1 groundwork that does not depend on the open decisions, in this order: (a) "practice my mistakes" from the recorded mistake bank, with avoid-repeat; (b) KPI dashboard from the stored history, Reset, export/import backup; (c) app shell — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest. Mock sets and Board-Trend Sets need a far larger bank and the taxonomy, so they wait for D4
 - **Blockers:** D4 needs the private sources (above). The bank cannot grow sensibly without it: with 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
 - **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. All four templates are status `draft`. In a situation, the worked solution is held until its last item is checked, so it cannot give away the later items. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
 - **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
@@ -314,6 +315,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 10. Changelog
+- **R1.11 — 2026-11-15:** PR #4 merged (`b6c4ff5`, app v0.0.6 on `main`). App v0.0.7 on the branch: Exam mode on the same engine, discard-without-saving, solutions in the results, keyboard focus fix. Phase 1 checklist and next-steps list updated; Practice-mode solution timing listed for Gemz to confirm. Decisions D4, D5, D6, D9 unchanged.
 - **R1.10 — 2026-11-15:** PR #3 merged (`6f7e0d2`, app v0.0.5 on `main`). App v0.0.6 on the branch: exam engine (set assembly, board-pace timer, grading, local history and mistake bank) and Practice mode; engine checks added to Stage 3 and a scripted practice run-through to Stage 2. Status Board gains a Phase 1 checklist and an ordered list of the remaining groundwork. Decisions D4, D5, D6, D9 unchanged.
 - **R1.9 — 2026-11-15:** App v0.0.5: first HGE model and template (`HGE-HYDRO-GATE-001`), so PSAD, MSTE and HGE each have a verified draft template. `--water-fill` token and liquid/wall figure rules added to the design system. Next groundwork item is now the exam engine. Decisions D4, D5, D6, D9 unchanged.
 - **R1.8 — 2026-11-14:** PR #2 merged (`f497357`). With every Phase 0 decision waiting on Gemz, work moved to Phase 1 groundwork at his go-ahead (app v0.0.4): second and third models and templates, bank registry, engine rules (exact rounding, no boundary answers, `valid`, labelled fallback), Stage 3 now exhaustive over each template's value grid. §5 gains point 4; §6 Stage 3 wording updated. Status Board rewritten.

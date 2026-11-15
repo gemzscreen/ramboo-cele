@@ -1,11 +1,19 @@
-// Practice mode: pick a subject and size, answer one item at a time, check each
-// answer, see the solution, then a results summary. Board pacing sets the timer.
+// Runs a set in one of two modes on the same engine:
+//   Practice — one item at a time, each answer checked on the spot, the worked
+//              solution shown once a situation is finished.
+//   Exam     — move freely between items and change answers; nothing is checked
+//              until the set is submitted; key and solutions at the end.
+// Board pacing sets the timer in both.
 import { assembleSet, gradeSet, poolFor, secondsPerItem, DRILLS, SUBJECTS, UNIT_FORMAT } from '../engine/exam.js';
 import { createTimer, formatClock } from '../engine/timer.js';
 import { randomSeed } from '../engine/rng.js';
 import { templateById } from '../engine/bank.js';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
+const MODES = {
+  practice: { label: 'Practice', hint: 'check each answer' },
+  exam: { label: 'Exam', hint: 'answers at the end' },
+};
 
 const duration = (sec) => {
   const s = Math.round(sec);
@@ -14,8 +22,8 @@ const duration = (sec) => {
 };
 
 export function mountPractice(root, { templates, store, win }) {
-  const state = { view: 'setup', subject: 'PSAD', drill: 'quick' };
-  let set; let answers; let checked; let q; let selected; let timer; let tick; let paused; let confirmingEnd; let timeUp;
+  const state = { view: 'setup', subject: 'PSAD', drill: 'quick', mode: 'practice' };
+  let set; let answers; let checked; let q; let selected; let timer; let tick; let paused; let confirming; let timeUp;
 
   const sizeLabel = (subject, drill) => {
     const n = DRILLS[drill].units[subject];
@@ -24,6 +32,13 @@ export function mountPractice(root, { templates, store, win }) {
       : `${n} items`;
   };
   const itemCount = (subject, drill) => DRILLS[drill].units[subject] * (UNIT_FORMAT[subject] === 'situation' ? 3 : 1);
+  const isExam = () => state.mode === 'exam';
+  const on = (role, fn) => { for (const el of root.querySelectorAll(`[data-role="${role}"]`)) el.addEventListener('click', fn); };
+  const focusRole = (role) => { const el = root.querySelector(`[data-role="${role}"]`); if (el) el.focus(); };
+  const focusChoice = () => {
+    const el = root.querySelector('input[name="practice-choice"]:checked') || root.querySelector('input[name="practice-choice"]');
+    if (el) el.focus();
+  };
 
   // ---------- Setup ----------
   function renderSetup() {
@@ -31,31 +46,41 @@ export function mountPractice(root, { templates, store, win }) {
     const history = store.getHistory();
     const last = history.at(-1);
     const n = itemCount(state.subject, state.drill);
+    const radios = (name, options, current) => options.map(([value, label, hint]) =>
+      `<label><input type="radio" name="${name}" value="${value}"${value === current ? ' checked' : ''}><span>${label}${hint ? `<small>${hint}</small>` : ''}</span></label>`).join('');
+
     root.innerHTML = `
       <div class="practice-setup">
         <fieldset class="segmented">
           <legend>Subject</legend>
-          ${SUBJECTS.map((s) => `<label><input type="radio" name="practice-subject" value="${s}"${s === state.subject ? ' checked' : ''}><span>${s}</span></label>`).join('')}
+          ${radios('practice-subject', SUBJECTS.map((s) => [s, s]), state.subject)}
         </fieldset>
         <fieldset class="segmented">
           <legend>Size</legend>
-          ${Object.keys(DRILLS).map((d) => `<label><input type="radio" name="practice-drill" value="${d}"${d === state.drill ? ' checked' : ''}><span>${DRILLS[d].label}<small>${sizeLabel(state.subject, d)}</small></span></label>`).join('')}
+          ${radios('practice-drill', Object.keys(DRILLS).map((d) => [d, DRILLS[d].label, sizeLabel(state.subject, d)]), state.drill)}
         </fieldset>
-        <p class="practice-info">Board pace for ${state.subject}: ${(secondsPerItem(state.subject) / 60).toFixed(1)} min per item, so this set allows <strong>${duration(n * secondsPerItem(state.subject))}</strong>. Each answer is checked as you go.</p>
+        <fieldset class="segmented">
+          <legend>Mode</legend>
+          ${radios('practice-mode', Object.keys(MODES).map((m) => [m, MODES[m].label, MODES[m].hint]), state.mode)}
+        </fieldset>
+        <p class="practice-info">Board pace for ${state.subject}: ${(secondsPerItem(state.subject) / 60).toFixed(1)} min per item, so this set allows <strong>${duration(n * secondsPerItem(state.subject))}</strong>. ${isExam()
+          ? 'You can move between items and change answers; the key and solutions appear after you submit.'
+          : 'Each answer is checked as you go.'}</p>
         ${pool.length < DRILLS[state.drill].units[state.subject] ? `<p class="practice-info">The ${state.subject} bank has ${pool.length} problem type${pool.length === 1 ? '' : 's'} so far, so this set repeats ${pool.length === 1 ? 'it' : 'them'} with new values.</p>` : ''}
         <div class="live-actions practice-start">
-          <button type="button" class="btn btn-primary" data-role="start"${pool.length ? '' : ' disabled'}>Start practice</button>
+          <button type="button" class="btn btn-primary" data-role="start"${pool.length ? '' : ' disabled'}>Start ${MODES[state.mode].label.toLowerCase()}</button>
           ${history.length ? `<span class="practice-history">${history.length} set${history.length === 1 ? '' : 's'} done on this device. Last: ${last.subject} ${last.correct}/${last.total}.</span>` : ''}
         </div>
       </div>`;
+    const fields = { 'practice-subject': 'subject', 'practice-drill': 'drill', 'practice-mode': 'mode' };
     for (const input of root.querySelectorAll('input[type="radio"]')) {
       input.addEventListener('change', () => {
-        if (input.name === 'practice-subject') state.subject = input.value; else state.drill = input.value;
+        state[fields[input.name]] = input.value;
         renderSetup();
         root.querySelector(`input[name="${input.name}"]:checked`).focus();
       });
     }
-    root.querySelector('[data-role="start"]').addEventListener('click', start);
+    on('start', start);
   }
 
   // ---------- Running a set ----------
@@ -63,12 +88,13 @@ export function mountPractice(root, { templates, store, win }) {
     set = assembleSet({ subject: state.subject, drill: state.drill, seed: randomSeed(), templates });
     answers = set.questions.map(() => null);
     checked = set.questions.map(() => false);
-    q = 0; selected = null; paused = false; confirmingEnd = false; timeUp = false;
+    q = 0; selected = null; paused = false; confirming = false; timeUp = false;
     timer = createTimer({ limitSec: set.timeLimitSec, now: () => win.Date.now() });
     timer.start();
     tick = win.setInterval(onTick, 250);
     state.view = 'question';
     renderQuestion();
+    focusChoice(); // the Start button is gone; put keyboard focus on the first choice
   }
 
   function onTick() {
@@ -88,16 +114,26 @@ export function mountPractice(root, { templates, store, win }) {
     if (note) note.textContent = share <= 0.02 ? 'Time almost up' : share <= 0.1 ? 'Under 10% of the time left' : '';
   }
 
+  function goTo(index) {
+    q = index;
+    selected = null;
+    confirming = false;
+    renderQuestion();
+    focusChoice();
+  }
+
   function renderQuestion() {
+    const exam = isExam();
     const { unit, item } = set.questions[q];
     const u = set.units[unit];
     const it = u.instance.items[item];
     const template = templateById(u.templateId);
     const isSituation = u.instance.items.length > 1;
-    const isChecked = checked[q];
-    const chosen = isChecked ? answers[q] : selected;
+    const isChecked = checked[q]; // always false in Exam mode until submitted
+    const chosen = exam || isChecked ? answers[q] : selected;
     const unitDone = set.questions.every((x, i) => x.unit !== unit || checked[i]);
     const last = q === set.questions.length - 1;
+    const unanswered = answers.filter((a) => a === null).length;
 
     const choices = it.choices.map((c, j) => {
       const cls = ['choice'];
@@ -117,9 +153,24 @@ export function mountPractice(root, { templates, store, win }) {
       feedback = answers[q] === it.answerIndex ? 'Correct.' : `Not quite. The answer is ${key}.`;
     }
 
+    const navigator = exam ? `
+        <nav class="item-nav" aria-label="Items">
+          ${set.questions.map((_, i) => `<button type="button" class="item-nav-btn${i === q ? ' is-current' : ''}${answers[i] !== null ? ' is-answered' : ''}" data-goto="${i}" aria-label="Item ${i + 1}, ${answers[i] !== null ? 'answered' : 'not answered'}"${i === q ? ' aria-current="true"' : ''}>${i + 1}</button>`).join('')}
+        </nav>` : '';
+
+    const endWord = exam ? 'Submit' : 'End set';
+    const actions = exam ? `
+            <button type="button" class="btn" data-role="prev"${q === 0 ? ' disabled' : ''}>Previous</button>
+            <button type="button" class="btn${last ? '' : ' btn-primary'}" data-role="next"${last ? ' disabled' : ''}>Next</button>
+            <button type="button" class="btn${last ? ' btn-primary' : ''} btn-end" data-role="end">Submit exam</button>` : `
+            ${isChecked
+              ? `<button type="button" class="btn btn-primary" data-role="next">${last ? 'See results' : 'Next item'}</button>`
+              : `<button type="button" class="btn btn-primary" data-role="check"${selected === null ? ' disabled' : ''}>Check answer</button>`}
+            <button type="button" class="btn btn-quiet" data-role="end">End set</button>`;
+
     root.innerHTML = `
       <div class="practice-bar">
-        <span class="practice-progress">${set.subject} · Item ${q + 1} of ${set.questions.length}</span>
+        <span class="practice-progress">${set.subject} ${MODES[state.mode].label.toLowerCase()} · Item ${q + 1} of ${set.questions.length}</span>
         <span class="practice-clock"><span class="visually-hidden">Time left </span><span data-role="clock"></span></span>
         <button type="button" class="btn btn-small" data-role="pause">${paused ? 'Resume' : 'Pause'}</button>
       </div>
@@ -129,6 +180,7 @@ export function mountPractice(root, { templates, store, win }) {
           <p>Paused. The timer has stopped and the problem is hidden.</p>
           <div class="live-actions"><button type="button" class="btn btn-primary" data-role="pause">Resume</button></div>
         </div>` : `
+        ${navigator}
         ${isSituation ? `<p class="practice-unit">Situation ${unit + 1} · item ${item + 1} of ${u.instance.items.length}</p>` : ''}
         <p class="stem">${u.instance.stem}</p>
         ${template.figure ? `<div class="sample-figure paper">${template.figure(u.instance.vars)}</div>` : ''}
@@ -136,50 +188,58 @@ export function mountPractice(root, { templates, store, win }) {
           <legend class="item-ask">${q + 1}. ${it.ask}</legend>
           <div class="choices">${choices}</div>
         </fieldset>
-        <p class="practice-feedback${isChecked ? (answers[q] === it.answerIndex ? ' is-correct' : ' is-wrong') : ''}" role="status">${feedback}</p>
+        ${exam ? '' : `<p class="practice-feedback${isChecked ? (answers[q] === it.answerIndex ? ' is-correct' : ' is-wrong') : ''}" role="status">${feedback}</p>`}
         ${isChecked && unitDone ? `<div class="solution"><h3>Solution</h3><ol>${u.instance.solution.map((s) => `<li>${s}</li>`).join('')}</ol></div>` : ''}
         ${isChecked && !unitDone ? '<p class="practice-info practice-later">The full solution appears after the last item of this situation.</p>' : ''}
-        ${confirmingEnd ? `
-          <div class="practice-confirm" role="alertdialog" aria-label="End this set?">
-            <p>End this set now? Unanswered items count as wrong.</p>
+        ${confirming ? `
+          <div class="practice-confirm" role="alertdialog" aria-label="${endWord}?">
+            <p>${exam
+              ? (unanswered ? `Submit now? ${unanswered} item${unanswered === 1 ? ' is' : 's are'} not answered and will count as wrong.` : 'Submit now? All items are answered.')
+              : 'End this set now? Unanswered items count as wrong.'}</p>
             <div class="live-actions">
-              <button type="button" class="btn btn-danger" data-role="end-yes">End set</button>
+              <button type="button" class="btn btn-danger" data-role="end-yes">${endWord}</button>
               <button type="button" class="btn" data-role="end-no">Keep going</button>
+              <button type="button" class="btn btn-quiet" data-role="discard">Discard without saving</button>
             </div>
-          </div>` : `
-          <div class="live-actions">
-            ${isChecked
-              ? `<button type="button" class="btn btn-primary" data-role="next">${last ? 'See results' : 'Next item'}</button>`
-              : `<button type="button" class="btn btn-primary" data-role="check"${selected === null ? ' disabled' : ''}>Check answer</button>`}
-            <button type="button" class="btn btn-quiet" data-role="end">End set</button>
-          </div>`}
+          </div>` : `<div class="live-actions">${actions}</div>`}
       `}`;
 
     paintClock(root.querySelector('[data-role="clock"]'));
-    const on = (role, fn) => { for (const el of root.querySelectorAll(`[data-role="${role}"]`)) el.addEventListener('click', fn); };
     on('pause', () => { paused = !paused; if (paused) timer.pause(); else timer.start(); renderQuestion(); focusRole('pause'); });
     on('check', () => { answers[q] = selected; checked[q] = true; renderQuestion(); focusRole('next'); });
-    on('next', () => { if (last) finish(); else { q++; selected = null; renderQuestion(); focusFirstChoice(); } });
-    on('end', () => { confirmingEnd = true; renderQuestion(); focusRole('end-no'); });
-    on('end-no', () => { confirmingEnd = false; renderQuestion(); focusRole('end'); });
+    on('next', () => { if (last) finish(); else goTo(q + 1); });
+    on('prev', () => goTo(q - 1));
+    on('end', () => { confirming = true; renderQuestion(); focusRole('end-no'); });
+    on('end-no', () => { confirming = false; renderQuestion(); focusRole('end'); });
     on('end-yes', finish);
+    on('discard', discard);
+    for (const btn of root.querySelectorAll('[data-goto]')) btn.addEventListener('click', () => goTo(Number(btn.dataset.goto)));
     for (const input of root.querySelectorAll('input[name="practice-choice"]')) {
-      input.addEventListener('change', () => { selected = Number(input.value); renderQuestion(); root.querySelector('input[name="practice-choice"]:checked').focus(); });
+      input.addEventListener('change', () => {
+        if (exam) answers[q] = Number(input.value); else selected = Number(input.value);
+        renderQuestion();
+        focusChoice();
+      });
     }
   }
 
-  const focusRole = (role) => { const el = root.querySelector(`[data-role="${role}"]`); if (el) el.focus(); };
-  const focusFirstChoice = () => { const el = root.querySelector('input[name="practice-choice"]'); if (el) el.focus(); };
+  function discard() {
+    win.clearInterval(tick);
+    state.view = 'setup';
+    renderSetup();
+    focusRole('start');
+  }
 
   // ---------- Results ----------
   function finish() {
     win.clearInterval(tick);
     timer.pause();
-    // Only checked answers count: a choice selected but never checked was not submitted.
-    const result = gradeSet(set, answers.map((a, i) => (checked[i] ? a : null)));
+    // Practice: only checked answers were submitted. Exam: every selection counts.
+    const submitted = isExam() ? answers : answers.map((a, i) => (checked[i] ? a : null));
+    const result = gradeSet(set, submitted);
     const seconds = Math.round(timer.elapsedSec());
     const saved = store.saveResult(
-      { at: win.Date.now(), subject: set.subject, drill: set.drill, correct: result.correct, total: result.total, seconds },
+      { at: win.Date.now(), subject: set.subject, drill: set.drill, mode: state.mode, correct: result.correct, total: result.total, seconds },
       result.perItem.filter((p) => !p.isCorrect).map((p) => ({ templateId: p.templateId, seed: p.seed, item: p.item })),
     );
     state.view = 'results';
@@ -195,9 +255,23 @@ export function mountPractice(root, { templates, store, win }) {
         </li>`;
     }).join('');
 
+    let first = 1;
+    const solutions = set.units.map((u, k) => {
+      const count = u.instance.items.length;
+      const range = count > 1 ? `Situation ${k + 1} (items ${first}–${first + count - 1})` : `Item ${first}`;
+      first += count;
+      const template = templateById(u.templateId);
+      return `<details class="solution-fold">
+          <summary>${range}: problem and solution</summary>
+          <p class="stem">${u.instance.stem}</p>
+          ${template.figure ? `<div class="sample-figure paper">${template.figure(u.instance.vars)}</div>` : ''}
+          <div class="solution"><ol>${u.instance.solution.map((s) => `<li>${s}</li>`).join('')}</ol></div>
+        </details>`;
+    }).join('');
+
     root.innerHTML = `
       <div class="practice-results">
-        <p class="practice-unit">${set.subject} · ${DRILLS[set.drill].label}${timeUp ? ' · time ran out' : ''}</p>
+        <p class="practice-unit">${set.subject} · ${DRILLS[set.drill].label} · ${MODES[state.mode].label}${timeUp ? ' · time ran out' : ''}</p>
         <dl class="stat-row stat-row-3">
           <div class="stat"><dt>Score</dt><dd>${result.correct} / ${result.total}</dd></div>
           <div class="stat"><dt>Percent</dt><dd>${pct}%</dd></div>
@@ -209,12 +283,13 @@ export function mountPractice(root, { templates, store, win }) {
           <tbody>${Object.entries(result.byTopic).map(([topic, t]) => `<tr><th scope="row">${topic}</th><td>${t.correct} / ${t.total}</td></tr>`).join('')}</tbody>
         </table>
         <ol class="review">${review}</ol>
-        ${saved ? '' : '<p class="practice-info">This browser is not allowing the app to save, so this result will be gone when you close the page.</p>'}
+        <div class="solution-folds">${solutions}</div>
+        ${saved ? '' : '<p class="practice-info practice-later">This browser is not allowing the app to save, so this result will be gone when you close the page.</p>'}
         <div class="live-actions">
           <button type="button" class="btn btn-primary" data-role="again">New set</button>
         </div>
       </div>`;
-    root.querySelector('[data-role="again"]').addEventListener('click', () => { state.view = 'setup'; renderSetup(); focusRole('start'); });
+    on('again', () => { state.view = 'setup'; renderSetup(); focusRole('start'); });
     focusRole('again');
   }
 
