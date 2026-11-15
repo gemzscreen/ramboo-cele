@@ -7,7 +7,12 @@
 // Taxonomy (content/taxonomy.json): structure, unique ids that follow the
 // subject.topic.subtopic pattern, weights summing to 100.
 //
-// Templates (content/templates/**/*.js): schema check (including topic_id and
+// Frequency table (content/frequency.json): counts only, every taxonomy topic
+// listed once per subject, totals and per-sitting numbers add up, ranks follow
+// the ordering, and no text fields (the file is public; see ROADMAP §3).
+//
+// Templates (content/templates/**/*.js): schema check (including board_frequency
+// equal to the topic's count in the frequency table, topic_id and
 // subtopic_id that exist in the taxonomy, under the template's own subject, and
 // a `topic` label equal to the taxonomy's topic name), then RUNS random
 // value sets (every allowed combination when the grid is small, else RUNS random) -> variables in range and on step, constraints respected, model
@@ -115,7 +120,91 @@ function loadTaxonomy(root) {
       }
     }
   }
-  return { topics, subtopics, problems };
+  return { topics, subtopics, problems, revision: doc.taxonomy_revision };
+}
+
+// Reads content/frequency.json (D4) and checks it against the taxonomy.
+// Returns { problems, notes }. The file is optional until D4 closes, but if
+// present it must be consistent.
+function frequencyCheck(root, tax) {
+  const problems = [];
+  const notes = [];
+  const file = path.join(root, 'content/frequency.json');
+  if (!fs.existsSync(file)) return { problems, notes: ['content/frequency.json not present yet'] };
+  const bad = (msg) => problems.push(`content/frequency.json: ${msg}`);
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (err) { bad(err.message); return { problems, notes }; }
+  const SITTING = /^\d{4}-(0[1-9]|1[0-2])$/;
+  const TOPIC_KEYS = ['id', 'rank', 'items', 'sets', 'definition_items', 'sittings_seen', 'board_frequency', 'mean_share_percent', 'by_sitting'];
+  const UNMAPPED_KEYS = ['label', 'items', 'sets', 'by_sitting'];
+  const sameKeys = (o, keys, where) => {
+    const extra = Object.keys(o).filter((k) => !keys.includes(k));
+    const missing = keys.filter((k) => !(k in o));
+    if (extra.length || missing.length) bad(`${where}: keys must be exactly ${keys.join(', ')} (extra: ${extra.join(', ') || 'none'}; missing: ${missing.join(', ') || 'none'})`);
+    return !extra.length && !missing.length;
+  };
+  const isCount = (n) => Number.isInteger(n) && n >= 0;
+  if (!isCount(doc.frequency_revision)) bad('frequency_revision must be a whole number');
+  if (!Array.isArray(doc.sittings) || doc.sittings.length === 0) { bad('sittings must be a non-empty array'); return { problems, notes }; }
+  const sittingIds = doc.sittings.map((s) => s.id);
+  if (sittingIds.some((id) => !SITTING.test(id)) || new Set(sittingIds).size !== sittingIds.length) bad('sittings: ids must be unique YYYY-MM');
+  if (JSON.stringify([...sittingIds].sort()) !== JSON.stringify(sittingIds)) bad('sittings must be in date order');
+  const sumBy = (by) => Object.values(by).reduce((a, b) => a + b, 0);
+  const byOk = (by, where) => {
+    if (!by || JSON.stringify(Object.keys(by)) !== JSON.stringify(sittingIds) || !Object.values(by).every(isCount)) { bad(`${where}: by_sitting must hold a count for every sitting, in order`); return false; }
+    return true;
+  };
+  if (!doc.subjects || JSON.stringify(Object.keys(doc.subjects)) !== JSON.stringify(SUBJECTS)) { bad(`subjects must be ${SUBJECTS.join(', ')} in that order`); return { problems, notes }; }
+  if (!doc.board_items_per_sitting || !SUBJECTS.every((s) => isCount(doc.board_items_per_sitting[s]))) bad('board_items_per_sitting needs a count for each subject');
+  if (doc.taxonomy_revision !== tax.revision) notes.push(`frequency.json was counted against taxonomy revision ${doc.taxonomy_revision}; taxonomy is now ${tax.revision}`);
+  for (const subj of SUBJECTS) {
+    const s = doc.subjects[subj];
+    const where = `subject ${subj}`;
+    const wanted = [...tax.topics].filter(([, t]) => t.subject === subj).map(([id]) => id);
+    if (!Array.isArray(s.topics)) { bad(`${where}: topics must be an array`); continue; }
+    const listed = s.topics.map((t) => t.id);
+    for (const id of wanted) if (listed.filter((x) => x === id).length !== 1) bad(`${where}: topic ${id} must appear exactly once`);
+    for (const id of listed) if (!wanted.includes(id)) bad(`${where}: topic ${id} is not a ${subj} topic in the taxonomy`);
+    let topicItems = 0;
+    let prev = null;
+    const perSittingFromTopics = Object.fromEntries(sittingIds.map((id) => [id, 0]));
+    for (const t of s.topics) {
+      const tw = `${where}, ${t.id}`;
+      if (!sameKeys(t, TOPIC_KEYS, tw)) continue;
+      if (![t.rank, t.items, t.sets, t.definition_items, t.sittings_seen].every(isCount) || t.rank < 1) bad(`${tw}: rank, items, sets, definition_items and sittings_seen must be whole numbers (rank from 1)`);
+      if (typeof t.mean_share_percent !== 'number' || t.mean_share_percent < 0 || t.mean_share_percent > 100) bad(`${tw}: mean_share_percent must be 0 to 100`);
+      if (!byOk(t.by_sitting, tw)) continue;
+      if (sumBy(t.by_sitting) !== t.items) bad(`${tw}: by_sitting adds up to ${sumBy(t.by_sitting)}, items says ${t.items}`);
+      if (Object.values(t.by_sitting).filter((n) => n > 0).length !== t.sittings_seen) bad(`${tw}: sittings_seen does not match by_sitting`);
+      if (t.board_frequency !== `${t.sittings_seen}/${sittingIds.length} sittings`) bad(`${tw}: board_frequency must read "${t.sittings_seen}/${sittingIds.length} sittings"`);
+      if (t.sets > t.items || (t.items > 0 && t.sets === 0) || t.definition_items > t.items) bad(`${tw}: sets, items and definition_items disagree`);
+      if (prev && (t.mean_share_percent > prev.mean_share_percent)) bad(`${tw}: topics must be listed from most to least frequent`);
+      if (prev && t.rank < prev.rank) bad(`${tw}: rank goes backwards`);
+      if (t.items === 0 && t.rank !== s.topics.filter((x) => x.items > 0).length + 1) bad(`${tw}: topics with no items share the last rank`);
+      prev = t;
+      topicItems += t.items;
+      for (const id of sittingIds) perSittingFromTopics[id] += t.by_sitting[id];
+    }
+    let unmappedItems = 0;
+    for (const u of s.unmapped || []) {
+      if (!sameKeys(u, UNMAPPED_KEYS, `${where}, unmapped`)) continue;
+      if (typeof u.label !== 'string' || u.label.length > 200) bad(`${where}, unmapped: label must be a short string`);
+      if (!byOk(u.by_sitting, `${where}, unmapped`)) continue;
+      if (sumBy(u.by_sitting) !== u.items) bad(`${where}, unmapped "${u.label}": by_sitting does not add up to items`);
+      unmappedItems += u.items;
+      for (const id of sittingIds) perSittingFromTopics[id] += u.by_sitting[id];
+    }
+    const tr = s.transcribed || {};
+    if (tr.items !== topicItems + unmappedItems) bad(`${where}: transcribed.items is ${tr.items} but topics (${topicItems}) plus unmapped (${unmappedItems}) add up differently`);
+    if (tr.mapped_items !== topicItems || tr.unmapped_items !== unmappedItems) bad(`${where}: mapped_items and unmapped_items do not match the lists`);
+    for (const id of sittingIds) {
+      const p = (s.per_sitting || {})[id];
+      if (!p || p.items !== perSittingFromTopics[id]) bad(`${where}: per_sitting ${id} items do not match the topic counts`);
+      else if (p.items > doc.board_items_per_sitting[subj]) bad(`${where}: per_sitting ${id} has more items than a board sitting`);
+    }
+    notes.push(`frequency ${subj}: ${tr.items} items in ${sittingIds.length} sittings, ${s.topics.filter((t) => t.items > 0).length}/${wanted.length} topics seen, ${unmappedItems} unmapped`);
+  }
+  return { problems, notes, byTopic: Object.fromEntries(SUBJECTS.flatMap((subj) => doc.subjects[subj].topics.map((t) => [t.id, t.board_frequency]))) };
 }
 
 export async function run(root) {
@@ -159,6 +248,10 @@ export async function run(root) {
   checked++;
   const tax = loadTaxonomy(root);
   failures.push(...tax.problems);
+  const freq = frequencyCheck(root, tax);
+  failures.push(...freq.problems);
+  notes.push(...freq.notes);
+  checked++;
 
   // ---- Templates ----
   const ids = new Set();
@@ -170,6 +263,8 @@ export async function run(root) {
     const problems = schemaProblems(t, file, tax);
     if (problems.length) { problems.forEach(fail); continue; }
     if (ids.has(t.id)) fail(`duplicate template id ${t.id}`);
+    // board_frequency is the topic's sittings count from the frequency table (or null before the table exists).
+    if (freq.byTopic && t.board_frequency !== freq.byTopic[t.topic_id]) fail(`board_frequency "${t.board_frequency}" must equal the frequency table's "${freq.byTopic[t.topic_id]}" for ${t.topic_id}`);
     ids.add(t.id);
 
     const rng = createRng(SEED);

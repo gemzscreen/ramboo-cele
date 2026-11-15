@@ -17,7 +17,7 @@ export default {
   subtopic_id: 'hge.hydrostatics.plane-surface-forces',
   archetype: 'Hydrostatic force on a submerged vertical rectangular gate',
   format: 'situation',
-  board_frequency: null, // filled from the taxonomy (D4)
+  board_frequency: '7/7 sittings', // the topic's count in content/frequency.json
   difficulty: 2,
 
   vars: {

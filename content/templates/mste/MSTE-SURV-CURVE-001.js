@@ -14,7 +14,7 @@ export default {
   subtopic_id: 'mste.construction-surveying-and-layout.horizontal-curves',
   archetype: 'Simple curve: an element from radius and intersection angle',
   format: 'single',
-  board_frequency: null, // filled from the taxonomy (D4)
+  board_frequency: '6/7 sittings', // the topic's count in content/frequency.json
   difficulty: 1,
 
   vars: {
