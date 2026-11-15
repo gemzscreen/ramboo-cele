@@ -1,9 +1,9 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.12 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.13 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
 **Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
-**App version:** v0.0.8 (four draft templates; Practice and Exam modes; mistake bank; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
+**App version:** v0.0.8 (four draft templates; Practice and Exam modes; mistake bank; tags pending — see §9; release map in §2) · legacy personal build = `legacy-4.9.1` (frozen, private)
 **Current phase:** PHASE 0 — Foundation & Decisions (in progress)
 **Workflow:** GitHub repo + Claude Code (from Phase 0 onward)
 **Source of truth:** `ROADMAP.md` in the repo. The claude.ai Project copy (`claude/CELE_REVAMP_ROADMAP.md`) is a mirror, refreshed only when Gemz works in claude.ai again.
@@ -56,11 +56,38 @@ Git tags match app versions (`v0.1.0`), and every release has a `CHANGELOG.md` e
 | Phase | App versions | Theme |
 |---|---|---|
 | 0 | v0.0.x | Foundation: decisions, repo scaffold, taxonomy, design system, template engine skeleton |
-| 1 | v0.1.0 → **v1.0.0** | Free core. v1.0.0 = first public launch |
-| 2 | v1.1 – v1.x | Study hub, Live Figures, calculators, content scale-up |
+| 1 | v0.1.0 → **v1.0.0** | Free core. v1.0.0 = first public launch, with the beam Live Figure as the launch showcase |
+| 2 | v1.1 – v1.x | Study hub, the rest of the Live Figures catalog (§4A), calculators, content scale-up |
 | 3 | v2.0 – v2.x | Accounts, cloud sync, leaderboards (Supabase) |
 | 4 | v3.0 – v3.x | Monetization (tiers, payments) |
 | 5 | v4.0+ | Growth (community bank, faculty mode, Android) |
+
+**Release map, v0.0.1 → v1.4+** (drafted 2026-11-15 by Claude Code from the phase plan and the work shipped so far; Gemz to confirm or reorder. Planned rows are targets, not commitments.)
+
+| Version | Status | What it is |
+|---|---|---|
+| v0.0.1 | shipped (`4a00702`) | Repo scaffold, placeholder shell, harness stages 1–3, CI, GitHub Pages |
+| v0.0.2 | shipped inside v0.0.3 | Design system draft (`docs/design-system.md`), design tokens, Day/Night |
+| v0.0.3 | shipped (`f497357`) | First solver and template, template engine, **beam Live Figure** (proof of concept), real Stage 3; analytics/privacy drafts |
+| v0.0.4 | shipped inside v0.0.5 | Second PSAD template, first MSTE item, bank registry, exact rounding, Stage 3 over every value combination |
+| v0.0.5 | shipped (`6f7e0d2`) | First HGE template — every subject has one |
+| v0.0.6 | shipped (`b6c4ff5`) | Exam engine (set assembly, board-pace timer, grading, local storage) and Practice mode |
+| v0.0.7 | shipped (`79b5486`) | Exam mode, discard without saving, solutions in the results |
+| v0.0.8 | shipped (`d0c0ad0`) | Practice my mistakes, avoid-repeat |
+| v0.0.9 | **next** | **D4 taxonomy** — `content/taxonomy.json` from the 2026 coverage outline and past-board frequency; templates tagged with `board_frequency` |
+| v0.0.10 | planned | KPI dashboard from stored history (score, time, per-topic breakdown, study recommendations), Reset, export/import backup |
+| v0.0.x | planned | Phase 0 close-out: D5 schema approved, D6 fonts self-hosted and Night finalized, D9 approved → Phase 0 exit |
+| v0.1.0 | planned | Phase 1 opens: app shell — subject tabs, Auto/Day/Night switch, About and disclaimer pages, PWA install |
+| v0.2.0 | planned | Exam Generator: topic filter driven by the taxonomy; first bank growth batch, chosen by board frequency |
+| v0.3.0 | planned | Bank large enough that quick drills and full sets never repeat a problem type |
+| v0.4.0 | planned | TERMS bank (original) and the self-study lectures stub |
+| v0.5.0 | planned | Bank at mock length (PSAD 25 situations, MSTE 75 items, HGE 17 situations) → Random Mock Set and Board-Trend Sets |
+| v0.9.0 | planned | Release candidate: templates promoted `draft` → `verified` → `live`, privacy notice published, donations, accessibility and phone-layout pass |
+| **v1.0.0** | planned | **Public launch.** Free core complete. **Beam Live Figure (LF-PSAD-01) is the launch showcase**: on the home screen and as the "Explore" panel in the solutions of the beam templates |
+| v1.1 | planned | Study hub opens (concept pages, formula sheets) · Live Figures: PSAD batch (§4A) |
+| v1.2 | planned | Live Figures: HGE batch · calculators on the same solvers (hydrostatics, soil phase relations) |
+| v1.3 | planned | Live Figures: MSTE batch · curve and surveying tools |
+| v1.4+ | planned | Rest of the Live Figures catalog, remaining calculators, content scale-up toward full taxonomy coverage; then v2.0 (accounts) |
 
 `legacy-4.9.1` (the old single-file CELE Training App) is **frozen as a private archive** and is never deployed publicly.
 
@@ -127,15 +154,16 @@ Mirrors the legacy CELE Training App structure, rebuilt clean:
 - Local progress (localStorage/IndexedDB), export/import backup JSON
 - Disclaimer, About, donation buttons (GCash/Maya QR, Ko-fi)
 - Past Boards tab (verbatim transcriptions) is **dropped** from the public app
+- **Launch showcase (v1.0.0):** the beam Live Figure (LF-PSAD-01, §4A) on the home screen and as the "Explore" panel in the beam templates' solutions — the one Live Figure that ships in Phase 1
 
 ### PHASE 2 — Study Hub, Live Figures & Scale-up (v1.1+)
 - Concept pages per topic: theory, formulas, NSCP 2015 references, 1–2 worked examples (original)
-- **Live Figures** in solutions and study pages (§4A)
+- **Live Figures** in solutions and study pages: the rest of the catalog in §4A, in subject batches (PSAD v1.1, HGE v1.2, MSTE v1.3, remainder v1.4+). The beam figure already ships in v1.0.0
 - Formula sheets per subject (printable)
 - Calculators built on the same engine: beam (V/M), truss, column/footing checks, soil phase relations, hydrostatics, curve/surveying tools
 - Content scale-up toward full taxonomy coverage; TERMS bank rewritten originally
 
-### 4A. Live Figures — interactive training and solutions (build in Phase 2, design for it in Phase 0)
+### 4A. Live Figures — interactive training and solutions (beam showcase in v1.0.0; the rest of the catalog in Phase 2)
 Reference: Darkwiz Lab site hero (screenshot received 2026-11-14 → commit as `docs/reference/live-figure-hero.png`). A working simply supported beam: the user moves the point load or changes P, and the reactions, shear diagram and moment diagram redraw, checked against hand formulas (R_A = Pb/L, R_B = Pa/L, M_max = Pab/L).
 
 **Reference values (use as the first Stage-3 test case):** L = 6.00 m, P = 40 kN, a = 2.00 m, b = 4.00 m → R_A = 26.7 kN, R_B = 13.3 kN, V_max = 26.7 kN, M_max = 53.3 kN·m. (Checked: 40·4/6 = 26.67; 40·2/6 = 13.33; 40·2·4/6 = 53.33.)
@@ -158,7 +186,56 @@ Reference: Darkwiz Lab site hero (screenshot received 2026-11-14 → commit as `
 - **Phase 0 requirement (D5):** solvers must be pure functions of the template variables and return intermediate values (reactions, V(x), M(x), etc.), not only final answers; figure generators take the same variables.
 - **Interactions:** drag loads/supports along the member, sliders for P, w, L, a; live diagrams with max values labelled; "reset to problem values" button.
 - **Verification:** each Live Figure gets Stage-3 harness tests comparing its outputs against closed-form hand formulas over random inputs.
-- Candidate first set: simply supported beam (point load, UDL), overhang beam, cantilever, truss joint forces, Mohr's circle, hydrostatic force on a gate, soil phase diagram, horizontal curve.
+- Candidate first set: simply supported beam (point load, UDL), overhang beam, cantilever, truss joint forces, Mohr's circle, hydrostatic force on a gate, soil phase diagram, horizontal curve. (Expanded into the catalog below.)
+
+**Live Figures catalog** (drafted 2026-11-15 by Claude Code from the candidate set above and the syllabus in general terms. It is **not** yet ranked by board frequency — reorder each list once the D4 taxonomy exists. Gemz to confirm, add or strike entries.)
+
+Every entry follows the engine rules above: it reuses a pure solver in `js/models/`, has Stage 3 closed-form checks, and shows only original drawings. "Solver built" means the verified solver already exists and only the interactive layer is missing.
+
+*PSAD — target v1.1, except LF-PSAD-01*
+
+| ID | Live Figure | You change | It redraws | Target | Status |
+|---|---|---|---|---|---|
+| LF-PSAD-01 | Simply supported beam, point load | Load position (drag), P | Reactions, V and M diagrams, maxima | **v1.0.0 — launch showcase** | **Built** (v0.0.3), on the page as a preview |
+| LF-PSAD-02 | Simply supported beam, uniform + point load | Load position, P, w | Reactions, V and M diagrams, zero-shear point | v1.1 | Solver built (v0.0.4) |
+| LF-PSAD-03 | Overhanging beam | Overhang length, loads | Reactions, V and M with sign change, points of inflection | v1.1 | Planned |
+| LF-PSAD-04 | Cantilever beam | Point load position, w | Fixed-end reactions, V and M diagrams | v1.1 | Planned |
+| LF-PSAD-05 | Truss, method of joints | Load size and joint | Member forces, tension or compression coloured | v1.1 | Planned |
+| LF-PSAD-06 | Mohr's circle | σx, σy, τxy, element angle | Circle, principal stresses, maximum shear, rotated element | v1.1 | Planned |
+| LF-PSAD-07 | Bending stress in a section | Section dimensions, moment | Neutral axis, stress distribution, extreme-fibre stress | v1.4+ | Planned |
+| LF-PSAD-08 | Reinforced concrete beam, singly reinforced (NSCP 2015) | b, d, As, f′c, fy | Strain diagram, stress block, c and a, φMn | v1.4+ | Planned |
+| LF-PSAD-09 | Column buckling | Length, end conditions, section | Effective length, buckled shape, critical load | v1.4+ | Planned |
+| LF-PSAD-10 | Moving load on a simple beam | Load position along the span | Influence lines for reaction, shear and moment | v1.4+ | Planned |
+
+*HGE — target v1.2*
+
+| ID | Live Figure | You change | It redraws | Target | Status |
+|---|---|---|---|---|---|
+| LF-HGE-01 | Hydrostatic force on a vertical gate | Water depth, gate height and width | Pressure prism, resultant, centre of pressure, hinge and stop forces | v1.2 | Solver built (v0.0.5) |
+| LF-HGE-02 | Inclined submerged plane | Angle, depth, plate size | Pressure diagram, resultant, centre of pressure | v1.2 | Planned |
+| LF-HGE-03 | Soil phase diagram | e, w, Gs, S | Phase volumes and weights, unit weights | v1.2 | Planned |
+| LF-HGE-04 | Effective stress profile | Layer thicknesses, unit weights, water table | Total stress, pore pressure, effective stress with depth | v1.2 | Planned |
+| LF-HGE-05 | Rankine active pressure on a wall | Wall height, φ, γ, surcharge, water table | Pressure diagram, resultant and its line of action | v1.2 | Planned |
+| LF-HGE-06 | Floating body: buoyancy and stability | Body size, weight, centre of gravity | Draft, centre of buoyancy, metacentre, stable or not | v1.4+ | Planned |
+| LF-HGE-07 | Pipe flow energy lines | Diameters, discharge, head loss | Energy and hydraulic grade lines, velocity and pressure heads | v1.4+ | Planned |
+| LF-HGE-08 | Open channel section | Width, side slope, depth, slope, n | Area, wetted perimeter, Manning discharge, critical depth | v1.4+ | Planned |
+| LF-HGE-09 | Bearing capacity of a shallow footing | B, Df, c, φ, γ, water table | Bearing capacity terms and the failure-surface sketch | v1.4+ | Planned |
+
+*MSTE — target v1.3*
+
+| ID | Live Figure | You change | It redraws | Target | Status |
+|---|---|---|---|---|---|
+| LF-MSTE-01 | Simple horizontal curve | R, intersection angle | Curve with T, L, C, E and M labelled | v1.3 | Solver built (v0.0.4) |
+| LF-MSTE-02 | Vertical parabolic curve | Grades, curve length | Profile, high or low point, elevations along the curve | v1.3 | Planned |
+| LF-MSTE-03 | Closed traverse | Bearings and distances | Plot, latitudes and departures, error of closure, area | v1.3 | Planned |
+| LF-MSTE-04 | Triangle solver | Any three parts | Triangle to scale, remaining sides and angles, area | v1.3 | Planned |
+| LF-MSTE-05 | Conic sections | Equation coefficients | Curve, foci, directrix, eccentricity | v1.4+ | Planned |
+| LF-MSTE-06 | Tangent line and maxima-minima | Function parameter, point | Curve, tangent, slope, turning points | v1.4+ | Planned |
+| LF-MSTE-07 | Area by trapezoidal and Simpson's rules | Offsets and spacing | Strips, both area estimates | v1.4+ | Planned |
+| LF-MSTE-08 | Traffic stream: speed, density, flow | Free-flow speed, jam density | Greenshields curves, capacity point | v1.4+ | Planned |
+| LF-MSTE-09 | Cash-flow diagram | Payments, rate, periods | Timeline, present and future worth | v1.4+ | Planned |
+
+**Launch showcase (decided 2026-11-15):** LF-PSAD-01 moves out of Phase 2 and ships in **v1.0.0**. It is the only Live Figure in the Phase 1 scope; it is already built and verified, so what remains before launch is the phone layout (labels are small below 520 px), the "reset to problem values" link from a generated item, and placing it on the home screen.
 
 ### PHASE 3 — Accounts & Cloud (v2.0+)
 - Backend: Supabase (Postgres + Auth + Row Level Security + Edge Functions) on the dedicated Ramboo account
@@ -285,36 +362,41 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 | D8 | 2026-11-14 | Donations: GCash/Maya QR + Ko-fi | |
 | D10 | 2026-11-14 | ~1 month available in PH before Brunei | Phase 0 wk 1, Phase 1 wks 2–4 |
 | V | 2026-11-14 | Versioning restarts at **v0.0.0**; v1.0.0 = public launch | Replaces the v5.x plan in R1.0 |
-| LF | 2026-11-14 | Live Figures (interactive diagrams in training/solutions) adopted | Build Phase 2; schema ready in Phase 0 |
+| LF | 2026-11-14 | Live Figures (interactive diagrams in training/solutions) adopted | Build Phase 2; schema ready in Phase 0. Amended by LF-1 |
+| LF-1 | 2026-11-15 | Beam Live Figure (LF-PSAD-01) ships in **v1.0.0** as the launch showcase; rest of the catalog stays in Phase 2 | Catalog in §4A, release map in §2 |
+| NEXT | 2026-11-15 | D4 taxonomy is the next Status Board item, ahead of the KPI dashboard | Gemz |
 | SOT | 2026-11-14 | Repo `ROADMAP.md` is the source of truth; Project doc is a mirror | Claude Code can't read Project docs |
 
 ---
 
 ## 9. Status Board
-- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz); Phase 1 groundwork under way at Gemz's go-ahead · **App:** v0.0.8 on branch `claude/trusting-noether-l070u1` (not yet in a PR); `main` is at v0.0.7 (PR #5, merged 2026-11-15 as `79b5486`)
-- **Done:** roadmap R1.12; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine (set assembly, board-pace timer, grading, local storage) Practice and Exam modes, discard-without-saving, solutions in the results. On the branch (v0.0.8): practice-my-mistakes and avoid-repeat
-- **Phase 1 checklist (§4) so far:** Practice mode ✔ and Exam mode ✔ (quick drill and full set) · pause and cancel ✔ · board pacing ✔ · local progress ✔ · mistake bank with "practice my mistakes" ✔ · avoid-repeat ✔ · results with per-topic breakdown ✔. Not yet: Random Mock Set, KPI dashboard and study recommendations, Exam Generator topic filter, Board-Trend Sets, export/import backup, theme switch (Auto only so far), PWA, TERMS, lectures stub, About/donations
+- **Phase:** 0 — Foundation & Decisions (open decisions waiting on Gemz); Phase 1 groundwork done alongside at Gemz's go-ahead · **App:** v0.0.8 on `main` (PR #6, merged 2026-11-15 as `d0c0ad0`) · **Roadmap:** R1.13, committed on branch `claude/trusting-noether-l070u1` (roadmap-only change, not yet merged)
+- **Done:** D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, beam Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine; Practice and Exam modes; practice-my-mistakes; avoid-repeat. In R1.13: release map v0.0.1 → v1.4+ (§2), Live Figures catalog (§4A), beam Live Figure set as the v1.0.0 launch showcase
+- **Phase 1 checklist (§4) so far:** Practice mode ✔ and Exam mode ✔ (quick drill and full set) · pause and cancel ✔ · board pacing ✔ · local progress ✔ · mistake bank with "practice my mistakes" ✔ · avoid-repeat ✔ · results with per-topic breakdown ✔ · launch-showcase Live Figure built ✔ (placement and phone layout still to do). Not yet: Random Mock Set, KPI dashboard and study recommendations, Exam Generator topic filter, Board-Trend Sets, export/import backup, theme switch (Auto only so far), PWA, TERMS, lectures stub, About/donations
+- **Next (in order):**
+  1. **D4 taxonomy** (v0.0.9) — build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency (subject → topic → subtopic → archetype IDs), then tag the four templates with `board_frequency` and reorder the Live Figures catalog by frequency. **Needs the private sources first:** `../ramboo-private/` does not exist in cloud sessions. Either run this item in a local Claude Code session on Gemz's PC, or put the coverage PDF and the 12 sittings in one Google Drive folder and name it to Claude
+  2. KPI dashboard (v0.0.10) — from the stored history: score, time, per-topic breakdown, study recommendations; Reset; export/import backup
+  3. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
+  4. Phase 0 exit check — needs D4, D5, D6, D9 closed
+  5. App shell (v0.1.0) — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest; place the beam Live Figure on the home screen
 - **Waiting on Gemz:**
-  - Merge the v0.0.8 branch (ask Claude to open the PR)
+  - D4 sources (item 1 above) — this now gates the next step
+  - Confirm the two drafts added in R1.13: the release map (§2) and the Live Figures catalog (§4A). Both were drafted by Claude Code, not copied from a list of Gemz's; correct anything that differs from what was intended
+  - Merge the R1.13 roadmap commit (ask Claude to open the PR)
   - Solution timing in Practice mode: this roadmap says "solution after each answer"; for a situation the app holds the worked solution until its last item is checked, so it cannot give away the later items. Confirm or change
-  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on `79b5486`; **v0.0.8** on the next merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
+  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on `79b5486`; **v0.0.8** on `d0c0ad0` (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
   - D5: approve the schema as implemented (§5, four points), and review the four draft templates — wording, items, distractors — as the pattern for all later templates
   - D6: approve `docs/design-system.md`; give the Darkwiz Lab site URL so fonts and brand colours can be confirmed; review the drafted Night palette
   - D9: approve "no analytics until v1.0.0, then one cookieless counter"; pick the tool (suggested GoatCounter) or defer to launch week; give a public contact email for the notice; confirm the notice wording
-  - D4 sources: see item 1 below
-- **Next (in order):**
-  1. D4 — build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the coverage PDF and the 12 sittings in one Google Drive folder and name it to Claude
-  2. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
-  3. Phase 0 exit check — needs D4, D5, D6, D9 closed
-  4. Phase 1 groundwork that does not depend on the open decisions, in this order: (a) KPI dashboard from the stored history (score, time, per-topic breakdown, study recommendations), Reset, export/import backup; (b) app shell — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest. Mock sets and Board-Trend Sets need a far larger bank and the taxonomy, so they wait for D4
-- **Blockers:** D4 needs the private sources (above). The bank cannot grow sensibly without it: with 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
-- **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. All four templates are status `draft`. In a situation, the worked solution is held until its last item is checked, so it cannot give away the later items. A mistakes set repeats the whole situation a missed item belongs to, not the single item. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
+- **Blockers:** D4 needs the private sources. The bank cannot grow sensibly without it: with 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
+- **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px) — to fix before v1.0.0 now that the beam figure is the launch showcase. All four templates are status `draft`. In a situation, the worked solution is held until its last item is checked. A mistakes set repeats the whole situation a missed item belongs to, not the single item. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
 - **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
 - **Carry-over from legacy 4.9.1 (private archive, low priority):** PSAD Mar 2026 solutions PDF still pending; ~8 flagged items; 40 held-out MSTE items
 
 ---
 
 ## 10. Changelog
+- **R1.13 — 2026-11-15:** PR #6 merged (`d0c0ad0`, app v0.0.8 on `main`). Roadmap-only change: §2 gains the release map v0.0.1 → v1.4+; §4A gains the Live Figures catalog (PSAD 10, HGE 9, MSTE 9 entries) — both drafted by Claude Code for Gemz to confirm; the beam Live Figure (LF-PSAD-01) moves into v1.0.0 as the launch showcase (decision LF-1; §2 phase map, Phase 1 and Phase 2 lists, §4A heading updated). Status Board: D4 taxonomy is the next item, ahead of the KPI dashboard (decision NEXT); stale PR and tag lines corrected. No app change.
 - **R1.12 — 2026-11-15:** PR #5 merged (`79b5486`, app v0.0.7 on `main`). App v0.0.8 on the branch: mistake bank with clearing, "My mistakes" sets, avoid-repeat. Phase 1 checklist and next-steps list updated; KPI dashboard is next. Decisions D4, D5, D6, D9 unchanged.
 - **R1.11 — 2026-11-15:** PR #4 merged (`b6c4ff5`, app v0.0.6 on `main`). App v0.0.7 on the branch: Exam mode on the same engine, discard-without-saving, solutions in the results, keyboard focus fix. Phase 1 checklist and next-steps list updated; Practice-mode solution timing listed for Gemz to confirm. Decisions D4, D5, D6, D9 unchanged.
 - **R1.10 — 2026-11-15:** PR #3 merged (`6f7e0d2`, app v0.0.5 on `main`). App v0.0.6 on the branch: exam engine (set assembly, board-pace timer, grading, local history and mistake bank) and Practice mode; engine checks added to Stage 3 and a scripted practice run-through to Stage 2. Status Board gains a Phase 1 checklist and an ordered list of the remaining groundwork. Decisions D4, D5, D6, D9 unchanged.
