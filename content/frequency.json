@@ -48,7 +48,7 @@
   "notes": [
     "The legacy bank holds 7 sittings (Apr 2023 to Mar 2026) per subject, not the 12 the roadmap mentions. Frequencies are 'x of 7 sittings'.",
     "Transcription is incomplete for some sittings (see per_sitting.coverage_percent; MSTE Apr 2025 holds 21 of 75 items). Compare mean_share_percent, not raw items, across sittings.",
-    "MSTE has 54 items on algebra, geometry, trigonometry, analytic geometry and similar that have no topic in the PRC list, plus 8 others outside the 13 MSTE topics. They sit under 'unmapped' rather than being forced into Calculus. Decision for Gemz: leave unmapped, or add a pre-calculus topic.",
+    "MSTE has 54 items on algebra, geometry, trigonometry, analytic geometry and similar that have no topic in the PRC list, plus 8 others outside the 13 MSTE topics. They sit under 'unmapped' rather than being forced into Calculus. Gemz decided on 2026-11-15 to leave them unmapped; the taxonomy stays at the PRC topics.",
     "Borderline placements: dam and wall overturning and sliding sets count under Engineering Mechanics; a cantilever deflection-by-superposition set counts under Strength of Materials; wide-flange beam stress sets count under Steel; water hammer and jet-trajectory items count under Fluid Flow; concrete mix proportioning counts under Construction Materials Testing; Application of the Governing Codes is mostly embedded in the RC and steel sets, so it shows almost nothing.",
     "Several MSTE and HGE counts are small (1 to 5 items), so a rank difference between neighbours there is not meaningful."
   ],
