@@ -1,7 +1,8 @@
 # Analytics and privacy — decision paper (ROADMAP D9)
 
-**Status:** recommendation, 2026-11-14. The choice is Gemz's. Nothing here is
-switched on: the app loads no analytics and sends no data anywhere.
+**Status:** approved by Gemz 2026-11-15 — no analytics before v1.0.0, then one
+cookieless aggregate counter (GoatCounter). Nothing here is switched on: the
+app loads no analytics and sends no data anywhere.
 
 *Not legal advice. Have the notice and this approach reviewed by a lawyer
 familiar with RA 10173 before Phase 3 (accounts) at the latest.*

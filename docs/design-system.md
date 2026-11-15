@@ -1,7 +1,7 @@
 # Design system — Ramboo CELE App
 
-**Status:** draft v0.1 (2026-11-14), ROADMAP D6. Awaiting Gemz's approval and
-two confirmations listed under [Open items](#open-items).
+**Status:** v0.1, approved by Gemz 2026-11-15 (ROADMAP D6), Night palette
+included. Two follow-ups remain under [Open items](#open-items).
 
 **Source:** `docs/reference/live-figure-hero.png` (the Darkwiz Lab Live Figure
 hero) and the visual spec in ROADMAP §4A. Day colours below were sampled from
@@ -63,7 +63,7 @@ Rules:
 Contrast on `--paper` (WCAG 2.x): ink 15.2, ink-soft 5.9, shear 7.1,
 moment 5.4, load-text 5.3, ok 4.9 — all pass AA for body text.
 
-### Night (draft)
+### Night
 
 The reference shows Day only. Night keeps the same meanings on a dark sheet:
 page `#0f1318`, paper `#161b22`, ink `#e8ebe6`, ink-soft `#9aa4ae`, shear
@@ -203,5 +203,7 @@ variables, so a figure follows the theme without being redrawn.
 2. **Darkwiz Lab site.** The site's URL is not recorded in the roadmap, so its
    CSS could not be compared. Any brand colours or logo rules it defines should
    be folded in here.
-3. **Night palette.** Drafted here, not taken from a reference. Needs Gemz's eye.
-4. **Logo / app icon.** None yet; needed for the PWA in Phase 1.
+3. **Night palette.** Approved 2026-11-15.
+4. **Logo / app icon.** First icon added in v0.0.11 (`icons/icon.svg`: beam,
+   load and moment diagram on engineering paper). Replace if Darkwiz Lab has a
+   logo rule.

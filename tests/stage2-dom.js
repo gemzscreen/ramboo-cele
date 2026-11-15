@@ -205,6 +205,84 @@ function progressFlow(doc, handles) {
   return problems;
 }
 
+// App shell: one view at a time, the theme switch, the manifest, the About page.
+function shellFlow(doc, handles, root) {
+  const problems = [];
+  const win = doc.defaultView;
+  try {
+    const views = [...doc.querySelectorAll('[data-view]')];
+    const shown = () => views.filter((v) => !v.hidden).map((v) => v.dataset.view).join(',');
+    const link = (name) => doc.querySelector(`[data-view-link="${name}"]`);
+    if (views.length !== 4) problems.push(`shell: ${views.length} views, expected 4`);
+    if (shown() !== 'practice' || link('practice').getAttribute('aria-current') !== 'page') problems.push(`shell: should open on Practice, shows "${shown()}"`);
+    for (const v of views) {
+      const a = link(v.dataset.view);
+      if (!a) { problems.push(`shell: no tab for the ${v.dataset.view} view`); continue; }
+      if (a.getAttribute('href') !== `#${v.id}`) problems.push(`shell: the ${v.dataset.view} tab does not link to its view`);
+      a.click();
+      if (shown() !== v.dataset.view) problems.push(`shell: the ${v.dataset.view} tab shows "${shown()}"`);
+      if (doc.querySelectorAll('.tabs [aria-current="page"]').length !== 1 || a.getAttribute('aria-current') !== 'page') problems.push(`shell: exactly the ${v.dataset.view} tab should be marked current`);
+      if (!v.querySelector('h1')) problems.push(`shell: the ${v.dataset.view} view has no h1`);
+    }
+    handles.views.show('nonsense');
+    if (shown() !== 'practice') problems.push('shell: an unknown view name should fall back to Practice');
+
+    // Theme: Auto has no attribute; Day and Night set it, are remembered, and move the browser colour.
+    const html = doc.documentElement;
+    const radio = (v) => doc.querySelector(`input[name="theme"][value="${v}"]`);
+    const colours = () => [...doc.querySelectorAll('meta[name="theme-color"]')].map((m) => m.getAttribute('content')).join(',');
+    if (html.dataset.theme || !radio('auto').checked) problems.push('theme: should start on Auto');
+    const auto = colours();
+    radio('night').click();
+    if (html.dataset.theme !== 'night' || win.localStorage.getItem('ramboo-cele.theme') !== 'night' || colours() !== '#0f1318,#0f1318') problems.push('theme: Night was not applied, saved, or sent to the browser colour');
+    radio('day').click();
+    if (html.dataset.theme !== 'day' || colours() !== '#e6e9e4,#e6e9e4') problems.push('theme: Day was not applied');
+    radio('auto').click();
+    if (html.dataset.theme || colours() !== auto || win.localStorage.getItem('ramboo-cele.theme') !== 'auto') problems.push('theme: Auto should remove the forced theme');
+    const init = fs.readFileSync(path.join(root, 'js/theme-init.js'), 'utf8');
+    if (!init.includes("'ramboo-cele.theme'")) problems.push('theme: js/theme-init.js must read the same storage key as js/ui/theme.js');
+    const tokens = fs.readFileSync(path.join(root, 'css/tokens.css'), 'utf8');
+    const vars = (block) => [...block.matchAll(/(--[a-z-]+):\s*([^;]+);/g)].map((m) => `${m[1]}=${m[2].trim()}`).sort().join('|');
+    const media = tokens.match(/:root:not\(\[data-theme="day"\]\) \{([^}]*)\}/);
+    const forced = tokens.match(/:root\[data-theme="night"\] \{([^}]*)\}/);
+    if (!media || !forced || vars(media[1]) !== vars(forced[1])) problems.push('theme: the two Night blocks in css/tokens.css differ');
+
+    // A backup holds progress only; the theme is a per-device setting.
+    if (/theme/.test(handles.progress.backupText())) problems.push('theme: the backup should hold progress only');
+
+    // About: same disclaimer as the footer; version shown.
+    const text = (id) => doc.getElementById(id)?.textContent.replace(/\s+/g, ' ').trim();
+    if (!text('disclaimer') || text('about-disclaimer') !== text('disclaimer')) problems.push('about: the disclaimer must match the footer disclaimer word for word');
+    if (text('about-version') !== text('app-version')) problems.push('about: version differs from the app bar');
+    if (/actual board question|official prc key/i.test(doc.body.textContent.replace(/not an official PRC key|not past board questions/gi, ''))) problems.push('about: must not claim actual board questions or an official key');
+
+    // TERMS is listed but cannot be picked yet.
+    const terms = doc.querySelector('#practice input[name="practice-subject"][value="TERMS"]');
+    if (!terms || !terms.disabled) problems.push('shell: TERMS should be listed in Practice and disabled');
+
+    // Manifest: relative start and scope (GitHub Pages sub-path), icons exist at their stated size.
+    const href = doc.querySelector('link[rel="manifest"]')?.getAttribute('href');
+    const manifest = JSON.parse(fs.readFileSync(path.join(root, href), 'utf8'));
+    if (manifest.start_url !== './' || manifest.scope !== './') problems.push('manifest: start_url and scope must be "./"');
+    if (manifest.display !== 'standalone' || !manifest.name || !manifest.short_name || manifest.short_name.length > 12) problems.push('manifest: needs name, a short_name of at most 12 characters, and display standalone');
+    const sizes = new Set();
+    for (const icon of manifest.icons || []) {
+      const file = path.join(root, icon.src);
+      if (!fs.existsSync(file)) { problems.push(`manifest: icon ${icon.src} does not exist`); continue; }
+      if (icon.type === 'image/png') {
+        const png = fs.readFileSync(file);
+        const size = `${png.readUInt32BE(16)}x${png.readUInt32BE(20)}`;
+        if (size !== icon.sizes) problems.push(`manifest: ${icon.src} is ${size}, stated ${icon.sizes}`);
+        sizes.add(`${icon.sizes}/${icon.purpose}`);
+      }
+    }
+    for (const need of ['192x192/any', '512x512/any', '512x512/maskable']) if (!sizes.has(need)) problems.push(`manifest: no ${need} PNG icon`);
+  } catch (err) {
+    problems.push(`shell flow broke: ${err.message}`);
+  }
+  return problems;
+}
+
 export async function run(root) {
   const failures = [];
   let checked = 0;
@@ -279,6 +357,8 @@ export async function run(root) {
       failures.push(...practiceFlow(doc, handles && handles.practice));
       checked++;
       failures.push(...progressFlow(doc, handles));
+      checked++;
+      failures.push(...shellFlow(doc, handles, root));
       checked++;
 
       const { APP_VERSION } = await import(pathToFileURL(path.join(root, 'js/version.js')).href);

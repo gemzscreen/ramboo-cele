@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ramboo CELE App">
+  <rect width="512" height="512" fill="#f5f6f2"/>
+  <g stroke="#d3dce7" stroke-width="2">
+    <path d="M64 0v512M128 0v512M192 0v512M256 0v512M320 0v512M384 0v512M448 0v512M0 64h512M0 128h512M0 192h512M0 256h512M0 320h512M0 384h512M0 448h512"/>
+  </g>
+  <!-- point load -->
+  <g stroke="#c98a12" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M208 112v96M184 184l24 28 24-28"/>
+  </g>
+  <circle cx="208" cy="106" r="18" fill="#f5f6f2" stroke="#c98a12" stroke-width="10"/>
+  <!-- beam and supports -->
+  <rect x="112" y="220" width="288" height="28" fill="#ffffff" stroke="#17202a" stroke-width="10" stroke-linejoin="round"/>
+  <g fill="#17202a">
+    <path d="M128 252l-26 40h52z"/>
+    <path d="M384 252l-26 34h52z"/>
+    <circle cx="370" cy="296" r="8"/><circle cx="398" cy="296" r="8"/>
+  </g>
+  <!-- moment diagram -->
+  <path d="M128 400L208 328L384 400Z" fill="rgba(184,55,42,0.14)" stroke="#b8372a" stroke-width="10" stroke-linejoin="round"/>
+</svg>

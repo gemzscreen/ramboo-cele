@@ -4,6 +4,26 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.11 — 2026-11-15
+
+App shell. Early Phase 1 groundwork.
+
+- A fixed app bar with four tabs: Practice, Progress, Explore (Live Figure
+  and template preview) and About. One view shows at a time; the address,
+  Back button and a reload keep your place.
+- Theme switch: Auto (follows the device), Day, Night. The choice is kept on
+  the device and applied before the page paints.
+- About page: what the app is, how the problems are made, the disclaimer,
+  what is stored and where, how to install.
+- Installable: web app manifest and an app icon (beam, load and moment
+  diagram). No offline mode yet — the app still needs a connection to load.
+- TERMS is listed in the subject choice, disabled until its bank exists.
+- Taxonomy: the 165 subtopics are approved (origin `ramboo`, revision 2).
+- Fix: the forced Night theme lacked the water colour used in HGE figures.
+- Harness Stage 2 checks the tabs, the theme switch, that the two Night
+  token blocks match, the manifest and icon sizes, and that the About
+  disclaimer matches the footer word for word.
+
 ## v0.0.10 — 2026-11-15
 
 Progress: KPI dashboard, Reset KPIs and backup. Early Phase 1 groundwork.

@@ -1,9 +1,9 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.14 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.15 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
 **Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
-**App version:** v0.0.10 (taxonomy built; four draft templates, tagged; Practice and Exam modes; mistake bank; KPI dashboard and backup; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
+**App version:** v0.0.11 (app shell with tabs, theme switch, About, installable; taxonomy; four templates, tagged; Practice and Exam modes; mistake bank; KPI dashboard and backup; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
 **Current phase:** PHASE 0 — Foundation & Decisions (in progress)
 **Workflow:** GitHub repo + Claude Code (from Phase 0 onward)
 **Source of truth:** `ROADMAP.md` in the repo. The claude.ai Project copy (`claude/CELE_REVAMP_ROADMAP.md`) is a mirror, refreshed only when Gemz works in claude.ai again.
@@ -101,12 +101,12 @@ Goal: lock every decision that is expensive to change later, and stand up the re
 - [x] D1 Brand: **Ramboo CELE App**, Darkwiz Lab family (renamed from WREN on 2026-11-14). Repo is `gemzscreen/ramboo-cele` → Pages URL `https://gemzscreen.github.io/ramboo-cele/`. Spelling check closed 2026-11-14: the repo on GitHub is spelled "ramboo" (double o), matching the app name
 - [x] D2 Stack & workflow: **GitHub repo + Claude Code**; plain HTML/CSS/JS ES modules, no build step to start
 - [x] D3 Hosting: **GitHub Pages** (static front end) + **Supabase** back end on a new, separate account (new email; QS CRM stays on its own account). Account can be created now; first tables needed in Phase 3
-- [ ] D4 Topic taxonomy: build from `CELE Coverage 2026 1.pdf` + frequency table from the 12 past-board sittings → `content/taxonomy.json` (subject → topic → subtopic → archetype IDs). Source PDFs read from the private folder (§7), never committed. **First cut built 2026-11-15 (v0.0.9):** `content/taxonomy.json` has the 3 subjects, weights and 39 PRC topics from the coverage PDF, plus 165 draft subtopics (the PDF lists none; marked `origin: draft`); the four templates are tagged and Stage 3 checks it. **Still open:** Gemz's review of the draft subtopics, the frequency table from the 12 sittings, and archetype IDs per subtopic (both need the private sittings)
-- [ ] D5 Template schema v1 (draft in §5) — approve. Implemented 2026-11-14 with three changes from the draft, listed in §5 "Schema v1 as implemented"; first template `PSAD-BEAM-SS-001` passes Stage 3. Awaiting Gemz's approval. Must satisfy the Live Figures requirement (§4A)
-- [ ] D6 Design system: Darkwiz Lab look → `docs/design-system.md` (draft v0.1 written 2026-11-14 with `css/tokens.css`; awaiting Gemz's approval + font/site-CSS confirmation). Starting cues captured from the Live Figure hero (§4A "Visual spec"); confirm fonts/colors against the Darkwiz Lab site CSS
+- [ ] D4 Topic taxonomy: build from `CELE Coverage 2026 1.pdf` + frequency table from the 12 past-board sittings → `content/taxonomy.json` (subject → topic → subtopic → archetype IDs). Source PDFs read from the private folder (§7), never committed. **First cut built 2026-11-15 (v0.0.9):** `content/taxonomy.json` has the 3 subjects, weights and 39 PRC topics from the coverage PDF, plus 165 draft subtopics (the PDF lists none; marked `origin: draft`); the four templates are tagged and Stage 3 checks it. **Subtopics and placements approved 2026-11-15** (origin now `ramboo`). **Still open:** the frequency table from the 12 sittings and archetype IDs per subtopic (both need the private sittings)
+- [x] D5 Template schema v1 (draft in §5) — **approved 2026-11-15** as implemented (§5, five points), with the four templates as the pattern for later ones. Implemented 2026-11-14 with three changes from the draft, listed in §5 "Schema v1 as implemented"; first template `PSAD-BEAM-SS-001` passes Stage 3. Must satisfy the Live Figures requirement (§4A)
+- [x] D6 Design system: Darkwiz Lab look → `docs/design-system.md` (v0.1 with `css/tokens.css`) — **approved 2026-11-15**, Night palette included. Follow-up, not a blocker: the Darkwiz Lab site URL is still not on record, so Barlow / Barlow Condensed stand as the fonts and are to be self-hosted. Starting cues captured from the Live Figure hero (§4A "Visual spec"); confirm fonts/colors against the Darkwiz Lab site CSS
 - [x] D7 Phase 1 content and structure: **mirror the legacy CELE Training App setup** (see Phase 1), rebuilt with original templates. Minimum: enough templates to fill one full board-paced mock per subject without repeating an archetype — PSAD 75 items (25 situations), MSTE 75 items, HGE 50 items (~17 situations)
 - [x] D8 Donations: **GCash/Maya QR + Ko-fi**
-- [ ] D9 Analytics & privacy: privacy-respecting analytics choice; privacy notice draft (RA 10173 Data Privacy Act) — recommendation in `docs/privacy-and-analytics.md` and notice draft in `docs/privacy-notice.md` written 2026-11-14; awaiting Gemz's choice and a public contact email
+- [x] D9 Analytics & privacy — **approved 2026-11-15:** no analytics until v1.0.0, then one cookieless counter (GoatCounter); notice wording in `docs/privacy-notice.md` approved. Follow-up before the notice is published: a public contact email
 - [x] D10 Timeline: Gemz is in the Philippines and available for about 1 month from 2026-11-14 (before the Brunei move). Target: finish Phase 0 in week 1, Phase 1 in weeks 2–4 (stretch goal: v1.0.0 before departure)
 - [x] Repo scaffold (§7), `CLAUDE.md`, `ROADMAP.md`, `CHANGELOG.md`, `.gitignore`, harness stages 1–3 wired, GitHub Pages on — merged to `main` 2026-11-14 (PR #1), hero PNG added. Tag **v0.0.1** still to be created by Gemz (see §9)
 
@@ -118,7 +118,7 @@ Mirrors the legacy CELE Training App structure, rebuilt clean:
 - Subject tabs: **PSAD / MSTE / HGE / TERMS**
 - Drill sizes like legacy: **5 items** (quick drill), **10 items** (full set), **Random Mock Set** (full board length). PSAD/HGE drills draw whole situations (1 or 3 situations); MSTE draws individual items
 - Board pacing from legacy, timer locked on start: PSAD 75 items / 6 h (4.8 min/item) · MSTE 75 items / 5 h (4.0 min/item) · HGE 50 items / 4 h (4.8 min/item); pause/cancel with in-app modals
-- Modes: *Practice* (solution after each answer) · *Exam* (solutions at the end; mock sets are exam-only)
+- Modes: *Practice* (each answer checked on the spot; the worked solution appears once the situation's last item is checked, so it cannot give away later items — confirmed 2026-11-15) · *Exam* (solutions at the end; mock sets are exam-only)
 - **Exam Generator** settings: subject → topics → size → mode
 - Avoid-repeat history; **mistake bank** (local) with "exam from my mistakes"
 - Results and KPI dashboard: score, time, per-topic breakdown, study recommendations, Reset KPIs
@@ -216,7 +216,7 @@ Reference: Darkwiz Lab site hero (screenshot received 2026-11-14 → commit as `
 ```
 Distractors come from **named common mistakes** (wrong support, missing load, unit slip), so wrong choices teach something.
 
-### Schema v1 as implemented (2026-11-14, awaiting approval — D5)
+### Schema v1 as implemented (2026-11-14; approved 2026-11-15 — D5)
 Working example: `content/templates/psad/PSAD-BEAM-SS-001.js`. Templates are ES modules, which allowed three changes from the draft above:
 1. **`model`, `figure`, `solution` are imported functions, not name strings.** No registry to keep in step; a missing solver is a load error instead of a runtime lookup failure. (`solution_steps` is renamed `solution`.)
 2. **Constraints are `{rule, test}` pairs** — `rule` is the readable text (`"a <= L - 1"`), `test` is the function the generator and harness run. No expression parser needed.
@@ -245,6 +245,8 @@ Harness runs locally in Claude Code and (stages 1–3) in GitHub Actions on ever
 ```
 ramboo-cele/                     (PUBLIC — GitHub Pages)
   index.html            app shell
+  manifest.webmanifest  web app manifest (installable)
+  icons/                app icon: icon.svg + PNG 180 / 192 / 512
   css/                  design system: tokens.css (all tokens) + base.css
   js/  engine/          generator, rng, format, bank, exam, timer, storage
        models/          pure solvers (shared by items, Live Figures, calculators)
@@ -289,36 +291,40 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 | V | 2026-11-14 | Versioning restarts at **v0.0.0**; v1.0.0 = public launch | Replaces the v5.x plan in R1.0 |
 | LF | 2026-11-14 | Live Figures (interactive diagrams in training/solutions) adopted | Build Phase 2; schema ready in Phase 0 |
 | SOT | 2026-11-14 | Repo `ROADMAP.md` is the source of truth; Project doc is a mirror | Claude Code can't read Project docs |
+| D4 | 2026-11-15 | Taxonomy subtopics approved; determinate beams under Theory of Structures; simple curves under Construction Surveying and Layout; "Water Supply" and "Soil Properties" are two topics | D4 stays open for past-board frequency and archetype IDs |
+| D5 | 2026-11-15 | Template schema v1 approved as implemented; the four templates are the pattern | §5, five points |
+| D6 | 2026-11-15 | Design system v0.1 approved, Night palette included | Fonts: Barlow family, to self-host; site URL still wanted |
+| D9 | 2026-11-15 | No analytics until v1.0.0, then one cookieless counter (GoatCounter); notice wording approved | Contact email needed before publishing |
+| — | 2026-11-15 | Practice mode holds a situation's solution until its last item is checked | As built |
+| — | 2026-11-15 | Study advice: a topic is judged after 3 items; under 50% review, under 75% keep practising. Reset KPIs keeps the mistakes list | As built in v0.0.10 |
 
 ---
 
 ## 9. Status Board
-- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz); Phase 1 groundwork under way at Gemz's go-ahead · **App:** v0.0.10 on branch `claude/content-taxonomy-cele-t8sqvc` (PR #7 open, holds v0.0.9 and v0.0.10); `main` is at v0.0.8 (PR #6, merged 2026-11-15 as `d0c0ad0`)
-- **Done:** roadmap R1.12; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine (set assembly, board-pace timer, grading, local storage) Practice and Exam modes, discard-without-saving, solutions in the results. Practice-my-mistakes and avoid-repeat (v0.0.8). On the branch (v0.0.9): D4 first cut — `content/taxonomy.json` (3 subjects, 39 PRC topics, 165 draft subtopics), the four templates tagged with `topic_id` / `subtopic_id`, Stage 3 taxonomy and tag checks; (v0.0.10) Progress card — KPI dashboard, study recommendations, Reset KPIs, export/restore backup
-- **Phase 1 checklist (§4) so far:** Practice mode ✔ and Exam mode ✔ (quick drill and full set) · pause and cancel ✔ · board pacing ✔ · local progress ✔ · mistake bank with "practice my mistakes" ✔ · avoid-repeat ✔ · results with per-topic breakdown ✔ · KPI dashboard with study recommendations and Reset KPIs ✔ · export/import backup ✔. Not yet: Random Mock Set, Exam Generator topic filter, Board-Trend Sets, theme switch (Auto only so far), PWA, TERMS, lectures stub, About/donations
+- **Phase:** 0 — Foundation & Decisions: D5, D6, D9 closed 2026-11-15; only the D4 close-out (frequency) is left, and it needs the private sittings. Phase 1 groundwork continues · **App:** v0.0.11 on branch `claude/content-taxonomy-cele-t8sqvc` (PR #7 open, holds v0.0.9, v0.0.10 and v0.0.11); `main` is at v0.0.8 (PR #6, merged 2026-11-15 as `d0c0ad0`)
+- **Done:** roadmap R1.15; D1, D2, D3, D5, D6, D7, D8, D9, D10 decided. On `main`: scaffold, harness, CI, Pages; design system and tokens; template engine, Live Figure, exhaustive Stage 3; D9 paper and privacy notice; four templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine, Practice and Exam modes, mistake bank, avoid-repeat. On the branch: (v0.0.9) `content/taxonomy.json` — 3 subjects, 39 PRC topics, 165 approved subtopics — templates tagged, Stage 3 taxonomy checks; (v0.0.10) Progress card — KPI dashboard, study recommendations, Reset KPIs, export/restore backup; (v0.0.11) app shell — app bar, tabs (Practice / Progress / Explore / About), Auto/Day/Night switch, About page, web app manifest and icon
+- **Phase 1 checklist (§4) so far:** Practice mode ✔ and Exam mode ✔ (quick drill and full set) · pause and cancel ✔ · board pacing ✔ · local progress ✔ · mistake bank with "practice my mistakes" ✔ · avoid-repeat ✔ · results with per-topic breakdown ✔ · KPI dashboard with study recommendations and Reset KPIs ✔ · export/import backup ✔ · app bar and tabs ✔ · Auto/Day/Night theme ✔ · disclaimer and About ✔ · installable (manifest and icon; no offline mode) ✔. Not yet: Random Mock Set, Exam Generator topic filter, Board-Trend Sets, offline service worker, clock/greeting, TERMS (listed, disabled), lectures stub, donation buttons
 - **Waiting on Gemz:**
-  - Review and merge PR #7 (D4 first cut, v0.0.9; Progress card, v0.0.10)
-  - Progress card: confirm the study-advice thresholds (a topic is judged after 3 items; under 50% = review, under 75% = keep practising) and that Reset KPIs keeps the mistakes list
-  - D4: review `content/taxonomy.json` — the 165 subtopics are drafts. Two calls to confirm: determinate-beam reactions/shear/moment sits under Theory of Structures (could be Engineering Mechanics or Strength of Materials); simple curves sit under Construction Surveying and Layout (could be Highway Engineering). The PRC program has no semicolon between "Water Supply" and "Soil Properties"; read as two topics
-  - Solution timing in Practice mode: this roadmap says "solution after each answer"; for a situation the app holds the worked solution until its last item is checked, so it cannot give away the later items. Confirm or change
-  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on `79b5486`; **v0.0.8** on `d0c0ad0`; **v0.0.10** on the next merge commit (v0.0.9 has no merge commit of its own) (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
-  - D5: approve the schema as implemented (§5, four points), and review the four draft templates — wording, items, distractors — as the pattern for all later templates
-  - D6: approve `docs/design-system.md`; give the Darkwiz Lab site URL so fonts and brand colours can be confirmed; review the drafted Night palette
-  - D9: approve "no analytics until v1.0.0, then one cookieless counter"; pick the tool (suggested GoatCounter) or defer to launch week; give a public contact email for the notice; confirm the notice wording
+  - Review and merge PR #7
+  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on `79b5486`; **v0.0.8** on `d0c0ad0`; **v0.0.11** on the next merge commit (v0.0.9 and v0.0.10 have no merge commit of their own) (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
   - D4 frequency: the 12 past-board sittings (private folder or one Google Drive folder named to Claude) so frequency and archetype IDs can be added
+  - Things a "yes" could not supply: the Darkwiz Lab site URL (fonts and any logo rule); a public contact email for the privacy notice; the GCash/Maya QR image and Ko-fi link for the donation buttons
+  - Template status: the four templates are approved as the pattern but still marked `draft`. Say when they should move to `verified`
 - **Next (in order):**
-  1. D4 close-out — add past-board frequency per topic and archetype IDs per subtopic to `content/taxonomy.json`, after Gemz reviews the draft subtopics. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the 12 sittings in one Google Drive folder and name it to Claude
-  2. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
-  3. Phase 0 exit check — needs D4, D5, D6, D9 closed
-  4. Phase 1 groundwork that does not depend on the open decisions, (a) done in v0.0.10; next is (b) app shell — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest. Mock sets and Board-Trend Sets need a far larger bank and the taxonomy frequencies, so they wait for the D4 close-out
-- **Blockers:** the D4 close-out needs the private sources (above). The bank cannot grow sensibly without it: with 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
-- **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. All four templates are status `draft`. In a situation, the worked solution is held until its last item is checked, so it cannot give away the later items. A mistakes set repeats the whole situation a missed item belongs to, not the single item. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
+  1. D4 close-out — add past-board frequency per topic and archetype IDs per subtopic to `content/taxonomy.json`. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the 12 sittings in one Google Drive folder and name it to Claude. Phase 0 exits when this closes
+  2. Self-host Barlow and Barlow Condensed (`.woff2`, SIL Open Font License) — the app currently falls back to the system font
+  3. Grow the bank: new templates across the approved taxonomy, on the approved schema and pattern. This is now the main Phase 1 work; one full mock per subject needs 25 PSAD situations, 75 MSTE items and 17 HGE situations (D7)
+  4. Exam Generator topic filter (uses `topic_id`), then Random Mock Set once the bank can fill one; Board-Trend Sets wait for the D4 frequencies
+  5. Smaller shell items: offline service worker, clock/greeting, lectures stub, donation buttons (need the QR and link)
+- **Blockers:** the D4 close-out needs the private sources (above). With 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
+- **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. All four templates are status `draft`. A mistakes set repeats the whole situation a missed item belongs to, not the single item. Fonts are not self-hosted yet, so the app shows the system font. Installed as an app it still needs a connection. Switching tabs during a running set leaves the timer running. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
 - **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
 - **Carry-over from legacy 4.9.1 (private archive, low priority):** PSAD Mar 2026 solutions PDF still pending; ~8 flagged items; 40 held-out MSTE items
 
 ---
 
 ## 10. Changelog
+- **R1.15 — 2026-11-15:** Gemz approved every pending decision: D5 (schema and template pattern), D6 (design system, Night palette), D9 (no analytics until v1.0.0, then GoatCounter; notice wording), the D4 subtopics and placements, Practice-mode solution timing, the study-advice thresholds and Reset KPIs behaviour. Decision Log updated. D4 stays open for past-board frequency. App v0.0.11 on the same branch: app shell (tabs, theme switch, About, manifest and icon). Status Board rewritten; growing the bank is now the main Phase 1 work.
 - **R1.14 — 2026-11-15:** App v0.0.10 on the same branch (PR #7 still open): Progress card — KPI dashboard from the stored history, study recommendations, Reset KPIs, export/restore backup; sets now save per-topic results under the taxonomy topic id. Phase 1 checklist updated; app shell is next. Decisions D4, D5, D6, D9 unchanged.
 - **R1.13 — 2026-11-15:** PR #6 merged (`d0c0ad0`, app v0.0.8 on `main`). App v0.0.9 on the branch: D4 first cut. `content/taxonomy.json` built from the PRC coverage PDF (3 subjects, weights 35/35/30, 39 topics in PRC order) with 165 draft subtopics; the four templates tagged with `topic_id` / `subtopic_id` and their `topic` label now the PRC topic name; Stage 3 checks the taxonomy and the tags. §5 gains point 5. D4 stays open: subtopic review, past-board frequency and archetype IDs outstanding. D5, D6, D9 unchanged.
 - **R1.12 — 2026-11-15:** PR #5 merged (`79b5486`, app v0.0.7 on `main`). App v0.0.8 on the branch: mistake bank with clearing, "My mistakes" sets, avoid-repeat. Phase 1 checklist and next-steps list updated; KPI dashboard is next. Decisions D4, D5, D6, D9 unchanged.

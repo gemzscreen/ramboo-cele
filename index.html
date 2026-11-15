@@ -8,52 +8,125 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#e6e9e4" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f1318" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/figures.css">
   <link rel="stylesheet" href="css/components.css">
+  <script src="js/theme-init.js"></script>
 </head>
 <body>
-  <main id="app" class="shell paper panel">
-    <p class="eyebrow">Darkwiz Lab</p>
-    <h1 id="app-title">Ramboo CELE App</h1>
-    <p class="lede">
-      Board-style practice for the Civil Engineering Licensure Examination,
-      built on original problems with answers computed and checked by code.
-    </p>
-    <p id="app-status" class="status">In development <span id="app-version" class="version"></span></p>
+  <header class="appbar">
+    <div class="appbar-row">
+      <p class="brand">
+        <span class="eyebrow">Darkwiz Lab</span>
+        <span id="app-title" class="brand-name">Ramboo CELE App</span>
+        <span id="app-version" class="version"></span>
+      </p>
+      <fieldset class="theme-switch">
+        <legend class="visually-hidden">Theme</legend>
+        <label><input type="radio" name="theme" value="auto" checked><span>Auto</span></label>
+        <label><input type="radio" name="theme" value="day"><span>Day</span></label>
+        <label><input type="radio" name="theme" value="night"><span>Night</span></label>
+      </fieldset>
+    </div>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#view-practice" data-view-link="practice">Practice</a>
+      <a href="#view-progress" data-view-link="progress">Progress</a>
+      <a href="#view-explore" data-view-link="explore">Explore</a>
+      <a href="#view-about" data-view-link="about">About</a>
+    </nav>
+  </header>
 
-    <ul class="subjects" aria-label="Subjects planned">
-      <li>PSAD</li>
-      <li>MSTE</li>
-      <li>HGE</li>
-      <li>TERMS</li>
-    </ul>
+  <main id="app">
+    <div id="view-practice" class="view" data-view="practice">
+      <section class="section" aria-labelledby="practice-title">
+        <h1 id="practice-title" class="section-title">Practice and exam</h1>
+        <p class="section-note">Board-style problems with new values every time. Early preview: the bank is still small.</p>
+        <div id="practice" class="card"></div>
+      </section>
+    </div>
+
+    <div id="view-progress" class="view" data-view="progress">
+      <section class="section" aria-labelledby="progress-title">
+        <h1 id="progress-title" class="section-title">Progress</h1>
+        <p class="section-note">Your scores, pace and topics from the sets finished on this device. Nothing leaves your browser unless you export a backup.</p>
+        <div id="progress" class="card"></div>
+      </section>
+    </div>
+
+    <div id="view-explore" class="view" data-view="explore">
+      <section class="section" aria-labelledby="live-title">
+        <h1 id="live-title" class="section-title">Live Figure preview</h1>
+        <p class="section-note">Drag the load or move the sliders. Reactions, shear and moment redraw from the same solver that keys the exam items.</p>
+        <div id="live-beam" class="card"></div>
+      </section>
+
+      <section class="section" aria-labelledby="sample-title">
+        <h2 id="sample-title" class="section-title">Template preview</h2>
+        <p class="section-note">For reviewing each problem type in the bank: pick a type, try new values, and reveal the key and solution.</p>
+        <div id="sample-problem" class="card"></div>
+      </section>
+    </div>
+
+    <div id="view-about" class="view" data-view="about">
+      <section class="section" aria-labelledby="about-title">
+        <h1 id="about-title" class="section-title">About</h1>
+        <div class="card prose">
+          <p>
+            Ramboo CELE App is a free practice tool for the Civil Engineering
+            Licensure Examination, covering PSAD, MSTE and HGE. It is in
+            development: the problem bank is small and features are still
+            being added.
+          </p>
+
+          <h2>How the problems are made</h2>
+          <p>
+            Every problem is written from scratch for this app. Each one is a
+            pattern with its own solver, so the values change every time and
+            the answer is computed by code, then checked by an automated test
+            run before release. The wrong choices come from named common
+            mistakes, so a miss tells you what went wrong.
+          </p>
+          <p>
+            Topics follow the PRC program for the examination. The problems
+            are board-style. They are not past board questions, and the
+            answers are not an official PRC key.
+          </p>
+
+          <h2 id="about-disclaimer-title">Disclaimer</h2>
+          <p id="about-disclaimer">
+            The problems in this app are not exact copies of the actual board exam.
+            They are designed to closely resemble the style, structure, and level of
+            difficulty of real board exam questions to help examinees prepare effectively.
+          </p>
+          <p>
+            Check any formula or code provision against the NSCP and your own
+            references before relying on it. If an answer looks wrong, it may
+            be: this is an early version.
+          </p>
+
+          <h2>Your data</h2>
+          <p>
+            There are no accounts. Your scores, mistakes and theme choice are
+            kept in this browser only and are not sent anywhere. Clearing the
+            browser's site data removes them. Use Export backup on the
+            Progress tab to keep a copy or move to another device.
+          </p>
+
+          <h2>Install</h2>
+          <p>
+            On a phone, open the browser menu and choose "Add to Home screen"
+            to use the app like any other. It still needs a connection to load.
+          </p>
+
+          <p class="about-version">Version <span id="about-version"></span> · Darkwiz Lab</p>
+        </div>
+      </section>
+    </div>
   </main>
-
-  <section class="section" aria-labelledby="practice-title">
-    <h2 id="practice-title" class="section-title">Practice and exam</h2>
-    <p class="section-note">Board-style problems with new values every time. Early preview: the bank is still small.</p>
-    <div id="practice" class="card"></div>
-  </section>
-
-  <section class="section" aria-labelledby="progress-title">
-    <h2 id="progress-title" class="section-title">Progress</h2>
-    <p class="section-note">Your scores, pace and topics from the sets finished on this device. Nothing leaves your browser unless you export a backup.</p>
-    <div id="progress" class="card"></div>
-  </section>
-
-  <section class="section" aria-labelledby="live-title">
-    <h2 id="live-title" class="section-title">Live Figure preview</h2>
-    <p class="section-note">Drag the load or move the sliders. Reactions, shear and moment redraw from the same solver that keys the exam items.</p>
-    <div id="live-beam" class="card"></div>
-  </section>
-
-  <section class="section" aria-labelledby="sample-title">
-    <h2 id="sample-title" class="section-title">Template preview</h2>
-    <p class="section-note">For reviewing each problem type in the bank: pick a type, try new values, and reveal the key and solution.</p>
-    <div id="sample-problem" class="card"></div>
-  </section>
 
   <footer class="foot">
     <p id="disclaimer">

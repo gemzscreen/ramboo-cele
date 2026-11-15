@@ -106,7 +106,7 @@ function loadTaxonomy(root) {
       if (!Array.isArray(t.subtopics) || t.subtopics.length === 0) { bad(`topic ${t.id}: no subtopics`); continue; }
       const subNames = new Set();
       for (const u of t.subtopics) {
-        node(u, u.id, `subtopic ${u.id}`, ['prc', 'draft']);
+        node(u, u.id, `subtopic ${u.id}`, ['prc', 'ramboo', 'draft']);
         const [, , uslug, ...more] = String(u.id).split('.');
         if (!String(u.id).startsWith(`${t.id}.`) || !slug.test(uslug || '') || more.length) bad(`subtopic ${u.id}: id must be "${t.id}.<slug>"`);
         if (subNames.has(u.name)) bad(`subtopic ${u.id}: name repeated within ${t.id}`);

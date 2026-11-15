@@ -1,6 +1,6 @@
 # Privacy Notice — Ramboo CELE App
 
-**Draft v0.1, 2026-11-14. Not yet published in the app.** To be published
+**v0.1, wording approved by Gemz 2026-11-15. Not yet published in the app.** To be published
 with the first public release (v1.0.0) once the contact address is set.
 Square-bracketed text is a placeholder or a paragraph not yet in force.
 

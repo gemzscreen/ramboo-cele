@@ -61,7 +61,7 @@ export function mountPractice(root, { templates, store, win, onSaved = () => {} 
       <div class="practice-setup">
         <fieldset class="segmented">
           <legend>Subject</legend>
-          ${radios('practice-subject', SUBJECTS.map((s) => [s, s]), state.subject)}
+          ${radios('practice-subject', [...SUBJECTS.map((s) => [s, s]), ['TERMS', 'TERMS', 'later', true]], state.subject)}
         </fieldset>
         <fieldset class="segmented">
           <legend>Size</legend>
