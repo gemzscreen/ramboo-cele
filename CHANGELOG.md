@@ -4,6 +4,25 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.16 — 2026-11-15
+
+Bank grows from 24 to 36 problem types. The twelve new ones are `draft`.
+
+- PSAD (situations): fixed-ended beam with uniform and midspan loads
+  (`PSAD-TOS-FIXED-001`); bolted flat bar in tension, NSCP 2015 Section 504
+  (`PSAD-STEEL-TENSION-001`); plane stress and Mohr's circle
+  (`PSAD-SOM-MOHR-001`); thin-walled pressure vessel (`PSAD-SOM-VESSEL-001`);
+  short tied column, NSCP 2015 Section 422.4.2 (`PSAD-RC-COLUMN-001`).
+- MSTE (single items): Newton's law of cooling (`MSTE-DE-COOL-001`);
+  Simpson's one-third rule (`MSTE-NM-SIMPSON-001`); sum-of-the-years'-digits
+  book value (`MSTE-ECON-SYD-001`).
+- HGE (situations): rotating open cylinder (`HGE-REL-ROTATE-001`); equivalent
+  permeability of layered soil (`HGE-PERM-LAYER-001`); Terzaghi bearing
+  capacity of a square footing (`HGE-BEAR-TERZ-001`); borrow volume and water
+  for a compacted fill (`HGE-COMP-BORROW-001`).
+- As before: one pure solver each, an independent check, a hand-solved
+  reference, text-only stems.
+
 ## v0.0.15 — 2026-11-15
 
 Bank grows from 14 to 24 problem types. The ten new ones are `draft`.

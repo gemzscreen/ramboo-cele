@@ -25,14 +25,29 @@ import msteHwySsd001 from '../../content/templates/mste/MSTE-HWY-SSD-001.js';
 import hgeSoilStress001 from '../../content/templates/hge/HGE-SOIL-STRESS-001.js';
 import hgeBuoyBarge001 from '../../content/templates/hge/HGE-BUOY-BARGE-001.js';
 import hgeConsolNc001 from '../../content/templates/hge/HGE-CONSOL-NC-001.js';
+import psadTosFixed001 from '../../content/templates/psad/PSAD-TOS-FIXED-001.js';
+import psadSteelTension001 from '../../content/templates/psad/PSAD-STEEL-TENSION-001.js';
+import psadSomMohr001 from '../../content/templates/psad/PSAD-SOM-MOHR-001.js';
+import psadSomVessel001 from '../../content/templates/psad/PSAD-SOM-VESSEL-001.js';
+import psadRcColumn001 from '../../content/templates/psad/PSAD-RC-COLUMN-001.js';
+import msteDeCool001 from '../../content/templates/mste/MSTE-DE-COOL-001.js';
+import msteNmSimpson001 from '../../content/templates/mste/MSTE-NM-SIMPSON-001.js';
+import msteEconSyd001 from '../../content/templates/mste/MSTE-ECON-SYD-001.js';
+import hgeRelRotate001 from '../../content/templates/hge/HGE-REL-ROTATE-001.js';
+import hgePermLayer001 from '../../content/templates/hge/HGE-PERM-LAYER-001.js';
+import hgeBearTerz001 from '../../content/templates/hge/HGE-BEAR-TERZ-001.js';
+import hgeCompBorrow001 from '../../content/templates/hge/HGE-COMP-BORROW-001.js';
 
 export const TEMPLATES = [
   psadBeamSs001, psadBeamSs002, psadTosPropped001, psadSteelCol001, psadSomTorsion001, psadRcBeam001,
   psadEmFriction001, psadFtgShear001, psadPscStress001,
+  psadTosFixed001, psadSteelTension001, psadSomMohr001, psadSomVessel001, psadRcColumn001,
   msteSurvCurve001, msteEconLoan001, mstePhysProj001, msteCalcBox001,
   msteCmPert001, msteTransGreen001, msteEdaBinom001, msteHwySsd001,
+  msteDeCool001, msteNmSimpson001, msteEconSyd001,
   hgeHydroGate001, hgeFlowPipe001, hgeSoilTriax001, hgeSoilPhase001,
   hgeSoilStress001, hgeBuoyBarge001, hgeConsolNc001,
+  hgeRelRotate001, hgePermLayer001, hgeBearTerz001, hgeCompBorrow001,
 ];
 
 export const templateById = (id) => TEMPLATES.find((t) => t.id === id);
