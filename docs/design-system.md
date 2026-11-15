@@ -196,10 +196,10 @@ variables, so a figure follows the theme without being redrawn.
 
 ## Open items
 
-1. **Fonts.** The screenshot looks like Barlow and Barlow Condensed, as §4A
-   says. Confirm against the Darkwiz Lab site CSS. Once confirmed, self-host
-   the `.woff2` files in the repo (Barlow is under the SIL Open Font License),
-   because the harness forbids loading assets from other hosts.
+1. **Fonts.** Done in v0.0.12: Barlow 400/600/700 and Barlow Condensed 600/700
+   are self-hosted in `fonts/` (Latin subset, SIL Open Font License) and declared
+   in `css/fonts.css`. Add a face there before using another weight. Still to
+   compare against the Darkwiz Lab site CSS once its URL is known.
 2. **Darkwiz Lab site.** The site's URL is not recorded in the roadmap, so its
    CSS could not be compared. Any brand colours or logo rules it defines should
    be folded in here.

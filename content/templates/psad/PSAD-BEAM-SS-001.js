@@ -97,6 +97,6 @@ export default {
     answers: ['26.7', '53.3', '40.0'],
   },
 
-  status: 'draft',
+  status: 'verified',
   bank_version: null,
 };

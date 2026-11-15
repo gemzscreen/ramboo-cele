@@ -4,6 +4,17 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.12 — 2026-11-15
+
+Self-hosted fonts; templates verified.
+
+- Barlow (400, 600, 700) and Barlow Condensed (600, 700) are served from the
+  repo (`fonts/`, Latin subset, about 22 kB each, SIL Open Font License in
+  `fonts/OFL.txt`). The app no longer falls back to the system font.
+- The four templates move from `draft` to `verified` (approved by Gemz).
+- Harness Stage 2 checks that every font face points at a file in the repo
+  and that the CSS uses no weight without a face.
+
 ## v0.0.11 — 2026-11-15
 
 App shell. Early Phase 1 groundwork.

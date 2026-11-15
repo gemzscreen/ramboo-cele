@@ -118,6 +118,6 @@ export default {
     answers: ['50.0', '3.00', '125'],
   },
 
-  status: 'draft',
+  status: 'verified',
   bank_version: null,
 };

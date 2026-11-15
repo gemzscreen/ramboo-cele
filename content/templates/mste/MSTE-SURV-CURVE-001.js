@@ -63,6 +63,6 @@ export default {
     answers: ['19.3'],
   },
 
-  status: 'draft',
+  status: 'verified',
   bank_version: null,
 };

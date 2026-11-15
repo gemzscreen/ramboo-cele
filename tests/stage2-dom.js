@@ -256,6 +256,25 @@ function shellFlow(doc, handles, root) {
     if (text('about-version') !== text('app-version')) problems.push('about: version differs from the app bar');
     if (/actual board question|official prc key/i.test(doc.body.textContent.replace(/not an official PRC key|not past board questions/gi, ''))) problems.push('about: must not claim actual board questions or an official key');
 
+    // Fonts: every face points at a file in the repo, and every weight the CSS asks for has a face.
+    const fontCss = fs.readFileSync(path.join(root, 'css/fonts.css'), 'utf8');
+    const faces = [...fontCss.matchAll(/@font-face \{([^}]*)\}/g)].map((m) => ({
+      family: (m[1].match(/font-family:\s*"([^"]+)"/) || [])[1],
+      weight: (m[1].match(/font-weight:\s*(\d+)/) || [])[1],
+      url: (m[1].match(/url\("([^"]+)"\)/) || [])[1],
+    }));
+    if (faces.length === 0) problems.push('fonts: css/fonts.css declares no faces');
+    for (const face of faces) {
+      if (!face.url || /^([a-z]+:)?\/\//i.test(face.url) || !fs.existsSync(path.join(root, 'css', face.url))) problems.push(`fonts: ${face.family} ${face.weight} points at "${face.url}", which is not a file in the repo`);
+    }
+    if (!fs.existsSync(path.join(root, 'fonts/OFL.txt'))) problems.push('fonts: the licence file fonts/OFL.txt is missing');
+    const have = (family, weight) => faces.some((x) => x.family === family && x.weight === weight);
+    for (const w of ['400', '600', '700']) if (!have('Barlow', w)) problems.push(`fonts: no Barlow ${w} face`);
+    for (const w of ['600', '700']) if (!have('Barlow Condensed', w)) problems.push(`fonts: no Barlow Condensed ${w} face`);
+    const used = new Set();
+    for (const file of ['base.css', 'components.css', 'figures.css']) for (const m of fs.readFileSync(path.join(root, 'css', file), 'utf8').matchAll(/font-weight:\s*(\d+)/g)) used.add(m[1]);
+    for (const w of used) if (!['400', '600', '700'].includes(w)) problems.push(`fonts: the CSS uses weight ${w}, which has no self-hosted face`);
+
     // TERMS is listed but cannot be picked yet.
     const terms = doc.querySelector('#practice input[name="practice-subject"][value="TERMS"]');
     if (!terms || !terms.disabled) problems.push('shell: TERMS should be listed in Practice and disabled');
