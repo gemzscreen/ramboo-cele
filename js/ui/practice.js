@@ -4,7 +4,7 @@
 //   Exam     — move freely between items and change answers; nothing is checked
 //              until the set is submitted; key and solutions at the end.
 // Board pacing sets the timer in both.
-import { assembleSet, gradeSet, poolFor, secondsPerItem, DRILLS, SUBJECTS, UNIT_FORMAT } from '../engine/exam.js';
+import { assembleSet, gradeSet, poolFor, mistakeTemplates, outstandingMistakes, unitKey, secondsPerItem, DRILLS, SUBJECTS, UNIT_FORMAT } from '../engine/exam.js';
 import { createTimer, formatClock } from '../engine/timer.js';
 import { randomSeed } from '../engine/rng.js';
 import { templateById } from '../engine/bank.js';
@@ -22,7 +22,7 @@ const duration = (sec) => {
 };
 
 export function mountPractice(root, { templates, store, win }) {
-  const state = { view: 'setup', subject: 'PSAD', drill: 'quick', mode: 'practice' };
+  const state = { view: 'setup', subject: 'PSAD', drill: 'quick', mode: 'practice', source: 'all' };
   let set; let answers; let checked; let q; let selected; let timer; let tick; let paused; let confirming; let timeUp;
 
   const sizeLabel = (subject, drill) => {
@@ -40,14 +40,22 @@ export function mountPractice(root, { templates, store, win }) {
     if (el) el.focus();
   };
 
+  // The templates a set draws from: the whole subject, or only the problem
+  // types with outstanding mistakes.
+  const currentPool = () => (state.source === 'mistakes'
+    ? mistakeTemplates(state.subject, templates, store.getMistakes())
+    : poolFor(state.subject, templates));
+
   // ---------- Setup ----------
   function renderSetup() {
-    const pool = poolFor(state.subject, templates);
+    const toFix = outstandingMistakes(state.subject, templates, store.getMistakes());
+    if (toFix === 0) state.source = 'all';
+    const pool = currentPool();
     const history = store.getHistory();
     const last = history.at(-1);
     const n = itemCount(state.subject, state.drill);
-    const radios = (name, options, current) => options.map(([value, label, hint]) =>
-      `<label><input type="radio" name="${name}" value="${value}"${value === current ? ' checked' : ''}><span>${label}${hint ? `<small>${hint}</small>` : ''}</span></label>`).join('');
+    const radios = (name, options, current) => options.map(([value, label, hint, disabled]) =>
+      `<label${disabled ? ' class="is-disabled"' : ''}><input type="radio" name="${name}" value="${value}"${value === current ? ' checked' : ''}${disabled ? ' disabled' : ''}><span>${label}${hint ? `<small>${hint}</small>` : ''}</span></label>`).join('');
 
     root.innerHTML = `
       <div class="practice-setup">
@@ -63,16 +71,25 @@ export function mountPractice(root, { templates, store, win }) {
           <legend>Mode</legend>
           ${radios('practice-mode', Object.keys(MODES).map((m) => [m, MODES[m].label, MODES[m].hint]), state.mode)}
         </fieldset>
+        <fieldset class="segmented">
+          <legend>Problems</legend>
+          ${radios('practice-source', [
+            ['all', 'All', `${poolFor(state.subject, templates).length} problem type${poolFor(state.subject, templates).length === 1 ? '' : 's'}`],
+            ['mistakes', 'My mistakes', toFix ? `${toFix} item${toFix === 1 ? '' : 's'} to fix` : 'none to fix', toFix === 0],
+          ], state.source)}
+        </fieldset>
         <p class="practice-info">Board pace for ${state.subject}: ${(secondsPerItem(state.subject) / 60).toFixed(1)} min per item, so this set allows <strong>${duration(n * secondsPerItem(state.subject))}</strong>. ${isExam()
           ? 'You can move between items and change answers; the key and solutions appear after you submit.'
           : 'Each answer is checked as you go.'}</p>
-        ${pool.length < DRILLS[state.drill].units[state.subject] ? `<p class="practice-info">The ${state.subject} bank has ${pool.length} problem type${pool.length === 1 ? '' : 's'} so far, so this set repeats ${pool.length === 1 ? 'it' : 'them'} with new values.</p>` : ''}
+        ${state.source === 'mistakes'
+          ? '<p class="practice-info">Draws the problem types you missed, with new values. An item leaves your mistakes once you answer it correctly.</p>'
+          : (pool.length < DRILLS[state.drill].units[state.subject] ? `<p class="practice-info">The ${state.subject} bank has ${pool.length} problem type${pool.length === 1 ? '' : 's'} so far, so this set repeats ${pool.length === 1 ? 'it' : 'them'} with new values.</p>` : '')}
         <div class="live-actions practice-start">
           <button type="button" class="btn btn-primary" data-role="start"${pool.length ? '' : ' disabled'}>Start ${MODES[state.mode].label.toLowerCase()}</button>
           ${history.length ? `<span class="practice-history">${history.length} set${history.length === 1 ? '' : 's'} done on this device. Last: ${last.subject} ${last.correct}/${last.total}.</span>` : ''}
         </div>
       </div>`;
-    const fields = { 'practice-subject': 'subject', 'practice-drill': 'drill', 'practice-mode': 'mode' };
+    const fields = { 'practice-subject': 'subject', 'practice-drill': 'drill', 'practice-mode': 'mode', 'practice-source': 'source' };
     for (const input of root.querySelectorAll('input[type="radio"]')) {
       input.addEventListener('change', () => {
         state[fields[input.name]] = input.value;
@@ -85,7 +102,9 @@ export function mountPractice(root, { templates, store, win }) {
 
   // ---------- Running a set ----------
   function start() {
-    set = assembleSet({ subject: state.subject, drill: state.drill, seed: randomSeed(), templates });
+    set = assembleSet({ subject: state.subject, drill: state.drill, seed: randomSeed(), templates: currentPool(), avoid: store.getSeen() });
+    set.source = state.source;
+    store.addSeen(set.units.map(unitKey));
     answers = set.questions.map(() => null);
     checked = set.questions.map(() => false);
     q = 0; selected = null; paused = false; confirming = false; timeUp = false;
@@ -238,10 +257,18 @@ export function mountPractice(root, { templates, store, win }) {
     const submitted = isExam() ? answers : answers.map((a, i) => (checked[i] ? a : null));
     const result = gradeSet(set, submitted);
     const seconds = Math.round(timer.elapsedSec());
-    const saved = store.saveResult(
-      { at: win.Date.now(), subject: set.subject, drill: set.drill, mode: state.mode, correct: result.correct, total: result.total, seconds },
-      result.perItem.filter((p) => !p.isCorrect).map((p) => ({ templateId: p.templateId, seed: p.seed, item: p.item })),
+    const ref = (p) => ({ templateId: p.templateId, seed: p.seed, item: p.item });
+    const outcome = store.saveResult(
+      { at: win.Date.now(), subject: set.subject, drill: set.drill, mode: state.mode, source: set.source, correct: result.correct, total: result.total, seconds },
+      result.perItem.filter((p) => !p.isCorrect).map(ref),
+      result.perItem.filter((p) => p.isCorrect).map(ref),
     );
+    const left = outstandingMistakes(set.subject, templates, store.getMistakes());
+    const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+    const mistakeNote = [
+      outcome.added ? `${plural(outcome.added, 'item')} added to your mistakes` : '',
+      outcome.cleared ? `${plural(outcome.cleared, 'item')} cleared from your mistakes` : '',
+    ].filter(Boolean).join('; ');
     state.view = 'results';
     const pct = Math.round((100 * result.correct) / result.total);
 
@@ -271,7 +298,7 @@ export function mountPractice(root, { templates, store, win }) {
 
     root.innerHTML = `
       <div class="practice-results">
-        <p class="practice-unit">${set.subject} · ${DRILLS[set.drill].label} · ${MODES[state.mode].label}${timeUp ? ' · time ran out' : ''}</p>
+        <p class="practice-unit">${set.subject} · ${DRILLS[set.drill].label} · ${MODES[state.mode].label}${set.source === 'mistakes' ? ' · my mistakes' : ''}${timeUp ? ' · time ran out' : ''}</p>
         <dl class="stat-row stat-row-3">
           <div class="stat"><dt>Score</dt><dd>${result.correct} / ${result.total}</dd></div>
           <div class="stat"><dt>Percent</dt><dd>${pct}%</dd></div>
@@ -284,7 +311,8 @@ export function mountPractice(root, { templates, store, win }) {
         </table>
         <ol class="review">${review}</ol>
         <div class="solution-folds">${solutions}</div>
-        ${saved ? '' : '<p class="practice-info practice-later">This browser is not allowing the app to save, so this result will be gone when you close the page.</p>'}
+        <p class="practice-info practice-later" data-role="mistake-note">${mistakeNote ? `${mistakeNote[0].toUpperCase()}${mistakeNote.slice(1)}. ` : ''}${left ? `${plural(left, 'item')} left to fix in ${set.subject}.` : `No mistakes left to fix in ${set.subject}.`}</p>
+        ${outcome.saved ? '' : '<p class="practice-info practice-later">This browser is not allowing the app to save, so this result will be gone when you close the page.</p>'}
         <div class="live-actions">
           <button type="button" class="btn btn-primary" data-role="again">New set</button>
         </div>
@@ -294,5 +322,5 @@ export function mountPractice(root, { templates, store, win }) {
   }
 
   renderSetup();
-  return { getState: () => ({ ...state, set, q }) };
+  return { getState: () => ({ ...state, set, q }), store };
 }

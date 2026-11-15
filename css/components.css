@@ -331,3 +331,6 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 520px) {
   .item-nav, .solution-fold summary { padding-left: var(--s4); padding-right: var(--s4); }
 }
+
+.segmented .is-disabled span { opacity: 0.45; }
+.segmented .is-disabled input { cursor: not-allowed; }

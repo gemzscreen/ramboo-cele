@@ -40,8 +40,26 @@ export function buildUnit(template, seed) {
   return { templateId: template.id, topic: template.topic, seed, instance: buildInstance(template, createRng(seed)) };
 }
 
-// A set is determined by (subject, drill, seed, bank).
-export function assembleSet({ subject, drill, seed, templates }) {
+// Identifies one exact problem: the type plus its values.
+export const unitKey = (unit) => `${unit.templateId}|${JSON.stringify(unit.instance.vars)}`;
+
+// The subject's templates that have outstanding mistakes, most-missed first.
+export function mistakeTemplates(subject, templates, mistakes) {
+  const count = new Map();
+  for (const m of mistakes) count.set(m.templateId, (count.get(m.templateId) || 0) + 1);
+  return poolFor(subject, templates)
+    .filter((t) => count.has(t.id))
+    .sort((a, b) => count.get(b.id) - count.get(a.id));
+}
+
+export function outstandingMistakes(subject, templates, mistakes) {
+  const ids = new Set(poolFor(subject, templates).map((t) => t.id));
+  return mistakes.filter((m) => ids.has(m.templateId)).length;
+}
+
+// A set is determined by (subject, drill, seed, bank, avoid). `avoid` is a set
+// of unitKeys already seen; the assembler steers away from them when it can.
+export function assembleSet({ subject, drill, seed, templates, avoid = new Set() }) {
   if (!PACING[subject]) throw new Error(`unknown subject "${subject}"`);
   if (!DRILLS[drill]) throw new Error(`unknown drill "${drill}"`);
   const pool = poolFor(subject, templates);
@@ -59,8 +77,11 @@ export function assembleSet({ subject, drill, seed, templates }) {
     let unit;
     for (let attempt = 0; attempt < 50; attempt++) {
       unit = buildUnit(template, seedFrom(rng));
-      const vars = JSON.stringify(unit.instance.vars);
-      if (!units.some((u) => u.templateId === template.id && JSON.stringify(u.instance.vars) === vars)) break;
+      const key = unitKey(unit);
+      const inThisSet = units.some((u) => unitKey(u) === key);
+      // Never the same problem twice in one set; a previously seen problem is
+      // accepted only if fresh values keep failing to turn up.
+      if (!inThisSet && (!avoid.has(key) || attempt >= 40)) break;
     }
     units.push(unit);
   }
