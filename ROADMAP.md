@@ -1,9 +1,9 @@
 # Ramboo CELE App — Revamp Roadmap
 
-**Roadmap doc:** R1.12 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
+**Roadmap doc:** R1.13 · created 2026-11-14 · updated 2026-11-15 · owner: Gemz (Engr. Gemar C. Tubalado)
 **Product:** Ramboo CELE App (Darkwiz Lab family) — public rebuild of the personal "CELE Training App"
 **Repo:** `gemzscreen/ramboo-cele` on GitHub (created 2026-11-14)
-**App version:** v0.0.8 (four draft templates; Practice and Exam modes; mistake bank; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
+**App version:** v0.0.9 (taxonomy built; four draft templates, tagged; Practice and Exam modes; mistake bank; tags pending — see §9) · legacy personal build = `legacy-4.9.1` (frozen, private)
 **Current phase:** PHASE 0 — Foundation & Decisions (in progress)
 **Workflow:** GitHub repo + Claude Code (from Phase 0 onward)
 **Source of truth:** `ROADMAP.md` in the repo. The claude.ai Project copy (`claude/CELE_REVAMP_ROADMAP.md`) is a mirror, refreshed only when Gemz works in claude.ai again.
@@ -101,7 +101,7 @@ Goal: lock every decision that is expensive to change later, and stand up the re
 - [x] D1 Brand: **Ramboo CELE App**, Darkwiz Lab family (renamed from WREN on 2026-11-14). Repo is `gemzscreen/ramboo-cele` → Pages URL `https://gemzscreen.github.io/ramboo-cele/`. Spelling check closed 2026-11-14: the repo on GitHub is spelled "ramboo" (double o), matching the app name
 - [x] D2 Stack & workflow: **GitHub repo + Claude Code**; plain HTML/CSS/JS ES modules, no build step to start
 - [x] D3 Hosting: **GitHub Pages** (static front end) + **Supabase** back end on a new, separate account (new email; QS CRM stays on its own account). Account can be created now; first tables needed in Phase 3
-- [ ] D4 Topic taxonomy: build from `CELE Coverage 2026 1.pdf` + frequency table from the 12 past-board sittings → `content/taxonomy.json` (subject → topic → subtopic → archetype IDs). Source PDFs read from the private folder (§7), never committed
+- [ ] D4 Topic taxonomy: build from `CELE Coverage 2026 1.pdf` + frequency table from the 12 past-board sittings → `content/taxonomy.json` (subject → topic → subtopic → archetype IDs). Source PDFs read from the private folder (§7), never committed. **First cut built 2026-11-15 (v0.0.9):** `content/taxonomy.json` has the 3 subjects, weights and 39 PRC topics from the coverage PDF, plus 165 draft subtopics (the PDF lists none; marked `origin: draft`); the four templates are tagged and Stage 3 checks it. **Still open:** Gemz's review of the draft subtopics, the frequency table from the 12 sittings, and archetype IDs per subtopic (both need the private sittings)
 - [ ] D5 Template schema v1 (draft in §5) — approve. Implemented 2026-11-14 with three changes from the draft, listed in §5 "Schema v1 as implemented"; first template `PSAD-BEAM-SS-001` passes Stage 3. Awaiting Gemz's approval. Must satisfy the Live Figures requirement (§4A)
 - [ ] D6 Design system: Darkwiz Lab look → `docs/design-system.md` (draft v0.1 written 2026-11-14 with `css/tokens.css`; awaiting Gemz's approval + font/site-CSS confirmation). Starting cues captured from the Live Figure hero (§4A "Visual spec"); confirm fonts/colors against the Darkwiz Lab site CSS
 - [x] D7 Phase 1 content and structure: **mirror the legacy CELE Training App setup** (see Phase 1), rebuilt with original templates. Minimum: enough templates to fill one full board-paced mock per subject without repeating an archetype — PSAD 75 items (25 situations), MSTE 75 items, HGE 50 items (~17 situations)
@@ -224,6 +224,8 @@ Working example: `content/templates/psad/PSAD-BEAM-SS-001.js`. Templates are ES 
 
 4. **Engine rules added with the second and third templates (v0.0.4):** an item may declare `valid(value, vars, result)` to reject impossible choices; a value set is never used when a keyed answer sits on a rounding boundary at the item's `sig` (next digit a bare 5); rounding is decimal half-up; if named mistakes run out, a labelled `arithmeticSlip` fallback fills the gap, and Stage 3 fails an item that needs it in more than 10% of value sets. Every template must be listed in `js/engine/bank.js`.
 
+5. **Taxonomy tags (v0.0.9):** a template carries `topic_id` and `subtopic_id` (ids from `content/taxonomy.json`, pattern `subject.topic.subtopic`). `topic` stays as the display label and must equal the taxonomy's topic name; Stage 3 enforces this so the two cannot drift.
+
 Also: items carry `unit`; `reference_instance` is `{vars, answers}` with answers as the displayed strings; `board_frequency` and `bank_version` are `null` until D4 and the first bank release. Solution text must be written from the given values, never from rounded intermediates, so the working shown reproduces the key.
 
 ---
@@ -291,23 +293,24 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 9. Status Board
-- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz); Phase 1 groundwork under way at Gemz's go-ahead · **App:** v0.0.8 on branch `claude/trusting-noether-l070u1` (not yet in a PR); `main` is at v0.0.7 (PR #5, merged 2026-11-15 as `79b5486`)
-- **Done:** roadmap R1.12; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine (set assembly, board-pace timer, grading, local storage) Practice and Exam modes, discard-without-saving, solutions in the results. On the branch (v0.0.8): practice-my-mistakes and avoid-repeat
+- **Phase:** 0 — Foundation & Decisions (all open decisions waiting on Gemz); Phase 1 groundwork under way at Gemz's go-ahead · **App:** v0.0.9 on branch `claude/content-taxonomy-cele-t8sqvc` (PR open); `main` is at v0.0.8 (PR #6, merged 2026-11-15 as `d0c0ad0`)
+- **Done:** roadmap R1.12; D1, D2, D3, D7, D8, D10 decided. On `main`: scaffold, harness, CI, Pages; D6 draft (`docs/design-system.md`, `css/tokens.css`); D5 implementation (template engine, Live Figure, exhaustive Stage 3); D9 paper and privacy notice draft; four draft templates — `PSAD-BEAM-SS-001`, `PSAD-BEAM-SS-002`, `MSTE-SURV-CURVE-001`, `HGE-HYDRO-GATE-001`; exam engine (set assembly, board-pace timer, grading, local storage) Practice and Exam modes, discard-without-saving, solutions in the results. Practice-my-mistakes and avoid-repeat (v0.0.8). On the branch (v0.0.9): D4 first cut — `content/taxonomy.json` (3 subjects, 39 PRC topics, 165 draft subtopics), the four templates tagged with `topic_id` / `subtopic_id`, Stage 3 taxonomy and tag checks
 - **Phase 1 checklist (§4) so far:** Practice mode ✔ and Exam mode ✔ (quick drill and full set) · pause and cancel ✔ · board pacing ✔ · local progress ✔ · mistake bank with "practice my mistakes" ✔ · avoid-repeat ✔ · results with per-topic breakdown ✔. Not yet: Random Mock Set, KPI dashboard and study recommendations, Exam Generator topic filter, Board-Trend Sets, export/import backup, theme switch (Auto only so far), PWA, TERMS, lectures stub, About/donations
 - **Waiting on Gemz:**
-  - Merge the v0.0.8 branch (ask Claude to open the PR)
+  - Review and merge the v0.0.9 PR (D4 first cut)
+  - D4: review `content/taxonomy.json` — the 165 subtopics are drafts. Two calls to confirm: determinate-beam reactions/shear/moment sits under Theory of Structures (could be Engineering Mechanics or Strength of Materials); simple curves sit under Construction Surveying and Layout (could be Highway Engineering). The PRC program has no semicolon between "Water Supply" and "Soil Properties"; read as two topics
   - Solution timing in Practice mode: this roadmap says "solution after each answer"; for a situation the app holds the worked solution until its last item is checked, so it cannot give away the later items. Confirm or change
-  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on `79b5486`; **v0.0.8** on the next merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
+  - Tags: **v0.0.1** on `4a00702`; **v0.0.3** on `f497357`; **v0.0.5** on `6f7e0d2`; **v0.0.6** on `b6c4ff5`; **v0.0.7** on `79b5486`; **v0.0.8** on `d0c0ad0`; **v0.0.9** on the next merge commit (GitHub → Releases → Draft a new release). Cloud sessions cannot push tags
   - D5: approve the schema as implemented (§5, four points), and review the four draft templates — wording, items, distractors — as the pattern for all later templates
   - D6: approve `docs/design-system.md`; give the Darkwiz Lab site URL so fonts and brand colours can be confirmed; review the drafted Night palette
   - D9: approve "no analytics until v1.0.0, then one cookieless counter"; pick the tool (suggested GoatCounter) or defer to launch week; give a public contact email for the notice; confirm the notice wording
-  - D4 sources: see item 1 below
+  - D4 frequency: the 12 past-board sittings (private folder or one Google Drive folder named to Claude) so frequency and archetype IDs can be added
 - **Next (in order):**
-  1. D4 — build `content/taxonomy.json` from `CELE Coverage 2026 1.pdf` + past-board frequency. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the coverage PDF and the 12 sittings in one Google Drive folder and name it to Claude
+  1. D4 close-out — add past-board frequency per topic and archetype IDs per subtopic to `content/taxonomy.json`, after Gemz reviews the draft subtopics. **Blocked in cloud sessions:** `../ramboo-private/` does not exist there. Either run this item in a local Claude Code session on Gemz's PC, or put the 12 sittings in one Google Drive folder and name it to Claude
   2. D6 close-out — after Gemz's confirmations: self-host the fonts, finalize Night
   3. Phase 0 exit check — needs D4, D5, D6, D9 closed
-  4. Phase 1 groundwork that does not depend on the open decisions, in this order: (a) KPI dashboard from the stored history (score, time, per-topic breakdown, study recommendations), Reset, export/import backup; (b) app shell — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest. Mock sets and Board-Trend Sets need a far larger bank and the taxonomy, so they wait for D4
-- **Blockers:** D4 needs the private sources (above). The bank cannot grow sensibly without it: with 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
+  4. Phase 1 groundwork that does not depend on the open decisions, in this order: (a) KPI dashboard from the stored history (score, time, per-topic breakdown, study recommendations), Reset, export/import backup; (b) app shell — subject tabs, Day/Night/Auto switch, About and disclaimer pages, PWA manifest. Mock sets and Board-Trend Sets need a far larger bank and the taxonomy frequencies, so they wait for the D4 close-out
+- **Blockers:** the D4 close-out needs the private sources (above). The bank cannot grow sensibly without it: with 2 PSAD, 1 MSTE and 1 HGE template, a set repeats problem types with new values (the setup screen says so)
 - **Known limits:** on phones the Live Figure labels are enlarged but still small (about 11 px); a compact phone layout for figures is Phase 2 work. All four templates are status `draft`. In a situation, the worked solution is held until its last item is checked, so it cannot give away the later items. A mistakes set repeats the whole situation a missed item belongs to, not the single item. The live site could not be checked from the cloud session (the network policy blocks `github.io`)
 - **Not built yet:** harness Stage 4 (originality) — needs `../ramboo-private/`, local only
 - **Carry-over from legacy 4.9.1 (private archive, low priority):** PSAD Mar 2026 solutions PDF still pending; ~8 flagged items; 40 held-out MSTE items
@@ -315,6 +318,7 @@ ramboo-private/                  (NOT in any public repo — sibling folder on G
 ---
 
 ## 10. Changelog
+- **R1.13 — 2026-11-15:** PR #6 merged (`d0c0ad0`, app v0.0.8 on `main`). App v0.0.9 on the branch: D4 first cut. `content/taxonomy.json` built from the PRC coverage PDF (3 subjects, weights 35/35/30, 39 topics in PRC order) with 165 draft subtopics; the four templates tagged with `topic_id` / `subtopic_id` and their `topic` label now the PRC topic name; Stage 3 checks the taxonomy and the tags. §5 gains point 5. D4 stays open: subtopic review, past-board frequency and archetype IDs outstanding. D5, D6, D9 unchanged.
 - **R1.12 — 2026-11-15:** PR #5 merged (`79b5486`, app v0.0.7 on `main`). App v0.0.8 on the branch: mistake bank with clearing, "My mistakes" sets, avoid-repeat. Phase 1 checklist and next-steps list updated; KPI dashboard is next. Decisions D4, D5, D6, D9 unchanged.
 - **R1.11 — 2026-11-15:** PR #4 merged (`b6c4ff5`, app v0.0.6 on `main`). App v0.0.7 on the branch: Exam mode on the same engine, discard-without-saving, solutions in the results, keyboard focus fix. Phase 1 checklist and next-steps list updated; Practice-mode solution timing listed for Gemz to confirm. Decisions D4, D5, D6, D9 unchanged.
 - **R1.10 — 2026-11-15:** PR #3 merged (`6f7e0d2`, app v0.0.5 on `main`). App v0.0.6 on the branch: exam engine (set assembly, board-pace timer, grading, local history and mistake bank) and Practice mode; engine checks added to Stage 3 and a scripted practice run-through to Stage 2. Status Board gains a Phase 1 checklist and an ordered list of the remaining groundwork. Decisions D4, D5, D6, D9 unchanged.

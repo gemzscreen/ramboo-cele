@@ -12,7 +12,9 @@ const g = (x) => formatSig(x, 5); // intermediates to 5 figures, so the working 
 export default {
   id: 'HGE-HYDRO-GATE-001',
   subject: 'HGE',
-  topic: 'Hydraulics > Hydrostatics > Forces on Plane Surfaces',
+  topic: 'Hydrostatics', // label of topic_id, kept in step by Stage 3
+  topic_id: 'hge.hydrostatics',
+  subtopic_id: 'hge.hydrostatics.plane-surface-forces',
   archetype: 'Hydrostatic force on a submerged vertical rectangular gate',
   format: 'situation',
   board_frequency: null, // filled from the taxonomy (D4)

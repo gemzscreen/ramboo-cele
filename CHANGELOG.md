@@ -4,6 +4,26 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.9 — 2026-11-15
+
+Topic taxonomy (decision D4, first cut). Phase 0 content groundwork.
+
+- `content/taxonomy.json`: subject → topic → subtopic for CELE 2026. The 3
+  subjects, their weights (35 / 35 / 30) and 39 topics follow the PRC
+  program of the examination, in its order. The program lists no subtopics,
+  so the 165 subtopics are drafts from the standard CE syllabus, marked
+  `"origin": "draft"` for review. IDs read `subject.topic.subtopic` and are
+  permanent once a bank is released.
+- Templates carry `topic_id` and `subtopic_id`. Their `topic` label is now the
+  PRC topic name, so the results table groups by CELE topic ("Theory of
+  Structures", "Hydrostatics", "Construction Surveying and Layout") instead
+  of the earlier free-text paths.
+- Harness Stage 3 checks the taxonomy (structure, unique ids, id pattern,
+  weights add up to 100) and every template's tags (ids exist, under the
+  template's own subject, label equals the taxonomy name).
+- Not in this release: past-board frequency per topic, and archetype IDs per
+  subtopic. Both wait on the private sittings (`board_frequency` stays null).
+
 ## v0.0.8 — 2026-11-15
 
 Practice my mistakes, and avoid-repeat. Early Phase 1 groundwork.

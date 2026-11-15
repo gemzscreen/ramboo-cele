@@ -10,7 +10,9 @@ const f = (x) => formatSig(x, 3);
 export default {
   id: 'PSAD-BEAM-SS-001',
   subject: 'PSAD',
-  topic: 'Structural Analysis > Beams',
+  topic: 'Theory of Structures', // label of topic_id, kept in step by Stage 3
+  topic_id: 'psad.theory-of-structures',
+  subtopic_id: 'psad.theory-of-structures.determinate-beams',
   archetype: 'Simply supported beam, single concentrated load',
   format: 'situation',
   board_frequency: null, // filled from the taxonomy (D4)

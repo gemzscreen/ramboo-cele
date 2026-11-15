@@ -4,7 +4,12 @@
 // compares it against closed-form formulas over random inputs. A model with no
 // check file fails the stage.
 //
-// Templates (content/templates/**/*.js): schema check, then RUNS random
+// Taxonomy (content/taxonomy.json): structure, unique ids that follow the
+// subject.topic.subtopic pattern, weights summing to 100.
+//
+// Templates (content/templates/**/*.js): schema check (including topic_id and
+// subtopic_id that exist in the taxonomy, under the template's own subject, and
+// a `topic` label equal to the taxonomy's topic name), then RUNS random
 // value sets (every allowed combination when the grid is small, else RUNS random) -> variables in range and on step, constraints respected, model
 // values finite and positive, 4 distinct choices with exactly one correct and
 // equal to the model value, deterministic for a seed; and the reference
@@ -21,7 +26,7 @@ const SUBJECTS = ['PSAD', 'MSTE', 'HGE'];
 const STATUSES = ['draft', 'verified', 'live'];
 const load = (root, rel) => import(pathToFileURL(path.join(root, rel)).href);
 
-function schemaProblems(t, file) {
+function schemaProblems(t, file, tax) {
   const p = [];
   const need = (ok, msg) => { if (!ok) p.push(msg); };
   need(typeof t.id === 'string' && /^[A-Z]+(-[A-Z0-9]+)+-\d{3}$/.test(t.id), 'id missing or malformed');
@@ -29,6 +34,15 @@ function schemaProblems(t, file) {
   need(SUBJECTS.includes(t.subject), `subject must be one of ${SUBJECTS.join('/')}`);
   need(file.split(path.sep).includes(String(t.subject).toLowerCase()), 'template is in the wrong subject folder');
   need(typeof t.topic === 'string' && t.topic, 'topic missing');
+  const topic = tax.topics.get(t.topic_id);
+  const sub = tax.subtopics.get(t.subtopic_id);
+  need(topic, `topic_id "${t.topic_id}" is not in content/taxonomy.json`);
+  need(sub, `subtopic_id "${t.subtopic_id}" is not in content/taxonomy.json`);
+  if (topic) {
+    need(topic.subject === t.subject, `topic_id belongs to ${topic.subject}, not ${t.subject}`);
+    need(t.topic === topic.name, `topic "${t.topic}" must equal the taxonomy name "${topic.name}"`);
+  }
+  if (topic && sub) need(sub.topicId === t.topic_id, `subtopic_id is not under ${t.topic_id}`);
   need(typeof t.archetype === 'string' && t.archetype, 'archetype missing');
   need(['situation', 'single'].includes(t.format), 'format must be "situation" or "single"');
   need([1, 2, 3].includes(t.difficulty), 'difficulty must be 1-3');
@@ -53,6 +67,55 @@ function schemaProblems(t, file) {
   need(ref && ref.vars && Array.isArray(ref.answers) && ref.answers.length === (t.items || []).length, 'reference_instance needs vars and one hand-solved answer per item');
   need(!/actual board|official prc/i.test(t.stem || ''), 'stem must not claim to be an actual board question');
   return p;
+}
+
+// Reads content/taxonomy.json; returns lookup maps and the structural problems.
+function loadTaxonomy(root) {
+  const problems = [];
+  const topics = new Map(); // topic id -> { name, subject }
+  const subtopics = new Map(); // subtopic id -> { name, topicId }
+  let doc;
+  try {
+    doc = JSON.parse(fs.readFileSync(path.join(root, 'content/taxonomy.json'), 'utf8'));
+  } catch (err) {
+    return { topics, subtopics, problems: [`content/taxonomy.json: ${err.message}`] };
+  }
+  const bad = (msg) => problems.push(`content/taxonomy.json: ${msg}`);
+  const slug = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+  const seen = new Set();
+  const node = (n, id, where, origins) => {
+    if (typeof n.name !== 'string' || !n.name.trim()) bad(`${where}: name missing`);
+    if (!origins.includes(n.origin)) bad(`${where}: origin must be ${origins.join(' or ')}`);
+    if (seen.has(id)) bad(`${where}: duplicate id`);
+    seen.add(id);
+  };
+  if (!Array.isArray(doc.subjects)) { bad('subjects must be an array'); return { topics, subtopics, problems }; }
+  if (JSON.stringify(doc.subjects.map((s) => s.id)) !== JSON.stringify(SUBJECTS)) bad(`subjects must be ${SUBJECTS.join(', ')} in that order`);
+  if (doc.subjects.reduce((sum, s) => sum + s.weight_percent, 0) !== 100) bad('subject weights must add up to 100');
+  for (const s of doc.subjects) {
+    node(s, s.id, `subject ${s.id}`, ['prc']);
+    if (!Array.isArray(s.topics) || s.topics.length === 0) { bad(`subject ${s.id}: no topics`); continue; }
+    const topicNames = new Set();
+    for (const t of s.topics) {
+      node(t, t.id, `topic ${t.id}`, ['prc']);
+      const [subj, tslug, ...rest] = String(t.id).split('.');
+      if (subj !== s.id.toLowerCase() || !slug.test(tslug || '') || rest.length) bad(`topic ${t.id}: id must be "${s.id.toLowerCase()}.<slug>"`);
+      if (topicNames.has(t.name)) bad(`topic ${t.id}: name repeated within ${s.id}`);
+      topicNames.add(t.name);
+      topics.set(t.id, { name: t.name, subject: s.id });
+      if (!Array.isArray(t.subtopics) || t.subtopics.length === 0) { bad(`topic ${t.id}: no subtopics`); continue; }
+      const subNames = new Set();
+      for (const u of t.subtopics) {
+        node(u, u.id, `subtopic ${u.id}`, ['prc', 'draft']);
+        const [, , uslug, ...more] = String(u.id).split('.');
+        if (!String(u.id).startsWith(`${t.id}.`) || !slug.test(uslug || '') || more.length) bad(`subtopic ${u.id}: id must be "${t.id}.<slug>"`);
+        if (subNames.has(u.name)) bad(`subtopic ${u.id}: name repeated within ${t.id}`);
+        subNames.add(u.name);
+        subtopics.set(u.id, { name: u.name, topicId: t.id });
+      }
+    }
+  }
+  return { topics, subtopics, problems };
 }
 
 export async function run(root) {
@@ -92,6 +155,11 @@ export async function run(root) {
     } catch (err) { failures.push(`${file}: crashed: ${err.stack || err}`); }
   }
 
+  // ---- Taxonomy ----
+  checked++;
+  const tax = loadTaxonomy(root);
+  failures.push(...tax.problems);
+
   // ---- Templates ----
   const ids = new Set();
   for (const file of walk(root, 'content/templates', /\.js$/)) {
@@ -99,7 +167,7 @@ export async function run(root) {
     const t = (await load(root, file)).default;
     const fail = (msg) => failures.push(`${file}: ${msg}`);
     if (!t) { fail('no default export'); continue; }
-    const problems = schemaProblems(t, file);
+    const problems = schemaProblems(t, file, tax);
     if (problems.length) { problems.forEach(fail); continue; }
     if (ids.has(t.id)) fail(`duplicate template id ${t.id}`);
     ids.add(t.id);
@@ -190,6 +258,13 @@ export async function run(root) {
   for (const id of ids) if (!banked.has(id)) failures.push(`js/engine/bank.js: template ${id} exists but is not listed`);
   for (const id of banked) if (!ids.has(id)) failures.push(`js/engine/bank.js: lists ${id}, which has no valid template file`);
   if (banked.size !== TEMPLATES.length) failures.push('js/engine/bank.js: a template is listed twice');
+
+  const tagged = new Set();
+  for (const file of walk(root, 'content/templates', /\.js$/)) {
+    const t = (await load(root, file)).default;
+    if (t && tax.subtopics.has(t.subtopic_id)) tagged.add(t.subtopic_id);
+  }
+  notes.push(`taxonomy: ${tax.topics.size} topics, ${tax.subtopics.size} subtopics; ${tagged.size} subtopics have a template`);
 
   if (checked === 0) notes.push('no templates or models yet');
   return { checked, failures, notes };
