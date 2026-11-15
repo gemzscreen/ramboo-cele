@@ -1,0 +1,971 @@
+{
+  "frequency_revision": 1,
+  "generated": "2026-11-15",
+  "taxonomy_revision": 2,
+  "source": "Counts of the private legacy 4.9.1 transcribed bank, taken 2026-11-15. Only numbers are kept here: no question text, figures, choices or solutions (ROADMAP §3).",
+  "sittings": [
+    {
+      "id": "2023-04",
+      "label": "Apr 2023"
+    },
+    {
+      "id": "2023-11",
+      "label": "Nov 2023"
+    },
+    {
+      "id": "2024-04",
+      "label": "Apr 2024"
+    },
+    {
+      "id": "2024-11",
+      "label": "Nov 2024"
+    },
+    {
+      "id": "2025-04",
+      "label": "Apr 2025"
+    },
+    {
+      "id": "2025-11",
+      "label": "Nov 2025"
+    },
+    {
+      "id": "2026-03",
+      "label": "Mar 2026"
+    }
+  ],
+  "board_items_per_sitting": {
+    "PSAD": 75,
+    "MSTE": 75,
+    "HGE": 50
+  },
+  "method": [
+    "Unit counted: one transcribed sub-item. A 'set' is one board situation (3 sub-items) or one standalone item, so for MSTE sets = items.",
+    "Each set was assigned to exactly one taxonomy topic by reading its stem. The legacy bank's own topic field was too coarse to use (8 buckets per subject) and was not relied on. Sets that straddle two topics go to the topic that holds most of their sub-items.",
+    "mean_share_percent = the topic's share of the transcribed items in a sitting, averaged over the 7 sittings with equal weight. Ranking uses it so a sitting that was only partly transcribed does not count for less. Ties share a rank; topics with no hits share the last rank.",
+    "sittings_seen = how many of the 7 sittings had at least one item in the topic (use for the template field board_frequency).",
+    "definition_items = items the legacy app flags as TERMS (concept or definition questions with no computation). They are included in items and sets."
+  ],
+  "notes": [
+    "The legacy bank holds 7 sittings (Apr 2023 to Mar 2026) per subject, not the 12 the roadmap mentions. Frequencies are 'x of 7 sittings'.",
+    "Transcription is incomplete for some sittings (see per_sitting.coverage_percent; MSTE Apr 2025 holds 21 of 75 items). Compare mean_share_percent, not raw items, across sittings.",
+    "MSTE has 54 items on algebra, geometry, trigonometry, analytic geometry and similar that have no topic in the PRC list, plus 8 others outside the 13 MSTE topics. They sit under 'unmapped' rather than being forced into Calculus. Decision for Gemz: leave unmapped, or add a pre-calculus topic.",
+    "Borderline placements: dam and wall overturning and sliding sets count under Engineering Mechanics; a cantilever deflection-by-superposition set counts under Strength of Materials; wide-flange beam stress sets count under Steel; water hammer and jet-trajectory items count under Fluid Flow; concrete mix proportioning counts under Construction Materials Testing; Application of the Governing Codes is mostly embedded in the RC and steel sets, so it shows almost nothing.",
+    "Several MSTE and HGE counts are small (1 to 5 items), so a rank difference between neighbours there is not meaningful."
+  ],
+  "subjects": {
+    "PSAD": {
+      "transcribed": {
+        "items": 495,
+        "sets": 165,
+        "mapped_items": 495,
+        "unmapped_items": 0
+      },
+      "per_sitting": {
+        "2023-04": {
+          "items": 72,
+          "sets": 24,
+          "coverage_percent": 96
+        },
+        "2023-11": {
+          "items": 69,
+          "sets": 23,
+          "coverage_percent": 92
+        },
+        "2024-04": {
+          "items": 72,
+          "sets": 24,
+          "coverage_percent": 96
+        },
+        "2024-11": {
+          "items": 72,
+          "sets": 24,
+          "coverage_percent": 96
+        },
+        "2025-04": {
+          "items": 75,
+          "sets": 25,
+          "coverage_percent": 100
+        },
+        "2025-11": {
+          "items": 66,
+          "sets": 22,
+          "coverage_percent": 88
+        },
+        "2026-03": {
+          "items": 69,
+          "sets": 23,
+          "coverage_percent": 92
+        }
+      },
+      "topics": [
+        {
+          "id": "psad.theory-of-structures",
+          "rank": 1,
+          "items": 108,
+          "sets": 36,
+          "definition_items": 0,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 21.9,
+          "by_sitting": {
+            "2023-04": 24,
+            "2023-11": 12,
+            "2024-04": 18,
+            "2024-11": 18,
+            "2025-04": 9,
+            "2025-11": 18,
+            "2026-03": 9
+          }
+        },
+        {
+          "id": "psad.steel-beams-columns-and-connections",
+          "rank": 2,
+          "items": 90,
+          "sets": 30,
+          "definition_items": 0,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 18.2,
+          "by_sitting": {
+            "2023-04": 15,
+            "2023-11": 9,
+            "2024-04": 15,
+            "2024-11": 9,
+            "2025-04": 15,
+            "2025-11": 12,
+            "2026-03": 15
+          }
+        },
+        {
+          "id": "psad.strength-of-materials",
+          "rank": 3,
+          "items": 81,
+          "sets": 27,
+          "definition_items": 9,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 16.4,
+          "by_sitting": {
+            "2023-04": 6,
+            "2023-11": 15,
+            "2024-04": 12,
+            "2024-11": 18,
+            "2025-04": 6,
+            "2025-11": 9,
+            "2026-03": 15
+          }
+        },
+        {
+          "id": "psad.engineering-mechanics",
+          "rank": 4,
+          "items": 72,
+          "sets": 24,
+          "definition_items": 0,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 14.5,
+          "by_sitting": {
+            "2023-04": 9,
+            "2023-11": 9,
+            "2024-04": 9,
+            "2024-11": 9,
+            "2025-04": 15,
+            "2025-11": 9,
+            "2026-03": 12
+          }
+        },
+        {
+          "id": "psad.reinforced-concrete-beams-and-columns",
+          "rank": 5,
+          "items": 69,
+          "sets": 23,
+          "definition_items": 0,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 13.9,
+          "by_sitting": {
+            "2023-04": 6,
+            "2023-11": 12,
+            "2024-04": 9,
+            "2024-11": 9,
+            "2025-04": 15,
+            "2025-11": 9,
+            "2026-03": 9
+          }
+        },
+        {
+          "id": "psad.footings",
+          "rank": 6,
+          "items": 33,
+          "sets": 11,
+          "definition_items": 0,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 6.6,
+          "by_sitting": {
+            "2023-04": 6,
+            "2023-11": 6,
+            "2024-04": 3,
+            "2024-11": 6,
+            "2025-04": 6,
+            "2025-11": 3,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "psad.prestressed-concrete-beams",
+          "rank": 7,
+          "items": 24,
+          "sets": 8,
+          "definition_items": 3,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 4.9,
+          "by_sitting": {
+            "2023-04": 3,
+            "2023-11": 3,
+            "2024-04": 3,
+            "2024-11": 3,
+            "2025-04": 3,
+            "2025-11": 6,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "psad.construction-materials-testing",
+          "rank": 8,
+          "items": 15,
+          "sets": 5,
+          "definition_items": 0,
+          "sittings_seen": 5,
+          "board_frequency": "5/7 sittings",
+          "mean_share_percent": 3,
+          "by_sitting": {
+            "2023-04": 3,
+            "2023-11": 3,
+            "2024-04": 3,
+            "2024-11": 0,
+            "2025-04": 3,
+            "2025-11": 0,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "psad.application-of-governing-codes",
+          "rank": 9,
+          "items": 3,
+          "sets": 1,
+          "definition_items": 3,
+          "sittings_seen": 1,
+          "board_frequency": "1/7 sittings",
+          "mean_share_percent": 0.6,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 0,
+            "2025-04": 3,
+            "2025-11": 0,
+            "2026-03": 0
+          }
+        }
+      ],
+      "unmapped": []
+    },
+    "MSTE": {
+      "transcribed": {
+        "items": 325,
+        "sets": 325,
+        "mapped_items": 263,
+        "unmapped_items": 62
+      },
+      "per_sitting": {
+        "2023-04": {
+          "items": 44,
+          "sets": 44,
+          "coverage_percent": 58.7
+        },
+        "2023-11": {
+          "items": 26,
+          "sets": 26,
+          "coverage_percent": 34.7
+        },
+        "2024-04": {
+          "items": 69,
+          "sets": 69,
+          "coverage_percent": 92
+        },
+        "2024-11": {
+          "items": 53,
+          "sets": 53,
+          "coverage_percent": 70.7
+        },
+        "2025-04": {
+          "items": 21,
+          "sets": 21,
+          "coverage_percent": 28
+        },
+        "2025-11": {
+          "items": 54,
+          "sets": 54,
+          "coverage_percent": 72
+        },
+        "2026-03": {
+          "items": 58,
+          "sets": 58,
+          "coverage_percent": 77.3
+        }
+      },
+      "topics": [
+        {
+          "id": "mste.construction-management-principles-and-methods",
+          "rank": 1,
+          "items": 36,
+          "sets": 36,
+          "definition_items": 17,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 12.3,
+          "by_sitting": {
+            "2023-04": 7,
+            "2023-11": 5,
+            "2024-04": 4,
+            "2024-11": 5,
+            "2025-04": 3,
+            "2025-11": 5,
+            "2026-03": 7
+          }
+        },
+        {
+          "id": "mste.physics-for-engineers",
+          "rank": 2,
+          "items": 36,
+          "sets": 36,
+          "definition_items": 1,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 10,
+          "by_sitting": {
+            "2023-04": 6,
+            "2023-11": 1,
+            "2024-04": 7,
+            "2024-11": 4,
+            "2025-04": 1,
+            "2025-11": 6,
+            "2026-03": 11
+          }
+        },
+        {
+          "id": "mste.calculus",
+          "rank": 3,
+          "items": 30,
+          "sets": 30,
+          "definition_items": 2,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 8.7,
+          "by_sitting": {
+            "2023-04": 5,
+            "2023-11": 2,
+            "2024-04": 7,
+            "2024-11": 2,
+            "2025-04": 1,
+            "2025-11": 8,
+            "2026-03": 5
+          }
+        },
+        {
+          "id": "mste.economics",
+          "rank": 4,
+          "items": 27,
+          "sets": 27,
+          "definition_items": 1,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 8.5,
+          "by_sitting": {
+            "2023-04": 3,
+            "2023-11": 1,
+            "2024-04": 5,
+            "2024-11": 5,
+            "2025-04": 3,
+            "2025-11": 4,
+            "2026-03": 6
+          }
+        },
+        {
+          "id": "mste.construction-occupational-safety-and-health",
+          "rank": 5,
+          "items": 26,
+          "sets": 26,
+          "definition_items": 22,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 7.4,
+          "by_sitting": {
+            "2023-04": 2,
+            "2023-11": 0,
+            "2024-04": 5,
+            "2024-11": 2,
+            "2025-04": 2,
+            "2025-11": 7,
+            "2026-03": 8
+          }
+        },
+        {
+          "id": "mste.materials-for-construction",
+          "rank": 6,
+          "items": 20,
+          "sets": 20,
+          "definition_items": 10,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 6.9,
+          "by_sitting": {
+            "2023-04": 5,
+            "2023-11": 1,
+            "2024-04": 3,
+            "2024-11": 3,
+            "2025-04": 3,
+            "2025-11": 2,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "mste.engineering-data-analysis",
+          "rank": 7,
+          "items": 20,
+          "sets": 20,
+          "definition_items": 0,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 6.2,
+          "by_sitting": {
+            "2023-04": 2,
+            "2023-11": 4,
+            "2024-04": 5,
+            "2024-11": 3,
+            "2025-04": 0,
+            "2025-11": 3,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "mste.transportation-engineering",
+          "rank": 8,
+          "items": 17,
+          "sets": 17,
+          "definition_items": 1,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 5.1,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 0,
+            "2024-04": 4,
+            "2024-11": 1,
+            "2025-04": 2,
+            "2025-11": 6,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "mste.construction-surveying-and-layout",
+          "rank": 9,
+          "items": 16,
+          "sets": 16,
+          "definition_items": 3,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 4.3,
+          "by_sitting": {
+            "2023-04": 2,
+            "2023-11": 1,
+            "2024-04": 5,
+            "2024-11": 3,
+            "2025-04": 0,
+            "2025-11": 1,
+            "2026-03": 4
+          }
+        },
+        {
+          "id": "mste.highway-engineering",
+          "rank": 10,
+          "items": 12,
+          "sets": 12,
+          "definition_items": 3,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 4.1,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 2,
+            "2024-04": 1,
+            "2024-11": 3,
+            "2025-04": 1,
+            "2025-11": 2,
+            "2026-03": 2
+          }
+        },
+        {
+          "id": "mste.quantity-surveying",
+          "rank": 11,
+          "items": 13,
+          "sets": 13,
+          "definition_items": 2,
+          "sittings_seen": 5,
+          "board_frequency": "5/7 sittings",
+          "mean_share_percent": 3.4,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 1,
+            "2024-04": 5,
+            "2024-11": 1,
+            "2025-04": 0,
+            "2025-11": 3,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "mste.differential-equations",
+          "rank": 12,
+          "items": 8,
+          "sets": 8,
+          "definition_items": 0,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 2.8,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 1,
+            "2024-04": 1,
+            "2024-11": 2,
+            "2025-04": 1,
+            "2025-11": 2,
+            "2026-03": 1
+          }
+        },
+        {
+          "id": "mste.numerical-methods",
+          "rank": 13,
+          "items": 2,
+          "sets": 2,
+          "definition_items": 0,
+          "sittings_seen": 1,
+          "board_frequency": "1/7 sittings",
+          "mean_share_percent": 0.5,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 0,
+            "2025-04": 0,
+            "2025-11": 2,
+            "2026-03": 0
+          }
+        }
+      ],
+      "unmapped": [
+        {
+          "label": "Algebra, geometry, trigonometry, analytic geometry and similar word problems; no topic in the PRC list",
+          "items": 54,
+          "sets": 54,
+          "by_sitting": {
+            "2023-04": 10,
+            "2023-11": 7,
+            "2024-04": 13,
+            "2024-11": 15,
+            "2025-04": 4,
+            "2025-11": 3,
+            "2026-03": 2
+          }
+        },
+        {
+          "label": "Other items outside the 13 MSTE topics (for example pump line design, building plumbing, competency standards, reinforced-concrete bond)",
+          "items": 8,
+          "sets": 8,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 4,
+            "2024-11": 4,
+            "2025-04": 0,
+            "2025-11": 0,
+            "2026-03": 0
+          }
+        }
+      ]
+    },
+    "HGE": {
+      "transcribed": {
+        "items": 278,
+        "sets": 204,
+        "mapped_items": 278,
+        "unmapped_items": 0
+      },
+      "per_sitting": {
+        "2023-04": {
+          "items": 42,
+          "sets": 34,
+          "coverage_percent": 84
+        },
+        "2023-11": {
+          "items": 44,
+          "sets": 22,
+          "coverage_percent": 88
+        },
+        "2024-04": {
+          "items": 47,
+          "sets": 37,
+          "coverage_percent": 94
+        },
+        "2024-11": {
+          "items": 45,
+          "sets": 35,
+          "coverage_percent": 90
+        },
+        "2025-04": {
+          "items": 32,
+          "sets": 20,
+          "coverage_percent": 64
+        },
+        "2025-11": {
+          "items": 32,
+          "sets": 22,
+          "coverage_percent": 64
+        },
+        "2026-03": {
+          "items": 36,
+          "sets": 34,
+          "coverage_percent": 72
+        }
+      },
+      "topics": [
+        {
+          "id": "hge.hydrostatics",
+          "rank": 1,
+          "items": 65,
+          "sets": 39,
+          "definition_items": 2,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 22.9,
+          "by_sitting": {
+            "2023-04": 9,
+            "2023-11": 19,
+            "2024-04": 9,
+            "2024-11": 10,
+            "2025-04": 6,
+            "2025-11": 7,
+            "2026-03": 5
+          }
+        },
+        {
+          "id": "hge.fluid-flow",
+          "rank": 2,
+          "items": 45,
+          "sets": 33,
+          "definition_items": 10,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 17,
+          "by_sitting": {
+            "2023-04": 8,
+            "2023-11": 4,
+            "2024-04": 5,
+            "2024-11": 5,
+            "2025-04": 11,
+            "2025-11": 4,
+            "2026-03": 8
+          }
+        },
+        {
+          "id": "hge.soil-strength-and-tests",
+          "rank": 3,
+          "items": 33,
+          "sets": 27,
+          "definition_items": 11,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 12,
+          "by_sitting": {
+            "2023-04": 3,
+            "2023-11": 6,
+            "2024-04": 5,
+            "2024-11": 5,
+            "2025-04": 1,
+            "2025-11": 6,
+            "2026-03": 7
+          }
+        },
+        {
+          "id": "hge.soil-properties",
+          "rank": 4,
+          "items": 32,
+          "sets": 26,
+          "definition_items": 7,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 11.2,
+          "by_sitting": {
+            "2023-04": 8,
+            "2023-11": 1,
+            "2024-04": 8,
+            "2024-11": 6,
+            "2025-04": 4,
+            "2025-11": 1,
+            "2026-03": 4
+          }
+        },
+        {
+          "id": "hge.stresses-in-soil-mass",
+          "rank": 5,
+          "items": 31,
+          "sets": 15,
+          "definition_items": 1,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 10.5,
+          "by_sitting": {
+            "2023-04": 5,
+            "2023-11": 9,
+            "2024-04": 8,
+            "2024-11": 4,
+            "2025-04": 0,
+            "2025-11": 4,
+            "2026-03": 1
+          }
+        },
+        {
+          "id": "hge.buoyancy-and-flotation",
+          "rank": 6,
+          "items": 15,
+          "sets": 15,
+          "definition_items": 2,
+          "sittings_seen": 7,
+          "board_frequency": "7/7 sittings",
+          "mean_share_percent": 5.5,
+          "by_sitting": {
+            "2023-04": 2,
+            "2023-11": 1,
+            "2024-04": 3,
+            "2024-11": 3,
+            "2025-04": 3,
+            "2025-11": 2,
+            "2026-03": 1
+          }
+        },
+        {
+          "id": "hge.consolidation-and-settlement",
+          "rank": 7,
+          "items": 11,
+          "sets": 11,
+          "definition_items": 2,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 3.9,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 1,
+            "2024-04": 3,
+            "2024-11": 2,
+            "2025-04": 0,
+            "2025-11": 2,
+            "2026-03": 2
+          }
+        },
+        {
+          "id": "hge.relative-equilibrium-of-liquids",
+          "rank": 8,
+          "items": 10,
+          "sets": 10,
+          "definition_items": 0,
+          "sittings_seen": 5,
+          "board_frequency": "5/7 sittings",
+          "mean_share_percent": 3.4,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 2,
+            "2024-04": 2,
+            "2024-11": 3,
+            "2025-04": 2,
+            "2025-11": 0,
+            "2026-03": 0
+          }
+        },
+        {
+          "id": "hge.compaction",
+          "rank": 9,
+          "items": 8,
+          "sets": 4,
+          "definition_items": 2,
+          "sittings_seen": 3,
+          "board_frequency": "3/7 sittings",
+          "mean_share_percent": 3,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 4,
+            "2025-04": 3,
+            "2025-11": 0,
+            "2026-03": 1
+          }
+        },
+        {
+          "id": "hge.fluid-flow-through-soil-mass",
+          "rank": 9,
+          "items": 8,
+          "sets": 8,
+          "definition_items": 2,
+          "sittings_seen": 6,
+          "board_frequency": "6/7 sittings",
+          "mean_share_percent": 3,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 0,
+            "2024-04": 2,
+            "2024-11": 1,
+            "2025-04": 1,
+            "2025-11": 1,
+            "2026-03": 2
+          }
+        },
+        {
+          "id": "hge.bearing-capacity",
+          "rank": 11,
+          "items": 5,
+          "sets": 5,
+          "definition_items": 1,
+          "sittings_seen": 5,
+          "board_frequency": "5/7 sittings",
+          "mean_share_percent": 1.9,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 0,
+            "2024-04": 1,
+            "2024-11": 1,
+            "2025-04": 1,
+            "2025-11": 1,
+            "2026-03": 0
+          }
+        },
+        {
+          "id": "hge.soils-classification",
+          "rank": 12,
+          "items": 4,
+          "sets": 2,
+          "definition_items": 1,
+          "sittings_seen": 2,
+          "board_frequency": "2/7 sittings",
+          "mean_share_percent": 1.7,
+          "by_sitting": {
+            "2023-04": 1,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 0,
+            "2025-04": 0,
+            "2025-11": 3,
+            "2026-03": 0
+          }
+        },
+        {
+          "id": "hge.fluid-properties",
+          "rank": 13,
+          "items": 4,
+          "sets": 4,
+          "definition_items": 4,
+          "sittings_seen": 3,
+          "board_frequency": "3/7 sittings",
+          "mean_share_percent": 1.3,
+          "by_sitting": {
+            "2023-04": 2,
+            "2023-11": 1,
+            "2024-04": 0,
+            "2024-11": 1,
+            "2025-04": 0,
+            "2025-11": 0,
+            "2026-03": 0
+          }
+        },
+        {
+          "id": "hge.lateral-earth-pressures",
+          "rank": 14,
+          "items": 3,
+          "sets": 1,
+          "definition_items": 0,
+          "sittings_seen": 1,
+          "board_frequency": "1/7 sittings",
+          "mean_share_percent": 1.2,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 0,
+            "2025-04": 0,
+            "2025-11": 0,
+            "2026-03": 3
+          }
+        },
+        {
+          "id": "hge.hydrodynamics",
+          "rank": 15,
+          "items": 3,
+          "sets": 3,
+          "definition_items": 0,
+          "sittings_seen": 3,
+          "board_frequency": "3/7 sittings",
+          "mean_share_percent": 1.1,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 1,
+            "2024-11": 0,
+            "2025-04": 0,
+            "2025-11": 1,
+            "2026-03": 1
+          }
+        },
+        {
+          "id": "hge.slope-stability",
+          "rank": 16,
+          "items": 1,
+          "sets": 1,
+          "definition_items": 1,
+          "sittings_seen": 1,
+          "board_frequency": "1/7 sittings",
+          "mean_share_percent": 0.4,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 0,
+            "2025-04": 0,
+            "2025-11": 0,
+            "2026-03": 1
+          }
+        },
+        {
+          "id": "hge.water-supply",
+          "rank": 17,
+          "items": 0,
+          "sets": 0,
+          "definition_items": 0,
+          "sittings_seen": 0,
+          "board_frequency": "0/7 sittings",
+          "mean_share_percent": 0,
+          "by_sitting": {
+            "2023-04": 0,
+            "2023-11": 0,
+            "2024-04": 0,
+            "2024-11": 0,
+            "2025-04": 0,
+            "2025-11": 0,
+            "2026-03": 0
+          }
+        }
+      ],
+      "unmapped": []
+    }
+  }
+}

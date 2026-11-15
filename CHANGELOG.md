@@ -4,6 +4,23 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.13 — 2026-11-15
+
+Past-board topic frequency (D4, first half). Content and harness only; the app
+itself is unchanged.
+
+- New `content/frequency.json`: for each subject, how many items and
+  situations each taxonomy topic had in each past-board sitting, how many
+  sittings it appeared in, its average share of a sitting, and its rank.
+  Counts only; no question text, figures or choices (ROADMAP §3).
+- Source: the private legacy bank (1,098 items, 7 sittings per subject, Apr 2023
+  to Mar 2026). Each situation was placed under one taxonomy topic by reading
+  its stem. MSTE has 62 items (19%) with no matching topic, kept as
+  "unmapped" for Gemz to decide.
+- Harness Stage 3 checks the file: every taxonomy topic listed once, totals and
+  per-sitting numbers add up, ranks follow the ordering, and only the expected
+  count fields are allowed, so no text can enter this public file.
+
 ## v0.0.12 — 2026-11-15
 
 Self-hosted fonts; templates verified.
