@@ -15,7 +15,7 @@ export default {
   subtopic_id: 'psad.theory-of-structures.determinate-beams',
   archetype: 'Simply supported beam, uniform load plus a concentrated load',
   format: 'situation',
-  board_frequency: null, // filled from the taxonomy (D4)
+  board_frequency: '7/7 sittings', // the topic's count in content/frequency.json
   difficulty: 2,
 
   vars: {

@@ -167,7 +167,8 @@ function progressFlow(doc, handles) {
     if (root.querySelectorAll('[data-role="subject-table"] tbody tr').length !== 3) problems.push('progress: subject table should have 3 rows');
     const topicRows = [...root.querySelectorAll('[data-role="topic-table"] tbody tr')];
     const topicSum = topicRows.reduce((a, tr) => a + Number(tr.lastElementChild.textContent.match(/\/ (\d+)/)[1]), 0);
-    if (topicRows.length !== 3 || topicSum !== total) problems.push(`progress: topic table has ${topicRows.length} rows covering ${topicSum} items, expected 3 rows and ${total} items`);
+    const topicsDone = new Set(history.flatMap((h) => Object.keys(h.topics || {}))).size; // one row per topic practised
+    if (topicRows.length !== topicsDone || topicsDone < 3 || topicSum !== total) problems.push(`progress: topic table has ${topicRows.length} rows covering ${topicSum} items, expected ${topicsDone} rows (at least 3) and ${total} items`);
     if (!$('[data-role="advice"] li')) problems.push('progress: no study recommendations after sets with wrong answers');
 
     const backup = handles.progress.backupText();

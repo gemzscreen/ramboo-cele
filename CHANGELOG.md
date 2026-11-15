@@ -4,6 +4,31 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.14 — 2026-11-15
+
+Bank grows from 4 to 14 problem types, picked from the top of the frequency
+table. All ten new ones are `draft` until Gemz reviews them.
+
+- PSAD (situations): propped cantilever under uniform load
+  (`PSAD-TOS-PROPPED-001`); steel column braced at mid-height, NSCP 2015
+  Section 505.3 (`PSAD-STEEL-COL-001`); solid shaft in torsion
+  (`PSAD-SOM-TORSION-001`); singly reinforced beam, NSCP 2015 Sections 422.2
+  and 421.2 (`PSAD-RC-BEAM-001`).
+- MSTE (single items): loan repaid by equal monthly payments
+  (`MSTE-ECON-LOAN-001`); projectile released above level ground
+  (`MSTE-PHYS-PROJ-001`); largest open box from a sheet (`MSTE-CALC-BOX-001`).
+- HGE (situations): pipe friction by Darcy-Weisbach (`HGE-FLOW-PIPE-001`);
+  drained triaxial test on sand (`HGE-SOIL-TRIAX-001`); soil phase relations
+  (`HGE-SOIL-PHASE-001`).
+- Each has its own pure solver in `js/models/` with an independent check
+  (equilibrium, compatibility, energy, brute-force search or a second formula)
+  and a hand-solved reference. None has a figure yet; the stems describe the
+  set-up in words.
+- Every template's `board_frequency` now carries its topic's count from
+  `content/frequency.json`, and Stage 3 fails if the two disagree.
+- Harness: the Progress test expects one topic row per topic practised instead
+  of exactly three.
+
 ## v0.0.13 — 2026-11-15
 
 Past-board topic frequency (D4, first half). Content and harness only; the app

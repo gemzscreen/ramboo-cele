@@ -11,7 +11,8 @@
 // listed once per subject, totals and per-sitting numbers add up, ranks follow
 // the ordering, and no text fields (the file is public; see ROADMAP §3).
 //
-// Templates (content/templates/**/*.js): schema check (including topic_id and
+// Templates (content/templates/**/*.js): schema check (including board_frequency
+// equal to the topic's count in the frequency table, topic_id and
 // subtopic_id that exist in the taxonomy, under the template's own subject, and
 // a `topic` label equal to the taxonomy's topic name), then RUNS random
 // value sets (every allowed combination when the grid is small, else RUNS random) -> variables in range and on step, constraints respected, model
@@ -203,7 +204,7 @@ function frequencyCheck(root, tax) {
     }
     notes.push(`frequency ${subj}: ${tr.items} items in ${sittingIds.length} sittings, ${s.topics.filter((t) => t.items > 0).length}/${wanted.length} topics seen, ${unmappedItems} unmapped`);
   }
-  return { problems, notes };
+  return { problems, notes, byTopic: Object.fromEntries(SUBJECTS.flatMap((subj) => doc.subjects[subj].topics.map((t) => [t.id, t.board_frequency]))) };
 }
 
 export async function run(root) {
@@ -262,6 +263,8 @@ export async function run(root) {
     const problems = schemaProblems(t, file, tax);
     if (problems.length) { problems.forEach(fail); continue; }
     if (ids.has(t.id)) fail(`duplicate template id ${t.id}`);
+    // board_frequency is the topic's sittings count from the frequency table (or null before the table exists).
+    if (freq.byTopic && t.board_frequency !== freq.byTopic[t.topic_id]) fail(`board_frequency "${t.board_frequency}" must equal the frequency table's "${freq.byTopic[t.topic_id]}" for ${t.topic_id}`);
     ids.add(t.id);
 
     const rng = createRng(SEED);
