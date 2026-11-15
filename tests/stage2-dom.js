@@ -145,6 +145,66 @@ function practiceFlow(doc, handle) {
   return problems;
 }
 
+// Progress: the dashboard agrees with the stored history; Reset KPIs and
+// backup restore need confirmation and keep both screens in step.
+function progressFlow(doc, handles) {
+  const problems = [];
+  const root = doc.getElementById('progress');
+  if (!root) return ['#progress is missing'];
+  const practice = doc.getElementById('practice');
+  const { store } = handles.practice;
+  const $ = (sel) => root.querySelector(sel);
+  const click = (sel) => { const el = $(sel); if (!el) throw new Error(`nothing matches ${sel}`); el.click(); };
+  const stat = (n) => root.querySelectorAll('.stat dd')[n]?.textContent;
+  try {
+    const history = store.getHistory();
+    const correct = history.reduce((a, h) => a + h.correct, 0);
+    const total = history.reduce((a, h) => a + h.total, 0);
+    if (history.length < 5) problems.push(`progress: expected the practice run to leave at least 5 sets, found ${history.length}`);
+    if (stat(0) !== String(history.length)) problems.push(`progress: shows ${stat(0)} sets, history has ${history.length} (dashboard did not refresh after a set)`);
+    if (stat(1) !== `${correct} / ${total}`) problems.push(`progress: shows "${stat(1)}" correct, history says ${correct} / ${total}`);
+    if (/NaN|undefined|Infinity/.test(root.textContent)) problems.push('progress: dashboard did not render cleanly');
+    if (root.querySelectorAll('[data-role="subject-table"] tbody tr').length !== 3) problems.push('progress: subject table should have 3 rows');
+    const topicRows = [...root.querySelectorAll('[data-role="topic-table"] tbody tr')];
+    const topicSum = topicRows.reduce((a, tr) => a + Number(tr.lastElementChild.textContent.match(/\/ (\d+)/)[1]), 0);
+    if (topicRows.length !== 3 || topicSum !== total) problems.push(`progress: topic table has ${topicRows.length} rows covering ${topicSum} items, expected 3 rows and ${total} items`);
+    if (!$('[data-role="advice"] li')) problems.push('progress: no study recommendations after sets with wrong answers');
+
+    const backup = handles.progress.backupText();
+
+    // A file that is not a backup is refused, with a reason, and changes nothing.
+    for (const text of ['{not json', '{"app":"other"}']) {
+      if (handles.progress.offerRestore(text) || $('.practice-confirm')) problems.push('progress: a bad backup file was offered for restore');
+      if (!$('[data-role="backup-message"]').textContent.trim()) problems.push('progress: no reason shown for a refused backup file');
+    }
+    if (store.getHistory().length !== history.length) problems.push('progress: a refused backup changed the history');
+
+    // Reset KPIs asks first; cancel keeps everything.
+    const mistakesBefore = store.getMistakes().length;
+    click('[data-role="reset"]');
+    if (!$('.practice-confirm') || store.getHistory().length !== history.length) problems.push('progress: Reset KPIs must ask for confirmation first');
+    click('[data-role="confirm-no"]');
+    if ($('.practice-confirm') || store.getHistory().length !== history.length) problems.push('progress: Cancel should leave the history alone');
+    click('[data-role="reset"]');
+    click('[data-role="reset-yes"]');
+    if (store.getHistory().length !== 0 || !$('.progress-empty')) problems.push('progress: Reset KPIs did not clear the dashboard');
+    if (store.getMistakes().length !== mistakesBefore) problems.push('progress: Reset KPIs must keep the mistakes list');
+    if (!$('[data-role="reset"]').disabled) problems.push('progress: Reset KPIs should be disabled with no sets');
+    if (/sets? done/.test(practice.textContent)) problems.push('progress: the practice screen still shows the old history after a reset');
+
+    // Restore asks first, then brings everything back on both screens.
+    if (!handles.progress.offerRestore(backup) || !$('.practice-confirm')) problems.push('progress: a sound backup should ask before replacing');
+    if (store.getHistory().length !== 0) problems.push('progress: restore must not write before it is confirmed');
+    click('[data-role="restore-yes"]');
+    if (JSON.stringify(store.getHistory()) !== JSON.stringify(history)) problems.push('progress: restored history differs from the backup');
+    if (stat(0) !== String(history.length) || stat(1) !== `${correct} / ${total}`) problems.push('progress: dashboard does not match the restored backup');
+    if (!new RegExp(`${history.length} sets done`).test(practice.textContent)) problems.push('progress: the practice screen did not pick up the restored history');
+  } catch (err) {
+    problems.push(`progress flow broke: ${err.message}`);
+  }
+  return problems;
+}
+
 export async function run(root) {
   const failures = [];
   let checked = 0;
@@ -217,6 +277,8 @@ export async function run(root) {
         if (!after.has(el.getAttribute('for'))) failures.push(`after boot: for="${el.getAttribute('for')}" points at a missing id`);
       }
       failures.push(...practiceFlow(doc, handles && handles.practice));
+      checked++;
+      failures.push(...progressFlow(doc, handles));
       checked++;
 
       const { APP_VERSION } = await import(pathToFileURL(path.join(root, 'js/version.js')).href);

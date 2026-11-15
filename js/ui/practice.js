@@ -21,7 +21,7 @@ const duration = (sec) => {
   return m >= 60 ? `${Math.floor(m / 60)} h ${m % 60} min` : m > 0 ? `${m} min ${s % 60} s` : `${s} s`;
 };
 
-export function mountPractice(root, { templates, store, win }) {
+export function mountPractice(root, { templates, store, win, onSaved = () => {} }) {
   const state = { view: 'setup', subject: 'PSAD', drill: 'quick', mode: 'practice', source: 'all' };
   let set; let answers; let checked; let q; let selected; let timer; let tick; let paused; let confirming; let timeUp;
 
@@ -259,10 +259,11 @@ export function mountPractice(root, { templates, store, win }) {
     const seconds = Math.round(timer.elapsedSec());
     const ref = (p) => ({ templateId: p.templateId, seed: p.seed, item: p.item });
     const outcome = store.saveResult(
-      { at: win.Date.now(), subject: set.subject, drill: set.drill, mode: state.mode, source: set.source, correct: result.correct, total: result.total, seconds },
+      { at: win.Date.now(), subject: set.subject, drill: set.drill, mode: state.mode, source: set.source, correct: result.correct, total: result.total, seconds, topics: result.byTopicId },
       result.perItem.filter((p) => !p.isCorrect).map(ref),
       result.perItem.filter((p) => p.isCorrect).map(ref),
     );
+    onSaved();
     const left = outstandingMistakes(set.subject, templates, store.getMistakes());
     const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
     const mistakeNote = [
@@ -322,5 +323,10 @@ export function mountPractice(root, { templates, store, win }) {
   }
 
   renderSetup();
-  return { getState: () => ({ ...state, set, q }), store };
+  return {
+    getState: () => ({ ...state, set, q }),
+    store,
+    // Stored progress changed elsewhere (reset or restore): redraw the setup screen.
+    refresh() { if (state.view === 'setup') renderSetup(); },
+  };
 }

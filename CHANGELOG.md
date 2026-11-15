@@ -4,6 +4,28 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.10 — 2026-11-15
+
+Progress: KPI dashboard, Reset KPIs and backup. Early Phase 1 groundwork.
+
+- New Progress card: sets done, items correct, average and time spent; a
+  table per subject (score, minutes per item against the board pace, items
+  left to fix); a table per CELE topic, weakest first.
+- "What to study next": a topic is judged after 3 answered items — under 50%
+  says review, under 75% says keep practising; a subject slower than board
+  pace is flagged; subjects not yet tried are listed.
+- Each finished set now saves its per-topic results under the taxonomy topic
+  id. Sets saved earlier count in the totals but not in the topic table.
+- Reset KPIs forgets the finished sets after a confirmation; the mistakes
+  list is kept.
+- Export backup downloads everything the app stores on the device as one
+  JSON file. Restore backup checks the file, asks, then replaces what is
+  stored; a file that is not a sound backup is refused with a reason and
+  changes nothing.
+- Harness: KPI figures against a hand-computed history; per-topic grading
+  adds up; backup round trip; 14 kinds of damaged backup refused; Stage 2
+  plays reset and restore through the real UI.
+
 ## v0.0.9 — 2026-11-15
 
 Topic taxonomy (decision D4, first cut). Phase 0 content groundwork.

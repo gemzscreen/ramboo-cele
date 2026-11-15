@@ -37,7 +37,7 @@ function shuffled(list, rng) {
 // One unit (a situation or a single item) is fully determined by its template
 // and seed, so a stored { templateId, seed } is enough to show it again.
 export function buildUnit(template, seed) {
-  return { templateId: template.id, topic: template.topic, seed, instance: buildInstance(template, createRng(seed)) };
+  return { templateId: template.id, topic: template.topic, topicId: template.topic_id, seed, instance: buildInstance(template, createRng(seed)) };
 }
 
 // Identifies one exact problem: the type plus its values.
@@ -99,6 +99,7 @@ export function assembleSet({ subject, drill, seed, templates, avoid = new Set()
 // `answers[q]` is the chosen choice index for question q, or null if unanswered.
 export function gradeSet(set, answers) {
   const byTopic = {};
+  const byTopicId = {};
   const perItem = set.questions.map(({ unit, item }, q) => {
     const u = set.units[unit];
     const it = u.instance.items[item];
@@ -107,6 +108,10 @@ export function gradeSet(set, answers) {
     const topic = (byTopic[u.topic] ||= { correct: 0, total: 0 });
     topic.total++;
     if (isCorrect) topic.correct++;
+    // Same tally keyed by the taxonomy id, for the saved history and the KPIs.
+    const byId = (byTopicId[u.topicId] ||= { name: u.topic, correct: 0, total: 0 });
+    byId.total++;
+    if (isCorrect) byId.correct++;
     return {
       unit, item, chosen, isCorrect,
       answerIndex: it.answerIndex,
@@ -116,5 +121,5 @@ export function gradeSet(set, answers) {
     };
   });
   const correct = perItem.filter((p) => p.isCorrect).length;
-  return { total: perItem.length, correct, answered: perItem.filter((p) => p.chosen !== null).length, perItem, byTopic };
+  return { total: perItem.length, correct, answered: perItem.filter((p) => p.chosen !== null).length, perItem, byTopic, byTopicId };
 }
