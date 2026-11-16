@@ -4,6 +4,36 @@ All notable changes to the Ramboo CELE App. Versions follow SemVer from v0.0.0
 (ROADMAP §2); git tags match (`v0.0.1`). Roadmap-only changes are logged in
 `ROADMAP.md` §10.
 
+## v0.0.17 — 2026-11-16
+
+Bank grows from 36 to 51 problem types: MSTE batch four. The fifteen new ones are `draft`.
+Topics were taken from the top of the MSTE ranking in `content/frequency.json` and spread over
+Mathematics (with physics), Surveying, Transportation, and Construction Management/Economics.
+None repeats an archetype already in the bank. All are standalone single items, text only.
+
+- Construction Management and Economics: excavator production with fill factor, job efficiency and
+  swell (`MSTE-CM-PROD-001`); cheapest crashing of three critical activities (`MSTE-CM-CRASH-001`);
+  equivalent uniform annual cost with salvage (`MSTE-ECON-EUAC-001`); break-even output between
+  buying and hiring (`MSTE-ECON-BE-001`); earthwork by the average end area method
+  (`MSTE-QS-EARTH-001`).
+- Mathematics and physics: thermal expansion closing a clearance (`MSTE-PHYS-EXPAN-001`); block
+  sliding onto a spring, by work and energy (`MSTE-PHYS-SPRING-001`); volume of revolution between a
+  parabola and a line (`MSTE-CALC-REV-001`); related rates for a conical stockpile
+  (`MSTE-CALC-RATE-001`); normal-distribution probability (`MSTE-EDA-NORMAL-001`).
+- Transportation: Webster optimum cycle (`MSTE-TRANS-WEBSTER-001`); minimum curve radius from
+  e + f = V²/127R (`MSTE-HWY-SUPER-001`); peak-hour factor (`MSTE-TRANS-PHF-001`).
+- Surveying: lowest point of a parabolic sag curve (`MSTE-SURV-VCURVE-001`); stadia with an
+  inclined sight (`MSTE-SURV-STADIA-001`).
+- Conventions are stated in each stem, as for Terzaghi: Webster's formula, the 127 curve equation,
+  z rounded to two decimals before the normal table (z values ending in a 5 at the third decimal are
+  excluded), K = 100 and C = 0.30 m for stadia, g = 9.81 m/s², swell as loose = bank × (1 + swell),
+  and the thermal coefficient.
+- Each has one pure solver in `js/models/` and an independent check, written a different way from the
+  solver: exhaustive search over whole-day crash plans, bisection roots, numerical integration of the
+  washers, of the area profile and of the normal density, a time-stepping simulation of the block and
+  spring, a scan of the vertical curve, and stadia intercepts rebuilt from the hair geometry. Each
+  also has a hand-solved reference instance.
+
 ## v0.0.16 — 2026-11-15
 
 Bank grows from 24 to 36 problem types. The twelve new ones are `draft`.

@@ -4,6 +4,7 @@
 1. Read `ROADMAP.md` in full before doing anything. It is the single source of truth: current phase, decisions, Status Board (§9), and what to do next.
 2. Work only on the current phase and the next item on the Status Board unless Gemz says otherwise.
 3. At the end of every session: update §9 Status Board and §10 Changelog in `ROADMAP.md`, update `CHANGELOG.md` if the app changed, and commit.
+4. **Never write PR or merge status into `ROADMAP.md`** (no "PR open", "PR #N merged", "awaiting merge", merge-commit hashes, or "on branch X"). That line goes stale the moment a PR merges. For finished work record only **"shipped in vX.Y.Z"**, and describe the app's state by version number alone. Whether a PR is open or merged is read from GitHub, not from the roadmap.
 
 ## Who you're working with
 Gemz (Engr. Gemar C. Tubalado) — licensed Civil Engineer (passed CELE Sept 2026), owner and final decision-maker. Act as a CE board-exam subject-matter expert (NSCP 2015, ASEP, PSAD / MSTE / HGE) and as the developer.
